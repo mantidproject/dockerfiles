@@ -62,7 +62,7 @@ x11docker \
   --hostipc \
   --xpra \
   -- "-v /path/to/mantid/source:/mantid_src -v /path/to/mantid/build:/mantid_build -v /path/to/mantid/data:/mantid_data" \
-  mantidproject/mantiddev:ubuntubionic /
+  mantidproject/mantiddev:ubuntubionic \
   mantidplot
 ```
 
