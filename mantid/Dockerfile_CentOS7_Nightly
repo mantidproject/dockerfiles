@@ -1,0 +1,11 @@
+FROM centos:7
+
+ADD get_nightly_artifact.sh /get_nightly_artifact.sh
+RUN curl -L --output /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && \
+    chmod +x /usr/bin/jq && \
+    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+    yum install -y yum-plugin-copr jq && \
+    yum copr enable -y mantid/mantid && \
+    /get_nightly_artifact.sh rhel7 rpm /tmp/mantid.rpm && \
+    yum localinstall -y /tmp/mantid.rpm && \
+    rm -rf /tmp/*
