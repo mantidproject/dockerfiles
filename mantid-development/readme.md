@@ -41,7 +41,7 @@ docker run --rm -it \
   -v /path/to/mantid/source:/mantid_src \
   -v /path/to/mantid/build:/mantid_build \
   -v /path/to/mantid/data:/mantid_data \
-  mantidproject/mantiddev:ubuntubionic
+  mantidproject/mantid-development-centos7
 ```
 
 This will give you a `bash` shell in the build directory. From here you can run
@@ -62,7 +62,7 @@ x11docker \
   --hostipc \
   --xpra \
   -- "-v /path/to/mantid/source:/mantid_src -v /path/to/mantid/build:/mantid_build -v /path/to/mantid/data:/mantid_data" \
-  mantidproject/mantiddev:ubuntubionic \
+  mantidproject/mantid-development-centos7 \
   mantidplot
 ```
 
@@ -77,7 +77,7 @@ docker run --rm -it \
   -v /path/to/mantid/source:/mantid_src \
   -v /path/to/mantid/build:/mantid_build \
   -v /path/to/mantid/data:/mantid_data \
-  mantidproject/mantiddev:ubuntubionic
+  mantidproject/mantid-development-centos7
 ```
 
 ## Python 3
