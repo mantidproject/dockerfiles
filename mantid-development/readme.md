@@ -33,7 +33,7 @@ mounted to locations on the host filesystem. Reasons being:
 Of course Docker volumes could also be used for the build and external data
 directories if you will only ever do container builds.
 
-The container can be run like this (replacing `ubuntubionic` with the base OS
+The container can be run like this (replacing `centos7` with the base OS
 you care about):
 
 ```sh
