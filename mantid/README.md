@@ -42,11 +42,14 @@ You will more than likely want to assign some volumes to access data too.
 
 The following tags are available:
 
+- `nightly` - Most recent nightly build with CentOS 7 base image
+- `nightly_centos7` - Most recent nightly build with CentOS 7 base image
+- `nightly_ubuntu16.04` - Most recent nightly build with Ubuntu 16.04 (xenial) base image
 - `latest` - Latest release with CentOS 7 base image
-- `x.y.z` - Release *x.y.z* with CentOS 7 base image
 - `latest_centos7` - Latest release with CentOS 7 base image
-- `x.y.z_centos7` - Release *x.y.z* with CentOS 7 base image
 - `latest_ubuntu16.04` - Latest release with Ubuntu 16.04 (xenial) base image
+- `x.y.z` - Release *x.y.z* with CentOS 7 base image
+- `x.y.z_centos7` - Release *x.y.z* with CentOS 7 base image
 - `x.y.z_ubuntu16.04` - Release *x.y.z* with Ubuntu 16.04 (xenial) base image
 
 See [here](https://hub.docker.com/r/mantidproject/mantid/tags/) For a full list.
