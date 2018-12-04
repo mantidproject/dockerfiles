@@ -5,7 +5,7 @@ ARG MANTID_VERSION
 RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
     yum install -y yum-plugin-copr curl && \
     yum copr enable -y mantid/mantid && \
-    curl --output /tmp/mantid.rpm https://github.com/mantidproject/mantid/releases/download/v${MANTID_VERSION}/mantid-${MANTID_VERSION}-1.el7.x86_64.rpm && \
+    curl -L --output /tmp/mantid.rpm https://github.com/mantidproject/mantid/releases/download/v${MANTID_VERSION}/mantid-${MANTID_VERSION}-1.el7.x86_64.rpm && \
     yum localinstall -y /tmp/mantid.rpm && \
     rm -rf /tmp/*
 

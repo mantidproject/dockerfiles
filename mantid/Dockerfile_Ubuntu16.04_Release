@@ -11,7 +11,7 @@ RUN apt-get update && \
     apt-add-repository -y "deb [arch=amd64] http://apt.isis.rl.ac.uk $(lsb_release -c | cut -f 2) main" && \
     apt-add-repository -y ppa:mantid/mantid && \
     apt-get update && \
-    curl --output /tmp/mantid.deb https://github.com/mantidproject/mantid/releases/download/v${MANTID_VERSION}/mantid_${MANTID_VERSION}-0ubuntu1_xenial1_amd64.deb && \
+    curl -L --output /tmp/mantid.deb https://github.com/mantidproject/mantid/releases/download/v${MANTID_VERSION}/mantid_${MANTID_VERSION}-0ubuntu1_xenial1_amd64.deb && \
     gdebi --non-interactive /tmp/mantid.deb && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
