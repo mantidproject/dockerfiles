@@ -3,7 +3,7 @@
 IMAGE="mantidproject/mantid"
 BUILD_LOG_DIR="build_logs"
 
-function do_build {
+function build_image {
   DOCKERFILE=$1
   TAG=$2
 
@@ -11,6 +11,6 @@ function do_build {
   docker build --file=${DOCKERFILE} --tag=${IMAGE}:${TAG} . | tee "${BUILD_LOG_DIR}/${TAG}.log"
 }
 
-do_build Dockerfile_CentOS7_Nightly nightly
-do_build Dockerfile_CentOS7_Nightly nightly_centos7
-do_build Dockerfile_Ubuntu16.04_Nightly nightly_ubuntu16
+build_image Dockerfile_CentOS7_Nightly nightly
+build_image Dockerfile_CentOS7_Nightly nightly_centos7
+build_image Dockerfile_Ubuntu16.04_Nightly nightly_ubuntu16
