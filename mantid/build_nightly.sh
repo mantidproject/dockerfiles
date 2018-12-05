@@ -13,4 +13,4 @@ function build_image {
 
 build_image Dockerfile_CentOS7_Nightly nightly
 build_image Dockerfile_CentOS7_Nightly nightly_centos7
-build_image Dockerfile_Ubuntu16.04_Nightly nightly_ubuntu16
+build_image Dockerfile_Ubuntu16.04_Nightly nightly_ubuntu16.04
