@@ -4,12 +4,17 @@ VERSION=$1
 IMAGE="mantidproject/mantid"
 BUILD_LOG_DIR="build_logs"
 
+mkdir -p ${BUILD_LOG_DIR}
+
 function build_image {
   DOCKERFILE=$1
   TAG=$2
 
-  mkdir -p ${BUILD_LOG_DIR}
-  docker build --file=${DOCKERFILE} --tag=${IMAGE}:${TAG} --build-arg MANTID_VERSION=${VERSION} . | tee "${BUILD_LOG_DIR}/${TAG}.log"
+  docker build \
+    --file=${DOCKERFILE} \
+    --tag=${IMAGE}:${TAG} \
+    --build-arg MANTID_VERSION=${VERSION} \
+    . | tee "${BUILD_LOG_DIR}/${TAG}.log"
 }
 
 # "latest" tag (default to CentOS 7)

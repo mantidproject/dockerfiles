@@ -3,6 +3,8 @@
 IMAGE="mantidproject/mantid"
 BUILD_LOG_DIR="build_logs"
 
+mkdir -p ${BUILD_LOG_DIR}
+
 function build_image {
   DOCKERFILE=$1
   TAG=$2

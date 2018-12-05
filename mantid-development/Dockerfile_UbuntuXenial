@@ -1,6 +1,7 @@
 FROM ubuntu:xenial
 
 ARG DEV_PACKAGE_VERSION
+ARG PARAVIEW_BUILD_REVISION
 
 RUN apt-get update && \
     # Install prerequisite tools
@@ -37,6 +38,10 @@ RUN apt-get update && \
       mccabe==0.6.1 && \
     apt-get install -y \
       cppcheck && \
+    # Build ParaView
+    git clone https://github.com/mantidproject/paraview-build.git /tmp/paraview && \
+    git -C /tmp/paraview checkout ${PARAVIEW_BUILD_REVISION} && \
+    env BUILD_THREADS=`nproc` NODE_LABELS=ubuntu /tmp/paraview/buildscript /paraview_build && \
     # Clean up
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

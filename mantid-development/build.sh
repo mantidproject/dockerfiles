@@ -1,23 +1,34 @@
 #!/bin/bash
 
+PARAVIEW_BUILD_REVISION="8a3b1a4"
+BUILD_LOG_DIR="build_logs"
+
+mkdir -p ${BUILD_LOG_DIR}
+
 function build_image {
   DOCKERFILE=$1
   OS=$2
-  VERSION=$3
+  DEV_PACKAGE_VERSION=$3
 
-  echo "Building tag ${TAG} from Dockerfile ${DOCKERFILE}"
+  ORG="mantidproject"
+  IMAGE="mantid-development-${OS}"
+  TAG="devpkg-${DEV_PACKAGE_VERSION}_pv-${PARAVIEW_BUILD_REVISION}"
 
-  docker build \
-    -f ${DOCKERFILE} \
-    --build-arg DEV_PACKAGE_VERSION=${VERSION} \
-    -t mantidproject/mantid-development-${OS}:${VERSION} \
-    .
+  echo "Building ${ORG}${IMAGE}:${TAG} from ${DOCKERFILE}"
 
   docker build \
-    -f ${DOCKERFILE} \
-    --build-arg DEV_PACKAGE_VERSION=${VERSION} \
-    -t mantidproject/mantid-development-${OS}:latest \
-    .
+    --file=${DOCKERFILE} \
+    --build-arg DEV_PACKAGE_VERSION=${DEV_PACKAGE_VERSION} \
+    --build-arg PARAVIEW_BUILD_REVISION=${PARAVIEW_BUILD_REVISION} \
+    --tag=${ORG}/${IMAGE}:${TAG} \
+    . | tee "${BUILD_LOG_DIR}/${IMAGE}_${TAG}.log"
+
+  docker build \
+    --file=${DOCKERFILE} \
+    --build-arg DEV_PACKAGE_VERSION=${DEV_PACKAGE_VERSION} \
+    --build-arg PARAVIEW_BUILD_REVISION=${PARAVIEW_BUILD_REVISION} \
+    --tag=${ORG}/${IMAGE}:latest \
+    . | tee "${BUILD_LOG_DIR}/${IMAGE}_latest.log"
 
   echo
 }

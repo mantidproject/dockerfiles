@@ -14,8 +14,15 @@ There are images for each base OS:
 - [`mantidproject/mantid-development-ubuntuxenial`](https://hub.docker.com/r/mantidproject/mantid-development-ubuntuxenial/) - Ubuntu 16.04 (Xenial)
 
 Typically you'd want to use the `latest` tag which corresponds to the latest
-version of the developer package for the particular base OS. If you do need a
-specific developer package version then they are available as tags.
+version of the developer package and the latest revision of the
+[paraview-build](https://github.com/mantidproject/paraview-build) script for the
+particular base OS.
+
+If you do need a specific developer package version then they are available as
+tags. Tags follow the naming convention of `devpkg-VER_pv-REV`, where `VER` is
+the developer package version installed and `REV` is the Git revision of the
+[paraview-build](https://github.com/mantidproject/paraview-build) script used to
+build ParaView.
 
 ## Usage
 
@@ -48,11 +55,18 @@ This will give you a `bash` shell in the build directory. From here you can run
 `cmake` and your build tool of choice just as you would on your host OS.
 
 When running `cmake` ensure you set the external data location to the
-appropriate Docker volume. Ninja is included in the image so you may also want
-to specify that.
+appropriate Docker volume. Ninja and a pre-build copy of ParaView are included
+in the image so you may also want to specify those.
 
+This command is a good default to use:
 ```sh
-cmake -DMANTID_DATA_STORE=/mantid_data -G Ninja /mantid_src
+cmake \
+  -G Ninja \
+  -DMAKE_VATES=ON \
+  -DParaView_DIR=/paraview_build/ParaView-5.4.1/ \
+  -DENABLE_WORKBENCH=ON \
+  -DMANTID_DATA_STORE=/mantid_data/ \
+  /mantid_src
 ```
 
 For running GUI parts of Mantid (i.e. MantidPlot and workbench) the easiest
