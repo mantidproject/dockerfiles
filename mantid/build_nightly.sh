@@ -8,7 +8,11 @@ function build_image {
   TAG=$2
 
   mkdir -p ${BUILD_LOG_DIR}
-  docker build --file=${DOCKERFILE} --tag=${IMAGE}:${TAG} . | tee "${BUILD_LOG_DIR}/${TAG}.log"
+  docker build \
+    --no-cache \
+    --file=${DOCKERFILE} \
+    --tag=${IMAGE}:${TAG} \
+    . | tee "${BUILD_LOG_DIR}/${TAG}.log"
 }
 
 build_image Dockerfile_CentOS7_Nightly nightly
