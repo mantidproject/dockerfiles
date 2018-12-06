@@ -10,7 +10,6 @@ function build_image {
 
   mkdir -p ${BUILD_LOG_DIR}
   docker build \
-    --no-cache \
     --file=${DOCKERFILE} \
     --tag=${IMAGE}:${TAG} \
     --build-arg PACKAGE=${PACKAGE} \
