@@ -9,3 +9,6 @@ RUN curl -L --output /usr/bin/jq https://github.com/stedolan/jq/releases/downloa
     /get_nightly_artifact.sh rhel7 rpm /tmp/mantid.rpm && \
     yum localinstall -y /tmp/mantid.rpm && \
     rm -rf /tmp/*
+
+# Add Mantid to PATH
+ENV PATH=/opt/mantidnightly/bin/:${PATH}
