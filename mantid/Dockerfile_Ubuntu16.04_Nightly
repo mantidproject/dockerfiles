@@ -1,6 +1,8 @@
 FROM ubuntu:16.04
 
-ADD get_nightly_artifact.sh /get_nightly_artifact.sh
+ARG PACKAGE
+ADD ${PACKAGE} /tmp/mantid.deb
+
 RUN apt-get update && \
     apt-get install -y \
       curl \
@@ -11,7 +13,6 @@ RUN apt-get update && \
     apt-add-repository -y "deb [arch=amd64] http://apt.isis.rl.ac.uk $(lsb_release -c | cut -f 2)-testing main" && \
     apt-add-repository -y ppa:mantid/mantid && \
     apt-get update && \
-    /get_nightly_artifact.sh ubuntu-16.04 deb /tmp/mantid.deb && \
     gdebi --non-interactive /tmp/mantid.deb && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
