@@ -2,35 +2,62 @@
 
 VERSION=$1
 IMAGE="mantidproject/mantid"
-BUILD_LOG_DIR="build_logs"
 
-mkdir -p ${BUILD_LOG_DIR}
+# Load build tools
+. build_helpers.sh
 
-function build_image {
-  DOCKERFILE=$1
-  TAG=$2
-
-  docker build \
-    --file=${DOCKERFILE} \
-    --tag=${IMAGE}:${TAG} \
-    --build-arg MANTID_VERSION=${VERSION} \
-    . | tee "${BUILD_LOG_DIR}/${TAG}.log"
+function get_package {
+  curl -L --output "${1}" "${2}"
 }
 
+# Download RHEL 7 package
+PACKAGE_RHEL7="./mantid_rhel_7.rpm"
+get_package ${PACKAGE_RHEL7} "https://github.com/mantidproject/mantid/releases/download/v${VERSION}/mantid-${VERSION}-1.el7.x86_64.rpm"
+
+# Download Ubuntu Xenial package
+PACKAGE_UBUNTU_XENIAL="./mantid_ubuntu_xenial.deb"
+get_package ${PACKAGE_UBUNTU_XENIAL} "https://github.com/mantidproject/mantid/releases/download/v${VERSION}/mantid_${VERSION}-0ubuntu1_xenial1_amd64.deb"
+
+MANTID_PATH="/opt/Mantid/bin/"
+
 # "latest" tag (default to CentOS 7)
-build_image Dockerfile_CentOS7_Release latest
+build_image \
+  CentOS7.Dockerfile \
+  latest \
+  "${PACKAGE_RHEL7}" \
+  "${MANTID_PATH}"
 
 # "latest" CentOS 7 tag
-build_image Dockerfile_CentOS7_Release latest_centos7
+build_image \
+  CentOS7.Dockerfile \
+  latest_centos7 \
+  "${PACKAGE_RHEL7}" \
+  "${MANTID_PATH}"
 
 # "latest" Ubuntu 16.04 (xenial) tag
-build_image Dockerfile_Ubuntu16.04_Release latest_ubuntu16.04
+build_image \
+  UbuntuXenial.Dockerfile \
+  latest_ubuntu16.04 \
+  "${PACKAGE_UBUNTU_XENIAL}" \
+  "${MANTID_PATH}"
 
 # Version only tag (default to CentOS 7)
-build_image Dockerfile_CentOS7_Release ${VERSION}
+build_image \
+  CentOS7.Dockerfile \
+  ${VERSION} \
+  "${PACKAGE_RHEL7}" \
+  "${MANTID_PATH}"
 
 # Versioned CentOS 7 tag
-build_image Dockerfile_CentOS7_Release ${VERSION}_centos7
+build_image \
+  CentOS7.Dockerfile \
+  ${VERSION}_centos7 \
+  "${PACKAGE_RHEL7}" \
+  "${MANTID_PATH}"
 
 # Versioned Ubuntu 16.04 (xenial) tag
-build_image Dockerfile_Ubuntu16.04_Release ${VERSION}_ubuntu16.04
+build_image \
+  UbuntuXenial.Dockerfile \
+  ${VERSION}_ubuntu16.04 \
+  "${PACKAGE_UBUNTU_XENIAL}" \
+  "${MANTID_PATH}"

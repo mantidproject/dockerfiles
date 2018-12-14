@@ -6,7 +6,7 @@ ARTIFACT_DIR="artifacts"
 mkdir -p "${ARTIFACT_DIR}"
 
 # Load build tools
-. build_nightly.sh
+. build_helpers.sh
 
 # Login to Docker Hub
 docker --config=${WORKSPACE}/.docker login --username=${DOCKER_HUB_USERNAME} --password=${DOCKER_HUB_PASSWORD}
@@ -14,7 +14,8 @@ docker --config=${WORKSPACE}/.docker login --username=${DOCKER_HUB_USERNAME} --p
 function build_and_push {
   DOCKERFILE=$1
   TAG=$2
-  PACKAGE_FILENAME_PATTERN=$3
+  PATH_ADDITIONS=$3
+  PACKAGE_FILENAME_PATTERN=$4
 
   # Look for a package in copied artifacts
   PACKAGE_FILENAME=`ls ${ARTIFACT_DIR}/${PACKAGE_FILENAME_PATTERN}`
@@ -23,16 +24,18 @@ function build_and_push {
   if [ -n "${PACKAGE_FILENAME}" ] && [ -f "${PACKAGE_FILENAME}" ]; then
     echo "Found package \"${PACKAGE_FILENAME}\" for tag \"${TAG}\""
     # Build Docker image
-    build_image ${DOCKERFILE} ${TAG} "${PACKAGE_FILENAME}"
+    build_image ${DOCKERFILE} ${TAG} "${PACKAGE_FILENAME}" "${PATH_ADDITIONS}"
     # Push to Docker Hub
     docker --config=${WORKSPACE}/.docker push mantidproject/mantid:${TAG}
   fi
 }
 
+NIGHTLY_PATH="/opt/mantidnightly/bin/"
+
 # Build nightly images
-build_and_push Dockerfile_CentOS7_Nightly nightly "*el7*.rpm"
-build_and_push Dockerfile_CentOS7_Nightly nightly_centos7 "*el7*.rpm"
-build_and_push Dockerfile_Ubuntu16.04_Nightly nightly_ubuntu16.04 "*xenial*.deb"
+build_and_push CentOS7.Dockerfile nightly ${NIGHTLY_PATH} "*el7*.rpm"
+build_and_push CentOS7.Dockerfile nightly_centos7 ${NIGHTLY_PATH} "*el7*.rpm"
+build_and_push UbuntuXenial.Dockerfile nightly_ubuntu16.04 ${NIGHTLY_PATH} "*xenial*.deb"
 
 # Logout of Docker Hub
 docker --config=${WORKSPACE}/.docker logout

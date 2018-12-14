@@ -1,6 +1,8 @@
-FROM ubuntu:16.04
+FROM ubuntu:xenial
 
 ARG PACKAGE
+ARG PATH_ADDITIONS
+
 ADD ${PACKAGE} /tmp/mantid.deb
 
 RUN apt-get update && \
@@ -16,5 +18,4 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Add Mantid to PATH
-ENV PATH=/opt/mantidnightly/bin/:${PATH}
+ENV PATH=${PATH_ADDITIONS}:${PATH}
