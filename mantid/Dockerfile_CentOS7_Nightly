@@ -3,10 +3,7 @@ FROM centos:7
 ARG PACKAGE
 ADD ${PACKAGE} /tmp/mantid.rpm
 
-RUN curl -L --output /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && \
-    chmod +x /usr/bin/jq && \
-    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
-    yum install -y yum-plugin-copr jq && \
+RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
     yum copr enable -y mantid/mantid && \
     yum localinstall -y /tmp/mantid.rpm && \
     rm -rf /tmp/*
