@@ -48,11 +48,16 @@ docker run --rm -it \
   -v /path/to/mantid/source:/mantid_src \
   -v /path/to/mantid/build:/mantid_build \
   -v /path/to/mantid/data:/mantid_data \
-  mantidproject/mantid-development-centos7
+  mantidproject/mantid-development-ubuntuxenial
 ```
 
 This will give you a `bash` shell in the build directory. From here you can run
 `cmake` and your build tool of choice just as you would on your host OS.
+
+You may also wish to use Docker volumes instead of mapping to your filesystem,
+in this case specify a name for the volume instead of the first path. This is
+useful if you have restrictions on your local filesystem (e.g. network mapped
+filesystem, no root access).
 
 When running `cmake` ensure you set the external data location to the
 appropriate Docker volume. Ninja and a pre-build copy of ParaView are included
@@ -68,6 +73,11 @@ cmake \
   -DMANTID_DATA_STORE=/mantid_data/ \
   /mantid_src
 ```
+
+For CentOS 7 you'll have to use `cmake3` (instead of `cmake`) and wrap the
+initial CMake invokation in `scl anable devtoolset-7` to find the correct
+compiler (as described
+[here](http://developer.mantidproject.org/BuildingWithCMake.html#from-the-command-line)).
 
 For running GUI parts of Mantid (i.e. MantidPlot and workbench) the easiest
 option is to use [`x11docker`](https://github.com/mviereck/x11docker):
