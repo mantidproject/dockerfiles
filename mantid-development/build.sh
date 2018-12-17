@@ -33,6 +33,6 @@ function build_image {
   echo
 }
 
-build_image Dockerfile_CentOS7 centos7 "1.29"
-build_image Dockerfile_UbuntuBionic ubuntubionic "1.3.8"
-build_image Dockerfile_UbuntuXenial ubuntuxenial "1.3.8"
+build_image Dockerfile_CentOS7 centos7 "1.30"
+build_image Dockerfile_UbuntuBionic ubuntubionic "1.3.9"
+build_image Dockerfile_UbuntuXenial ubuntuxenial "1.3.9"
