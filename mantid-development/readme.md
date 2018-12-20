@@ -111,3 +111,13 @@ The required packages for building Mantid against Python 3 (as described
 the Ubuntu Xenial and Bionic images so if you wish to build against Python 3 you
 only need to specify the `-DPYTHON_EXECUTABLE=/usr/bin/python3` parameter to
 `cmake`.
+
+## Network proxy
+
+One way to get networking to work over a proxy server is to directly use the host system's networking from Docker. First, one needs to enable port forwarding. On Ubuntu 16.04 this can be done by
+```sh
+sudo sysctl net.ipv4.conf.all.forwarding=1
+sudo iptables -P FORWARD ACCEPT
+```
+
+Next, the container has to be launced with the `--network host` option in `docker run` command. To actually specify the proxy settings, pass `--env http_proxy="http://proxy.domain.tv:2323"` and `--env https_proxy="https://proxy.domain.tv:5555"` to the command.
