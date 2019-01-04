@@ -30,12 +30,33 @@ function build_and_push {
   fi
 }
 
-NIGHTLY_PATH="/opt/mantidnightly/bin/"
+NIGHTLY_PYTHON2_PATH="/opt/mantidnightly/bin/"
+NIGHTLY_PYTHON3_PATH="/opt/mantidnightly-python3/bin/"
 
 # Build nightly images
-build_and_push CentOS7.Dockerfile nightly ${NIGHTLY_PATH} "*el7*.rpm"
-build_and_push CentOS7.Dockerfile nightly_centos7 ${NIGHTLY_PATH} "*el7*.rpm"
-build_and_push UbuntuXenial.Dockerfile nightly_ubuntu16.04 ${NIGHTLY_PATH} "*xenial*.deb"
+build_and_push \
+  CentOS7.Dockerfile \
+  nightly \
+  ${NIGHTLY_PYTHON2_PATH} \
+  "*el7*.rpm"
+
+build_and_push \
+  CentOS7.Dockerfile \
+  nightly_centos7 \
+  ${NIGHTLY_PYTHON2_PATH} \
+  "*el7*.rpm"
+
+build_and_push \
+  UbuntuXenial.Dockerfile \
+  nightly_ubuntu16.04 \
+  ${NIGHTLY_PYTHON2_PATH} \
+  "mantidnightly_*xenial*.deb"
+
+build_and_push \
+  UbuntuXenial.Dockerfile \
+  nightly_ubuntu16.04_python3 \
+  ${NIGHTLY_PYTHON3_PATH} \
+  "mantidnightly-python3_*xenial*.deb"
 
 # Logout of Docker Hub
 docker --config=${WORKSPACE}/.docker logout
