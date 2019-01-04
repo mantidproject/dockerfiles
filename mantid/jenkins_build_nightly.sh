@@ -36,25 +36,25 @@ NIGHTLY_PYTHON3_PATH="/opt/mantidnightly-python3/bin/"
 # Build nightly images
 build_and_push \
   CentOS7.Dockerfile \
-  nightly \
+  "nightly" \
   ${NIGHTLY_PYTHON2_PATH} \
   "*el7*.rpm"
 
 build_and_push \
   CentOS7.Dockerfile \
-  nightly_centos7 \
+  "nightly_centos7" \
   ${NIGHTLY_PYTHON2_PATH} \
   "*el7*.rpm"
 
 build_and_push \
   UbuntuXenial.Dockerfile \
-  nightly_ubuntu16.04 \
+  "nightly_ubuntu16.04" \
   ${NIGHTLY_PYTHON2_PATH} \
   "mantidnightly_*xenial*.deb"
 
 build_and_push \
   UbuntuXenial.Dockerfile \
-  nightly_ubuntu16.04_python3 \
+  "nightly_ubuntu16.04_python3" \
   ${NIGHTLY_PYTHON3_PATH} \
   "mantidnightly-python3_*xenial*.deb"
 
