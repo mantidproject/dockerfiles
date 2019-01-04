@@ -58,6 +58,12 @@ build_and_push \
   ${NIGHTLY_PYTHON3_PATH} \
   "mantidnightly-python3_*xenial*.deb"
 
+build_and_push \
+  UbuntuBionic.Dockerfile \
+  "nightly_ubuntu18.04" \
+  ${NIGHTLY_PYTHON2_PATH} \
+  "mantidnightly_*bionic*.deb"
+
 # Logout of Docker Hub
 docker --config=${WORKSPACE}/.docker logout
 
