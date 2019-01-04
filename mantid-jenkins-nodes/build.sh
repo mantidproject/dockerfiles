@@ -1,11 +1,11 @@
 #!/bin/sh
 
 docker build \
-  --file Dockerfile_UbuntuXenial \
+  --file UbuntuXenial.Dockerfile \
   -t mantidproject/jenkins-node:ubuntuxenial \
   .
 
 docker build \
-  --file Dockerfile_UbuntuBionic \
+  --file UbuntuBionic.Dockerfile \
   -t mantidproject/jenkins-node:ubuntubionic \
   .
