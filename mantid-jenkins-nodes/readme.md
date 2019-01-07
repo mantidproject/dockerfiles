@@ -8,11 +8,14 @@ Still to do:
 ## Usage
 
 1. Configure a node normally in Jenkins
-2. Set `/root` as the *Remote root directory* and use `/root` in place of
-   anywhere you see a home directory
-3. Create the container or replace an already deployed container using
+2. Set *Remote root directory* to `/root`
+3. (Use `/root` in place of anywhere you see a home directory)
+4. Set the `PARAVIEW_DIR` environment variable to
+   `/paraview_build/ParaView-5.4.1` (ParaView is included in this directory from
+   the [mantid-development](../mantid-development/readme.md) image)
+5. Create the container or replace an already deployed container using
    `./deploy.sh agent_name agent_secret jenkins_url image_tag`
-4. If the image is updated then run the above script again to recreate the node
+6. If the image is updated then run the above script again to recreate the node
    (all build state is stored in the volumes which are persisted)
 
 ## Production use
