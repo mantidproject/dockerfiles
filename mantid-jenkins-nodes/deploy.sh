@@ -40,11 +40,14 @@ fi
 # Start a new container
 echo "=== Starting new container"
 docker run \
-  -d --init --name ${NODE_NAME} \
+  --detach \
+  --init \
+  --name ${NODE_NAME} \
   --restart=always \
   --net=host \
-  -v ${NODE_NAME}:/root \
-  -e JENKINS_SECRET=${JENKINS_SECRET} \
-  -e JENKINS_AGENT_NAME=${NODE_NAME} \
-  -e JENKINS_URL="${JENKINS_URL}" \
+  --volume ${NODE_NAME}:/root \
+  --volume ${NODE_NAME}_external_data:/mantid_data \
+  --env JENKINS_SECRET=${JENKINS_SECRET} \
+  --env JENKINS_AGENT_NAME=${NODE_NAME} \
+  --env JENKINS_URL="${JENKINS_URL}" \
   mantidproject/jenkins-node:${IMAGE_TAG}

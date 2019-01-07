@@ -3,7 +3,6 @@
 Still to do:
 
 - ccache (separate volume for cache?)
-- Separate volume for external data?
 
 ## Usage
 
@@ -13,9 +12,10 @@ Still to do:
 4. Set the `PARAVIEW_DIR` environment variable to
    `/paraview_build/ParaView-5.4.1` (ParaView is included in this directory from
    the [mantid-development](../mantid-development/readme.md) image)
-5. Create the container or replace an already deployed container using
+5. Set the `MANTID_DATA_STORE` environment variable to `/mantid_data`
+6. Create the container or replace an already deployed container using
    `./deploy.sh agent_name agent_secret jenkins_url image_tag`
-6. If the image is updated then run the above script again to recreate the node
+7. If the image is updated then run the above script again to recreate the node
    (all build state is stored in the volumes which are persisted)
 
 ## Production use
