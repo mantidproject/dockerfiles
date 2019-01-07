@@ -27,11 +27,3 @@ The following uses are currently tested and in use:
   - cppcheck
 
 Other configurations *may* work but are untested.
-
-## ParaView
-
-If ParaView is required (for builds and cppcheck jobs it is) then it is best to
-build it on the container itsself rather than using the Jenkins jobs.
-
-(for now until the ParaView build scripts no longer make assumptions about
-who/where they are being run)
