@@ -25,8 +25,11 @@ build ParaView.
 
 The images contain three directories `/mantid_src`, `/mantid_build` and
 `/mantid_data` which are to be used for the source, build and CMake external
-data directories respectively. It is recommended to have these directories
-mounted to locations on the host filesystem. Reasons being:
+data directories respectively. `/mantid_data` is the target of a symbolic link
+from the default external data location configured in CMake.
+
+It is recommended to have these directories mounted to locations on the host
+filesystem. Reasons being:
 
 - Using your existing SCM, editors, etc. (you modify the code on the host
   filesystem as you will have probably already been doing)
@@ -68,7 +71,6 @@ cmake \
   -DMAKE_VATES=ON \
   -DParaView_DIR=/paraview/build/ParaView-5.4.1/ \
   -DENABLE_WORKBENCH=ON \
-  -DMANTID_DATA_STORE=/mantid_data/ \
   /mantid_src
 ```
 

@@ -75,6 +75,12 @@ VOLUME ["/mantid_src", "/mantid_build", "/mantid_data", "/ccache"]
 ADD abc_sudo_with_no_passwd \
     /etc/sudoers.d/abc_sudo_with_no_passwd
 
+# Add a symlink pointing the default external data location to the mapped
+# volume
+RUN ln -s \
+      /mantid_data \
+      /home/abc/MantidExternalData
+
 # Set default working directory to build directory
 WORKDIR /mantid_build
 
