@@ -1,9 +1,6 @@
 # Mantid development environment in Docker
 
-Docker container for building Mantid.
-
-Currently contains requirements for a "basic" build, i.e. just compiling Mantid
-and running test suites. ParaView/VSI is not included (yet).
+Docker container for building, testing and developing  Mantid.
 
 ## Base images and versions
 
@@ -37,74 +34,69 @@ mounted to locations on the host filesystem. Reasons being:
 - Running a container built or packaged Mantid on the host (assuming an
   appropriate host system and base image)
 
-Of course Docker volumes could also be used for the build and external data
-directories if you will only ever do container builds.
+To ensure file permissions are handled correctly if mapping volumes to your host
+filesystem you must pass the `PUID` and `PGID` environment variables when
+starting a container, these should be set to your user ID and group ID
+respectively.
 
-The container can be run like this (replacing `centos7` with the base OS
-you care about):
-
+The `mantid_development.sh` script can be used to start a container, this script
+takes four parameters:
 ```sh
-docker run --rm -it \
-  -v /path/to/mantid/source:/mantid_src \
-  -v /path/to/mantid/build:/mantid_build \
-  -v /path/to/mantid/data:/mantid_data \
-  mantidproject/mantid-development-ubuntuxenial
+./mantid_development.sh [os] [source] [build] [external data]
 ```
 
+`[os]` is the image variant you want to use (one of `centos7`, `ubuntuxenial` or
+`ubuntubionic`).
+
+`[source]`, `[build]` and `[external data]` are the volumes which will be
+mounted as the source (root of the Mantid Git repository), build and CMake
+external data directories. These can either be paths to the host filesystem or
+names of Docker volumes.
+
 This will give you a `bash` shell in the build directory. From here you can run
-`cmake` and your build tool of choice just as you would on your host OS.
+`cmake` and your build tool of choice just as you would on your host OS. Inside
+the container you will have the username `abc` which is a standard (i.e.
+non-root) user with `sudo` ability.
 
-You may also wish to use Docker volumes instead of mapping to your filesystem,
-in this case specify a name for the volume instead of the first path. This is
-useful if you have restrictions on your local filesystem (e.g. network mapped
-filesystem, no root access).
+The following CMake command will correctly set up your source, external data and
+ParaView directories (as well as enabling Vates and Workbench). This should be
+the used to configure your new build directory.
 
-When running `cmake` ensure you set the external data location to the
-appropriate Docker volume. Ninja and a pre-build copy of ParaView are included
-in the image so you may also want to specify those.
-
-This command is a good default to use:
 ```sh
 cmake \
   -G Ninja \
   -DMAKE_VATES=ON \
-  -DParaView_DIR=/paraview_build/ParaView-5.4.1/ \
+  -DParaView_DIR=/paraview/build/ParaView-5.4.1/ \
   -DENABLE_WORKBENCH=ON \
   -DMANTID_DATA_STORE=/mantid_data/ \
   /mantid_src
 ```
 
 For CentOS 7 you'll have to use `cmake3` (instead of `cmake`) and wrap the
-initial CMake invokation in `scl anable devtoolset-7` to find the correct
+initial CMake invocation in `scl anable devtoolset-7` to find the correct
 compiler (as described
 [here](http://developer.mantidproject.org/BuildingWithCMake.html#from-the-command-line)).
 
+### GUI
+
 For running GUI parts of Mantid (i.e. MantidPlot and workbench) the easiest
-option is to use [`x11docker`](https://github.com/mviereck/x11docker):
+option is to use [`x11docker`](https://github.com/mviereck/x11docker) via
+`mantid_development_x11docker.sh`:
 ```sh
-x11docker \
-  --hostipc \
-  --xpra \
-  -- "-v /path/to/mantid/source:/mantid_src -v /path/to/mantid/build:/mantid_build -v /path/to/mantid/data:/mantid_data" \
-  mantidproject/mantid-development-centos7 \
-  mantidplot
+./bin/mantid_development_x11docker.sh [os] [source] [build] [external data] [cmd]
 ```
 
-If you don't want to or can't use `x11docker` then you can try mapping to the
-host X server (this does not seem to work for the workbench):
+If you don't want to or can't use `x11docker` then you can try using simple X
+server mapping (this does not seem to work for the workbench). This is already
+configured in the `mantid_development.sh` script, all that is needed in addition is to allow
+connections to the host X server.
+
 ```sh
 xhost +
-docker run --rm -it \
-  --ipc=host \
-  -e DISPLAY=$DISPLAY \
-  -v /tmp/.X11-unix:/tmp/.X11-unix:ro
-  -v /path/to/mantid/source:/mantid_src \
-  -v /path/to/mantid/build:/mantid_build \
-  -v /path/to/mantid/data:/mantid_data \
-  mantidproject/mantid-development-centos7
+./mantid_development.sh [os] [source] [build] [external data]
 ```
 
-## Python 3
+### Python 3
 
 The required packages for building Mantid against Python 3 (as described
 [here](http://developer.mantidproject.org/Python3.html#id2)) are installed on
@@ -112,7 +104,7 @@ the Ubuntu Xenial and Bionic images so if you wish to build against Python 3 you
 only need to specify the `-DPYTHON_EXECUTABLE=/usr/bin/python3` parameter to
 `cmake`.
 
-## Network proxy
+### Network proxy
 
 One way to get networking to work over a proxy server is to directly use the host system's networking from Docker. First, one needs to enable port forwarding. On Ubuntu 16.04 this can be done by
 ```sh
