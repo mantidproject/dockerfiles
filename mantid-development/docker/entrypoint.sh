@@ -20,7 +20,7 @@ usermod --non-unique --uid ${PUID} ${TARGET_USERNAME}
 chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_src
 chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_build
 chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_data
-chown ${TARGET_USERNAME}:${TARGET_USERNAME} /ccache_cache
+chown ${TARGET_USERNAME}:${TARGET_USERNAME} /ccache
 
 # Run the supplied command as the target user
 CMD=${@:-"bash"}

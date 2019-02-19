@@ -53,7 +53,7 @@ RUN apt-get update && \
 RUN mkdir -p /mantid_src && \
     mkdir -p /mantid_build && \
     mkdir -p /mantid_data && \
-    mkdir -p /ccache_cache && \
+    mkdir -p /ccache && \
     mkdir -p /paraview
 
 # Build ParaView
@@ -66,10 +66,10 @@ RUN git clone https://github.com/mantidproject/paraview-build.git /tmp/paraview 
     rm -rf /tmp/* /var/tmp/*
 
 # Set ccache cache location
-ENV CCACHE_DIR /ccache_cache
+ENV CCACHE_DIR /ccache
 
 # Allow mounting source, build, data and ccache directories
-VOLUME ["/mantid_src", "/mantid_build", "/mantid_data", "/ccache_cache"]
+VOLUME ["/mantid_src", "/mantid_build", "/mantid_data", "/ccache"]
 
 # Allow passwordless sudo access for abc user
 ADD abc_sudo_with_no_passwd \

@@ -46,7 +46,7 @@ docker run \
   --restart=always \
   --net=host \
   --volume ${NODE_NAME}:/jenkins_workdir \
-  --volume ${NODE_NAME}_ccache:/ccache_cache \
+  --volume ${NODE_NAME}_ccache:/ccache \
   --volume ${NODE_NAME}_external_data:/mantid_data \
   --env JENKINS_SECRET=${JENKINS_SECRET} \
   --env JENKINS_AGENT_NAME=${NODE_NAME} \

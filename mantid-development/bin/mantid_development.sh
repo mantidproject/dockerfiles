@@ -15,5 +15,5 @@ docker run \
   --volume ${SOURCE_DIR}:/mantid_src \
   --volume ${BUILD_DIR}:/mantid_build \
   --volume ${DATA_DIR}:/mantid_data \
-  --volume mantid_development_ccache:/ccache_cache \
+  --volume mantid_development_ccache:/ccache \
   mantidproject/mantid-development-${OS}:latest
