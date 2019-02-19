@@ -11,19 +11,18 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ENV DISPLAY=:39
-
 # Setup Jenkins slave
 ARG JENKINS_SLAVE_VERSION=3.9
-RUN curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${JENKINS_SLAVE_VERSION}/remoting-${JENKINS_SLAVE_VERSION}.jar && \
+RUN mkdir -p /jenkins_workdir && \
+    chmod o+rw /jenkins_workdir && \
+    curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${JENKINS_SLAVE_VERSION}/remoting-${JENKINS_SLAVE_VERSION}.jar && \
     chmod 755 /usr/share/jenkins && \
     chmod 644 /usr/share/jenkins/slave.jar && \
     rm /etc/sudoers.d/abc_sudo_with_no_passwd
-ENV AGENT_WORKDIR=${HOME}
+ENV AGENT_WORKDIR=/jenkins_workdir
 COPY jenkins_slave /usr/share/jenkins/slave.sh
 
-# Set volume for AGENT_WORKDIR
-VOLUME ["/root"]
+VOLUME ["/jenkins_workdir"]
 
 # Run Jenkins slave script
 CMD ["/usr/share/jenkins/slave.sh"]
