@@ -1,18 +1,14 @@
 #!/bin/bash
 
-PARAVIEW_BUILD_REVISION="8a3b1a4"
-BUILD_LOG_DIR="build_logs"
-
-mkdir -p ${BUILD_LOG_DIR}
+. build_common.sh
 
 function build_image {
   DOCKERFILE=$1
   OS=$2
   DEV_PACKAGE_VERSION=$3
 
-  ORG="mantidproject"
   IMAGE="mantid-development-${OS}"
-  TAG="devpkg-${DEV_PACKAGE_VERSION}_pv-${PARAVIEW_BUILD_REVISION}"
+  TAG=`build_tag ${DEV_PACKAGE_VERSION}`
 
   echo "Building ${ORG}${IMAGE}:${TAG} from ${DOCKERFILE}"
 
@@ -32,6 +28,8 @@ function build_image {
 
   echo
 }
+
+mkdir -p ${BUILD_LOG_DIR}
 
 build_image CentOS7.Dockerfile centos7 "1.30"
 build_image UbuntuBionic.Dockerfile ubuntubionic "1.3.9"
