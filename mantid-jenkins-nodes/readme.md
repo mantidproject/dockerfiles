@@ -20,10 +20,15 @@ If the image is updated then run the above script again to recreate the node
 The following uses are currently tested and in use:
 
 - `mantidproject/jenkins-node:ubuntuxenial`
-  - flake8
-  - doxygen
-  - clang-format
+  - `flake8`
+  - `doxygen`
+  - `clang-format`
+  - any build job that submits to `ubuntu-16.04-build`
 - `mantidproject/jenkins-node:ubuntubionic`
   - cppcheck
 
-Builds should work, systemtests may not work.
+Still to do/test:
+
+- systemtests
+- Ubuntu Bionic builds
+- CentOS 7 builds
