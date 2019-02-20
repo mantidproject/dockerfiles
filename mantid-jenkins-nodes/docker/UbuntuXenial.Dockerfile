@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       curl \
+      gdebi-core \
       openjdk-8-jdk \
       xvfb && \
     apt-get clean && \
@@ -18,9 +19,14 @@ RUN mkdir -p /jenkins_workdir && \
     curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${JENKINS_SLAVE_VERSION}/remoting-${JENKINS_SLAVE_VERSION}.jar && \
     chmod 755 /usr/share/jenkins && \
     chmod 644 /usr/share/jenkins/slave.jar && \
+    # Remove passwordless sudo for CI runner
     rm /etc/sudoers.d/abc_sudo_with_no_passwd
 ENV AGENT_WORKDIR=/jenkins_workdir
 COPY jenkins_slave /usr/share/jenkins/slave.sh
+
+# Add passwordless access required for systemtests
+ADD abc_systemtests_sudoer_ubuntu \
+    /etc/sudoers.d/abc_systemtests_sudoer_ubuntu
 
 VOLUME ["/jenkins_workdir"]
 
