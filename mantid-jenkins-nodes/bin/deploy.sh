@@ -2,11 +2,11 @@
 
 function usage {
   echo "Dockerized Jenkins agent deploy script"
-  echo "Usage: $0 [agent name] [agent secret] [jenkins url] [docker image tag]"
+  echo "Usage: $0 [agent name] [agent secret] [jenkins url] [docker image tag] [ccache size]"
   exit
 }
 
-if [[ $# -ne 4 ]]
+if [[ $# -ne 5 ]]
 then
   usage
 fi
@@ -15,6 +15,7 @@ NODE_NAME=$1
 JENKINS_SECRET=$2
 JENKINS_URL=$3
 IMAGE_TAG=$4
+CCACHE_SIZE=$5
 
 echo "=== Parameters"
 echo "    name: ${NODE_NAME}"
@@ -39,7 +40,7 @@ fi
 
 # Start a new container
 echo "=== Starting new container"
-docker run \
+NEW_CONTAINER_ID=`docker run \
   --detach \
   --init \
   --name ${NODE_NAME} \
@@ -51,4 +52,9 @@ docker run \
   --env JENKINS_SECRET=${JENKINS_SECRET} \
   --env JENKINS_AGENT_NAME=${NODE_NAME} \
   --env JENKINS_URL="${JENKINS_URL}" \
-  mantidproject/jenkins-node:${IMAGE_TAG}
+  mantidproject/jenkins-node:${IMAGE_TAG}`
+
+echo "Started: ${NEW_CONTAINER_ID}"
+
+# Set CCache max size
+docker exec ${NEW_CONTAINER_ID} ccache --max-size ${CCACHE_SIZE}
