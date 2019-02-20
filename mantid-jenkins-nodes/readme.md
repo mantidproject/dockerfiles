@@ -7,7 +7,7 @@
 3. Set environment variables:
   - `BUILD_THREADS` => set based on system
   - `MANTID_DATA_STORE` => `/mantid_data`
-  - `PARAVIEW_DIR` => `/paraview_build/ParaView-5.4.1`
+  - `PARAVIEW_DIR` => `/paraview/build/ParaView-5.4.1` (adjust for current version)
 4. Create the container (or replace an already deployed container) using
    `./deploy.sh agent_name agent_secret jenkins_url image_tag` (this can be done
    via `docker-machine`)
