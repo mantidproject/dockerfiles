@@ -26,4 +26,4 @@ The following uses are currently tested and in use:
 - `mantidproject/jenkins-node:ubuntubionic`
   - cppcheck
 
-Other configurations *may* work but are untested.
+Builds should work, systemtests may not work.
