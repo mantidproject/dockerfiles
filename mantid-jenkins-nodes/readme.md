@@ -1,9 +1,5 @@
 # Jenkins nodes for Mantid in Docker
 
-Still to do:
-
-- ccache (separate volume for cache?)
-
 ## Usage
 
 1. Configure a node normally in Jenkins
