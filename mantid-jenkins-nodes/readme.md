@@ -9,7 +9,7 @@
   - `MANTID_DATA_STORE` => `/mantid_data`
   - `PARAVIEW_DIR` => `/paraview/build/ParaView-5.4.1` (adjust for current version)
 4. Create the container (or replace an already deployed container) using
-   `./deploy.sh agent_name agent_secret jenkins_url image_tag` (this can be done
+   `./deploy.sh agent_name agent_secret jenkins_url image_tag ccache_size` (this can be done
    via `docker-machine`)
 
 If the image is updated then run the above script again to recreate the node
