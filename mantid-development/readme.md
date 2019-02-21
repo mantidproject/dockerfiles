@@ -101,8 +101,8 @@ xhost +
 The required packages for building Mantid against Python 3 (as described
 [here](http://developer.mantidproject.org/Python3.html#id2)) are installed on
 the Ubuntu Xenial and Bionic images so if you wish to build against Python 3 you
-only need to specify the `-DPYTHON_EXECUTABLE=/usr/bin/python3` parameter to
-`cmake`.
+need to specify the `-DPYTHON_EXECUTABLE=/usr/bin/python3` parameter to
+`cmake` and append `-python3` to the ParaView directory.
 
 ### Network proxy
 
