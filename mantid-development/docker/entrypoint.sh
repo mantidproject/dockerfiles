@@ -24,4 +24,4 @@ chown ${TARGET_USERNAME}:${TARGET_USERNAME} /ccache
 
 # Run the supplied command as the target user
 CMD=${@:-"bash"}
-runuser -u ${TARGET_USERNAME} -- "${CMD}"
+runuser --command="${CMD}" - ${TARGET_USERNAME}
