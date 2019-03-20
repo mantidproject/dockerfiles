@@ -24,4 +24,7 @@ chown ${TARGET_USERNAME}:${TARGET_USERNAME} /ccache
 
 # Run the supplied command as the target user
 CMD=${@:-"bash"}
-runuser --command="${CMD}" - ${TARGET_USERNAME}
+# This form of runuser is used as it only sets the environment variables
+# required to change the user, preserving all others that are set (see man
+# runuser).
+runuser -u ${TARGET_USERNAME} -- ${CMD}
