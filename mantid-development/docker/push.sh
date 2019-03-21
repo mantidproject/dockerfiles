@@ -17,5 +17,5 @@ function push_image {
 }
 
 push_image centos7 "1.30"
-push_image ubuntubionic "1.3.9"
-push_image ubuntuxenial "1.3.9"
+push_image ubuntubionic "1.4.0"
+push_image ubuntuxenial "1.4.0"
