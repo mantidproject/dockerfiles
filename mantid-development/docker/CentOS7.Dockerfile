@@ -55,5 +55,9 @@ ADD abc_sudo_with_no_passwd \
 # Set default working directory to build directory
 WORKDIR /mantid_build
 
+# Add default CMake configure helper script
+ADD configure/centos7.sh \
+    /home/abc/configure.sh
+
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

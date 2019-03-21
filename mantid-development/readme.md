@@ -58,24 +58,10 @@ This will give you a `bash` shell in the build directory. From here you can run
 the container you will have the username `abc` which is a standard (i.e.
 non-root) user with `sudo` ability.
 
-The following CMake command will correctly set up your source, external data and
-ParaView directories (as well as enabling Vates and Workbench). This should be
-the used to configure your new build directory.
-
-```sh
-cmake \
-  -G Ninja \
-  -DMAKE_VATES=ON \
-  -DParaView_DIR=/paraview/build/ParaView-5.4.1/ \
-  -DENABLE_WORKBENCH=ON \
-  -DMANTID_DATA_STORE=/mantid_data/ \
-  /mantid_src
-```
-
-For CentOS 7 you'll have to use `cmake3` (instead of `cmake`) and wrap the
-initial CMake invocation in `scl anable devtoolset-7` to find the correct
-compiler (as described
-[here](http://developer.mantidproject.org/BuildingWithCMake.html#from-the-command-line)).
+All images contain a script (`$HOME/configure.sh`) which will perform a sensible
+CMake configuration ready for building. Of course, this can be done manually if
+a specific configuration is required, however the script should be inspected to
+find common paths, etc.
 
 ### GUI
 
