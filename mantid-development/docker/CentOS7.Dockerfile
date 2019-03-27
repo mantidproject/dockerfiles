@@ -17,6 +17,9 @@ RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     # Install ccache
     yum install -y \
       ccache && \
+    # Install xvfb
+    yum install -y \
+      xorg-x11-server-Xvfb && \
     # Install static analysis dependencies
     pip install \
       flake8==2.5.4 \
