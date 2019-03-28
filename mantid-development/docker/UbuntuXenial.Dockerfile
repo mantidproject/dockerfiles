@@ -37,6 +37,9 @@ RUN apt-get update && \
       ipython3-qtconsole \
       python3-h5py \
       python3-yaml && \
+    # Install xvfb
+    apt-get install -y \
+      xvfb && \
     # Install static analysis dependencies
     pip install \
       flake8==2.5.4 \

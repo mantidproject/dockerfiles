@@ -7,8 +7,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       curl \
       gdebi-core \
-      openjdk-8-jdk \
-      xvfb && \
+      openjdk-8-jdk && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
