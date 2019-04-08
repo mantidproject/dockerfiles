@@ -45,6 +45,7 @@ The following tags are available:
 - `nightly` - Most recent nightly build with CentOS 7 base image
 - `nightly_centos7` - Most recent nightly build with CentOS 7 base image
 - `nightly_ubuntu16.04` - Most recent nightly build with Ubuntu 16.04 (xenial) base image
+- `nightly_ubuntu16.04_python3` - Most recent nightly build with Python 3 support with Ubuntu 16.04 (xenial) base image
 - `latest` - Latest release with CentOS 7 base image
 - `latest_centos7` - Latest release with CentOS 7 base image
 - `latest_ubuntu16.04` - Latest release with Ubuntu 16.04 (xenial) base image
