@@ -12,16 +12,21 @@ RUN useradd --uid 911 --user-group --shell /bin/bash --create-home abc
 RUN apt-get update && \
     # Install prerequisite tools
     apt-get install -y \
+      apt-transport-https \
       gdebi-core\
       git \
       python-pip \
       software-properties-common \
       sudo \
       wget && \
-    # Add Mantid PPA repository and install the developer package
-    wget -O - http://apt.isis.rl.ac.uk/2E10C193726B7213.asc | apt-key add - && \
+    # Add Kitware's repository
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add - && \
+    apt-add-repository -y "deb https://apt.kitware.com/ubuntu/ $(lsb_release -c | cut -f 2) main" && \
+    # Add Mantid repository
+    wget -O - http://apt.isis.rl.ac.uk/2E10C193726B7213.asc 2>/dev/null | apt-key add - && \
     apt-add-repository -y "deb [arch=amd64] http://apt.isis.rl.ac.uk $(lsb_release -c | cut -f 2) main" && \
     apt-add-repository -y ppa:mantid/mantid && \
+    # Install the Mantid developer package
     apt-get update && \
     wget -O /tmp/mantid-developer.deb https://downloads.sourceforge.net/project/mantid/developer/mantid-developer_${DEV_PACKAGE_VERSION}_all.deb && \
     gdebi --non-interactive /tmp/mantid-developer.deb && \
