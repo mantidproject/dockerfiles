@@ -1,15 +1,10 @@
-FROM mantidproject/mantid-development-ubuntubionic:latest
-
-ENV DEBIAN_FRONTEND=noninteractive
+FROM mantidproject/mantid-development-centos7:latest
 
 # Install dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+RUN yum install -y \
       curl \
-      gdebi-core \
-      openjdk-8-jdk && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+      java-1.8.0-openjdk && \
+    rm -rf /tmp/* /var/tmp/*
 
 # Setup Jenkins slave
 ARG JENKINS_SLAVE_VERSION=3.9
@@ -28,8 +23,8 @@ ENV AGENT_WORKDIR=/jenkins_workdir
 COPY jenkins_slave /usr/share/jenkins/slave.sh
 
 # Add passwordless access required for systemtests
-ADD abc_systemtests_sudoer_ubuntu \
-    /etc/sudoers.d/abc_systemtests_sudoer_ubuntu
+ADD abc_systemtests_sudoer_centos \
+    /etc/sudoers.d/abc_systemtests_sudoer_centos
 
 VOLUME ["/jenkins_workdir"]
 
