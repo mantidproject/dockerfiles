@@ -33,5 +33,7 @@ ADD abc_systemtests_sudoer_ubuntu \
 
 VOLUME ["/jenkins_workdir"]
 
+ADD entrypoint.d/* /etc/entrypoint.d/
+
 # Run Jenkins slave script
 CMD ["/usr/share/jenkins/slave.sh"]
