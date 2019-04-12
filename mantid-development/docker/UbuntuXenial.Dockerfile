@@ -92,4 +92,5 @@ ADD configure/ubuntu.sh \
     /home/abc/configure.sh
 
 ADD entrypoint.sh /entrypoint.sh
+ADD entrypoint.d/ /etc/entrypoint.d/
 ENTRYPOINT ["/entrypoint.sh"]

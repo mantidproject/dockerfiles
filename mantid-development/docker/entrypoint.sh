@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Handles setting up the target user (abc) and redirecting the command to be
 # executed by them.
@@ -7,20 +7,15 @@
 
 set -x
 
-PUID=${PUID:-911}
-PGID=${PGID:-911}
-
 TARGET_USERNAME="abc"
 
-# Set target user's IDs to match that of the "external"/"host" user
-groupmod --non-unique --gid ${PGID} ${TARGET_USERNAME}
-usermod --non-unique --uid ${PUID} ${TARGET_USERNAME}
-
-# Take ownership of working directories
-chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_src
-chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_build
-chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_data
-chown ${TARGET_USERNAME}:${TARGET_USERNAME} /ccache
+# Execute entrypoint rules
+for rule in /etc/entrypoint.d/*.sh;
+do
+  env \
+    TARGET_USERNAME=$TARGET_USERNAME \
+    $rule
+done
 
 # Run the supplied command as the target user
 CMD=${@:-"bash"}

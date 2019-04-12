@@ -63,4 +63,5 @@ ADD configure/centos7.sh \
     /home/abc/configure.sh
 
 ADD entrypoint.sh /entrypoint.sh
+ADD entrypoint.d/ /etc/entrypoint.d/
 ENTRYPOINT ["/entrypoint.sh"]
