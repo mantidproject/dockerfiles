@@ -61,6 +61,7 @@ WORKDIR /mantid_build
 # Add default CMake configure helper script
 ADD configure/centos7.sh \
     /home/abc/configure.sh
+RUN chown abc:abc /home/abc/configure.sh
 
 ADD entrypoint.sh /entrypoint.sh
 ADD entrypoint.d/ /etc/entrypoint.d/
