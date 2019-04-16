@@ -58,6 +58,10 @@ This will give you a `bash` shell in the build directory. From here you can run
 the container you will have the username `abc` which is a standard (i.e.
 non-root) user with `sudo` ability.
 
+The `mantid_development.sh` (and `mantid_development_x11docker.sh`) scripts may
+need to be modified to suit your system and the environment that you are running
+them under. In their current state they are a reasonable default.
+
 All images contain a script (`$HOME/configure.sh`) which will perform a sensible
 CMake configuration ready for building. Of course, this can be done manually if
 a specific configuration is required, however the script should be inspected to

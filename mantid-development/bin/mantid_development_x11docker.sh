@@ -11,6 +11,7 @@ PGID=`id -g`
 
 x11docker \
   --hostipc \
+  --hostdisplay \
   --cap-default \
   --no-init \
   --user=RETAIN \
