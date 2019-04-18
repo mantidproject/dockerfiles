@@ -6,7 +6,10 @@ BUILD_DIR=$3
 DATA_DIR=$4
 
 docker run \
-  --rm -it \
+  --rm \
+  --interactive \
+  --tty \
+  --security-opt seccomp=unconfined \
   --ipc=host \
   --env PUID=`id -u` \
   --env PGID=`id -g` \
