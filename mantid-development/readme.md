@@ -111,3 +111,18 @@ Some network functionality (e.g. live streaming) may require (or at least become
 ```sh
 --net=host
 ```
+
+#### Persistent home directory
+
+Useful for disabling the painfully annoying "Welcome to Mantid!" splash screen.
+Also persisting IDF updates, shell history and such.
+
+```sh
+--volume mantid_development_home:/home/abc
+```
+
+#### Providing access to data
+
+```sh
+man docker-run
+```
