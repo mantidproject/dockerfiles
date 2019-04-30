@@ -12,8 +12,7 @@
    `./deploy.sh agent_name agent_secret jenkins_url image_tag ccache_size` (this can be done
    via `docker-machine`)
 
-If the image is updated then run the above script again to recreate the node
-(all build state is stored in the volumes which are persisted).
+If the image is updated then run the above script again to recreate the node (all build state is stored in the volumes which are persisted).
 
 ## Production use
 

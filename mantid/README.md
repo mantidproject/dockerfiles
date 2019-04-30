@@ -57,12 +57,11 @@ See [here](https://hub.docker.com/r/mantidproject/mantid/tags/) For a full list.
 
 ## Building
 
-This details how to build images. This is mostly intended for developers
-maintaining the images.
+This details how to build images.
+This is mostly intended for developers maintaining the images.
 
-If any part of these steps is unclear don't push anything you create to
-DockerHub under the `mantidproject` organisation. By all means build images but
-make sure you have done what you expected to do before pushing anything.
+If any part of these steps is unclear don't push anything you create to DockerHub under the `mantidproject` organisation.
+By all means build images but make sure you have done what you expected to do before pushing anything.
 
 ### Release
 
@@ -70,21 +69,15 @@ TODO
 
 ### Nightly
 
-This should mainly be done by Jenkins, but if for some reason it must be done
-manually follow these steps (this assumes you are using Bash):
+This should mainly be done by Jenkins, but if for some reason it must be done manually follow these steps (this assumes you are using Bash):
 
-1. Download the binary from the nightly build you want to package, place it in
-   this directory (the one with the `*.Dockerfile`s).
+1. Download the binary from the nightly build you want to package, place it in this directory (the one with the `*.Dockerfile`s).
 2. Load the build helpers: `. build_helpers.sh`
 3. Build the image: `build_image [dockerfile] [tag] [package file] [path additions]`
-  - `[dockerfile]` is the Dockerfile used to build the image, it should be one
-      from this directory
-  - `[tag]` is the tag to apply to the image, this should follow the format
-      described in the section above
+  - `[dockerfile]` is the Dockerfile used to build the image, it should be one from this directory
+  - `[tag]` is the tag to apply to the image, this should follow the format described in the section above
   - `[package file]` is the filename of the package you downloaded in step 1
-  - `[path additions]` is a list of paths to add to the `PATH` environment
-    variable, this should be set according to the target OS and nightly type
+  - `[path additions]` is a list of paths to add to the `PATH` environment variable, this should be set according to the target OS and nightly type
 
-The `jenkins_build_nightly.sh` script can be inspected to see how this should
-work automatically, this should be enough to give you some hints if anything is
-unclear.
+The `jenkins_build_nightly.sh` script can be inspected to see how this should work automatically.
+This script should be enough to give you some hints if anything is unclear.
