@@ -15,6 +15,7 @@ docker run \
   --env PGID=`id -g` \
   --env DISPLAY=$DISPLAY \
   --volume /tmp/.X11-unix:/tmp/.X11-unix:ro \
+  --volume $HOME/.Xauthority:/home/abc/.Xauthority:ro \
   --volume ${SOURCE_DIR}:/mantid_src \
   --volume ${BUILD_DIR}:/mantid_build \
   --volume ${DATA_DIR}:/mantid_data \
