@@ -54,13 +54,7 @@ For running GUI parts of Mantid (i.e. MantidPlot and workbench) the easiest opti
 ./bin/mantid_development_x11docker.sh [os] [source] [build] [external data] [cmd]
 ```
 
-If you don't want to or can't use `x11docker` then you can try using simple X server mapping (this does not seem to work for the workbench).
-This is already configured in the `mantid_development.sh` script, all that is needed in addition is to allow connections to the host X server.
-
-```sh
-xhost +
-./mantid_development.sh [os] [source] [build] [external data]
-```
+If you don't want to or can't use `x11docker` then you can try using simple X server mapping (see section below).
 
 ### Python 3
 
@@ -77,5 +71,43 @@ sudo sysctl net.ipv4.conf.all.forwarding=1
 sudo iptables -P FORWARD ACCEPT
 ```
 
-Next, the container has to be launced with the `--network host` option in `docker run` command.
+Next, the container has to be launched with the `--network host` option in `docker run` command.
 To actually specify the proxy settings, pass `--env http_proxy="http://proxy.domain.tv:2323"` and `--env https_proxy="https://proxy.domain.tv:5555"` to the command.
+
+### Advanced/non-standard usage
+
+The `mantid_development.sh` and `mantid_development_x11docker.sh` scripts are the bare minimum requirements for developing under Docker.
+This section gives some examples of additional arguments you may want to include in those scripts for specific purposes.
+
+All examples are arguments to `docker run`.
+If you'd like to use any with `x11docker` you must pass them in the manner shown in the `mantid_development_x11docker.sh`.
+
+#### Debugging
+
+Removes security restrictions that would usually prevent a debugger from running correctly.
+Tested with GDB.
+
+```sh
+--security-opt seccomp=unconfined
+--cap-add=SYS_PTRACE
+```
+
+#### X server access
+
+Adds X server forwarding for "standard" Docker use (i.e. not `x11docker`).
+Host IPC namespacing is required for some Qt functionality.
+
+```sh
+--env DISPLAY="$DISPLAY"
+--volume "/tmp/.X11-unix:/tmp/.X11-unix:ro"
+--volume "$HOME/.Xauthority:/home/abc/.Xauthority:ro"
+--ipc=host
+```
+
+#### Network access
+
+Some network functionality (e.g. live streaming) may require (or at least become easier with) host network access.
+
+```sh
+--net=host
+```

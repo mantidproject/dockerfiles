@@ -17,4 +17,4 @@ x11docker \
   --user=RETAIN \
   -- "--volume $SOURCE_DIR:/mantid_src --volume $BUILD_DIR:/mantid_build --volume $DATA_DIR:/mantid_data --env PUID=$PUID --env PGID=$PGID" \
   "mantidproject/mantid-development-$OS:latest" \
-  ${CMD}
+  $CMD
