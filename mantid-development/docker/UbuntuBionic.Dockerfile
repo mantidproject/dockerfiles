@@ -57,6 +57,9 @@ RUN apt-get update && \
       mccabe==0.6.1 && \
     apt-get install -y \
       cppcheck && \
+    # Install debugging tools
+    apt-get install -y \
+      gdb && \
     # Clean up
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
