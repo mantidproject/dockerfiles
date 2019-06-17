@@ -13,7 +13,7 @@ x11docker \
   --hostipc \
   --hostdisplay \
   --cap-default \
-  --no-init \
+  --init=none \
   --user=RETAIN \
   -- "--volume $SOURCE_DIR:/mantid_src --volume $BUILD_DIR:/mantid_build --volume $DATA_DIR:/mantid_data --env PUID=$PUID --env PGID=$PGID" \
   "mantidproject/mantid-development-$OS:latest" \
