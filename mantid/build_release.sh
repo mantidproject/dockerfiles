@@ -23,41 +23,49 @@ MANTID_PATH="/opt/Mantid/bin/"
 # "latest" tag (default to CentOS 7)
 build_image \
   CentOS7.Dockerfile \
+  "$VERSION" \
   latest \
-  "${PACKAGE_RHEL7}" \
-  "${MANTID_PATH}"
+  "$PACKAGE_RHEL7" \
+  "$MANTID_PATH"
+
+exit
 
 # "latest" CentOS 7 tag
 build_image \
   CentOS7.Dockerfile \
+  "$VERSION" \
   latest_centos7 \
-  "${PACKAGE_RHEL7}" \
-  "${MANTID_PATH}"
+  "$PACKAGE_RHEL7" \
+  "$MANTID_PATH"
 
 # "latest" Ubuntu 16.04 (xenial) tag
 build_image \
   UbuntuXenial.Dockerfile \
+  "$VERSION" \
   latest_ubuntu16.04 \
-  "${PACKAGE_UBUNTU_XENIAL}" \
-  "${MANTID_PATH}"
+  "$PACKAGE_UBUNTU_XENIAL" \
+  "$MANTID_PATH"
 
 # Version only tag (default to CentOS 7)
 build_image \
   CentOS7.Dockerfile \
-  ${VERSION} \
-  "${PACKAGE_RHEL7}" \
-  "${MANTID_PATH}"
+  "$VERSION" \
+  "$VERSION" \
+  "$PACKAGE_RHEL7" \
+  "$MANTID_PATH"
 
 # Versioned CentOS 7 tag
 build_image \
   CentOS7.Dockerfile \
-  ${VERSION}_centos7 \
-  "${PACKAGE_RHEL7}" \
-  "${MANTID_PATH}"
+  "$VERSION" \
+  "${VERSION}_centos7" \
+  "$PACKAGE_RHEL7" \
+  "$MANTID_PATH"
 
 # Versioned Ubuntu 16.04 (xenial) tag
 build_image \
   UbuntuXenial.Dockerfile \
-  ${VERSION}_ubuntu16.04 \
-  "${PACKAGE_UBUNTU_XENIAL}" \
-  "${MANTID_PATH}"
+  "$VERSION" \
+  "${VERSION}_ubuntu16.04" \
+  "$PACKAGE_UBUNTU_XENIAL" \
+  "$MANTID_PATH"
