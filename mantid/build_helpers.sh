@@ -36,7 +36,7 @@ function build_image {
     fi
   else
     echo "Ignoring expected version test, just looking for something"
-    if [ -n "$EXPECTED_VERSION" ]; then
+    if [ -n "$version_test" ]; then
       echo "Have \"$version_test\" for version string, close enough"
     else
       echo "No version string, something is probably broken"
