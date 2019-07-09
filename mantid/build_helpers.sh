@@ -23,7 +23,7 @@ function build_image {
   fi
 
   # Try to do a thing in Python for the image that has just been built
-  version_test=$(docker run --rm --volume "$PWD/version_test.py:/version_test.py" mantidproject/mantid:$TAG mantidpython /version_test.py)
+  version_test=$(docker run --rm mantidproject/mantid:$TAG mantidpython /mantid_version_check.py)
 
   echo "$version_test"
 

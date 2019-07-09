@@ -19,3 +19,5 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENV PATH=${PATH_ADDITIONS}:${PATH}
+
+ADD ./version_test.py /mantid_version_check.py

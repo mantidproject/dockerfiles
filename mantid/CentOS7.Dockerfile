@@ -12,3 +12,5 @@ RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     rm -rf /tmp/*
 
 ENV PATH=${PATH_ADDITIONS}:${PATH}
+
+ADD ./version_test.py /mantid_version_check.py
