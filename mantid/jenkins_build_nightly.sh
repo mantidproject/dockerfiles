@@ -36,27 +36,31 @@ NIGHTLY_PYTHON3_PATH="/opt/mantidnightly-python3/bin/"
 # Build nightly images
 build_and_push \
   CentOS7.Dockerfile \
-  "nightly" \
-  ${NIGHTLY_PYTHON2_PATH} \
-  "*el7*.rpm"
+  '' \
+  'nightly' \
+  "*el7*.rpm" \
+  ${NIGHTLY_PYTHON2_PATH}
 
 build_and_push \
   CentOS7.Dockerfile \
-  "nightly_centos7" \
-  ${NIGHTLY_PYTHON2_PATH} \
-  "*el7*.rpm"
+  '' \
+  'nightly_centos7' \
+  "*el7*.rpm" \
+  ${NIGHTLY_PYTHON2_PATH}
 
 build_and_push \
   UbuntuXenial.Dockerfile \
-  "nightly_ubuntu16.04" \
-  ${NIGHTLY_PYTHON2_PATH} \
-  "mantidnightly_*xenial*.deb"
+  '' \
+  'nightly_ubuntu16.04' \
+  "mantidnightly_*xenial*.deb" \
+  ${NIGHTLY_PYTHON2_PATH}
 
 build_and_push \
   UbuntuXenial.Dockerfile \
-  "nightly_ubuntu16.04_python3" \
-  ${NIGHTLY_PYTHON3_PATH} \
-  "mantidnightly-python3_*xenial*.deb"
+  '' \
+  'nightly_ubuntu16.04_python3' \
+  "mantidnightly-python3_*xenial*.deb" \
+  ${NIGHTLY_PYTHON3_PATH}
 
 # Logout of Docker Hub
 docker --config=${WORKSPACE}/.docker logout
