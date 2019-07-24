@@ -46,6 +46,7 @@ NEW_CONTAINER_ID=`docker run \
   --name ${NODE_NAME} \
   --restart=always \
   --net=host \
+  --shm-size=256m \
   --volume ${NODE_NAME}:/jenkins_workdir \
   --volume ${NODE_NAME}_ccache:/ccache \
   --volume ${NODE_NAME}_external_data:/mantid_data \
