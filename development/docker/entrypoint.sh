@@ -12,9 +12,7 @@ TARGET_USERNAME="abc"
 # Execute entrypoint rules
 for rule in /etc/entrypoint.d/*.sh;
 do
-  env \
-    TARGET_USERNAME=$TARGET_USERNAME \
-    $rule
+  source $rule
 done
 
 # Run the supplied command as the target user
