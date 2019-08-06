@@ -58,4 +58,11 @@ NEW_CONTAINER_ID=`docker run \
 echo "Started: $NEW_CONTAINER_ID"
 
 # Set CCache max size
-docker exec "$NEW_CONTAINER_ID" ccache --max-size "$CCACHE_SIZE"
+docker exec -t "$NEW_CONTAINER_ID" ccache --max-size "$CCACHE_SIZE"
+
+# Update APT packages
+# This is only required when creating the container initially, after that
+# unattended-upgrades will take care of it.
+if [[ "$IMAGE_TAG" == *'ubuntu'* ]]; then
+  docker exec -t "$NEW_CONTAINER_ID" apt-get update
+fi
