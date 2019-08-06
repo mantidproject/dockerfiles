@@ -1,5 +1,5 @@
 ## Allow no password for yum
-builder ALL = NOPASSWD: /usr/bin/yum,/bin/rpm
+abc ALL = NOPASSWD: /usr/bin/yum,/bin/rpm
 
 ## Disable tty requirement for yum command
 Defaults!/bin/rpm       !requiretty

@@ -1,5 +1,5 @@
 # Allow no password for gdebi
-builder ALL=(ALL)NOPASSWD:/usr/bin/gdebi, /usr/bin/dpkg
+abc ALL=(ALL)NOPASSWD:/usr/bin/gdebi, /usr/bin/dpkg
 
 ## Disable tty requirement for gdebi and dpkg command
 Defaults!/usr/bin/gdebi   !requiretty
