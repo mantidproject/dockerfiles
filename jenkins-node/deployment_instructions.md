@@ -3,16 +3,28 @@
 This describes how to deploy and managed a containerized build node.
 Such a node can perform any Linux based jobs.
 
-Useful references:
-- https://rancher.com/docs/os/v1.x/en/installation/running-rancheros/server/install-to-disk/
-- https://cloudinit.readthedocs.io/en/latest/index.html
-
 ## Deployment
 
 ### RancherOS deployment
 
-TODO
+- Download the [RancherOS](https://rancher.com/rancher-os/) `.iso` and flash it to a USB stick (using `dd` for example).
+- Prepare another (FAT32 formatted) USB stick with the `cloud-init.yml` file (see below).
+- Boot from the USB stick with RancherOS on.
+- TODO: install (https://rancher.com/docs/os/v1.x/en/installation/running-rancheros/server/install-to-disk/)
+- Reboot the machine.
+- SSH into the machine using it's hostname. If this works the hostname and SSH key configs have worked.
+- TODO: deploy netdata
 
+#### `cloud-init.yml`
+
+[`cloud-init`](https://cloudinit.readthedocs.io/) is a framework used to automatically configure Linux machines (kind of like Ansible but a bit simpler).
+This file controls what cloud-init will do to RancherOS after install.
+
+The two main things we need to do are:
+  - Setting the hostname
+  - Adding SSH keys for all admins
+
+The snippet below shows how this can be done:
 ```yaml
 hostname: ndwXXXX
 ssh_authorized_keys:
