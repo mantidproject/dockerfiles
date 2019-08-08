@@ -7,8 +7,8 @@ Such a node can perform any Linux based jobs.
 
 ### RancherOS deployment
 
-- Download the [RancherOS](https://rancher.com/rancher-os/) `.iso` and flash it to a USB stick (using `dd` for example).
-- Prepare another (FAT32 formatted) USB stick with the `cloud-init.yml` file (see below).
+- Download the [RancherOS](https://rancher.com/rancher-os/) `.iso` and flash it to a USB stick (using [`dd`](https://linux.die.net/man/1/dd) for example).
+- Prepare another (FAT32 formatted) USB stick with the `cloud-init.yml` file (see [below](#cloud-inityml)).
 - Boot from the USB stick with RancherOS on.
 - Copy the completed `cloud-init.yml` file to the second USB stick, mount this on the machine being deployed and copy it to `$HOME`.
 - [Install RancherOS to disk](https://rancher.com/docs/os/v1.x/en/installation/running-rancheros/server/install-to-disk/).
