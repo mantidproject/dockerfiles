@@ -13,7 +13,8 @@ Such a node can perform any Linux based jobs.
 - Copy the completed `cloud-init.yml` file to the second USB stick, mount this on the machine being deployed and copy it to `$HOME`.
 - [Install RancherOS to disk](https://rancher.com/docs/os/v1.x/en/installation/running-rancheros/server/install-to-disk/).
 - Remove both USB sticks and reboot the machine.
-- SSH into the machine using it's hostname. If this works the hostname and SSH key configs have worked.
+- SSH into the machine using it's hostname.
+  If this works the hostname and SSH key configs have worked.
 - Download the [`deploy_netdata.sh`](./bin/deploy_netdata.sh) and [`deploy.sh`](./bin/deploy.sh) scripts.
 - Execute `deploy_netdata.sh`, this will deploy [Netdata](https://www.netdata.cloud/) on this machine.
   This can be used for remote monitoring.
@@ -49,6 +50,13 @@ ssh_authorized_keys:
 ## Maintenance
 
 - RancherOS mostly takes care of itself.
+- You can monitor the systen via Netdata at `http://[hostname]:19999`.
+  Useful things this can tell you include:
+    - Has the RAM been exhausted (see *System Overview* > *ram*)
+    - Is the system oversubscribed (see *System Overview* > *load*)
+    - Is there plenty of free disk space (see *Disks*)
+    - Has the data room cooling failed (see *CPUs* > *throttling*)
+    - Has anything bad happened in the past (see *Alarms* > *Log*)
 - To update Netdata run the `deploy_netdata.sh` script again.
   It will pull a new image if available, stop the existing container and start another.
   The Netdata web UI will show a notification when there are updates available.
