@@ -50,6 +50,7 @@ ssh_authorized_keys:
 ## Maintenance
 
 - RancherOS mostly takes care of itself.
+- An occasional `docker system prune` will remove unsued Docker objects that hog disk space.
 - You can monitor the systen via Netdata at `http://[hostname]:19999`.
   Useful things this can tell you include:
     - Has the RAM been exhausted (see *System Overview* > *ram*)
