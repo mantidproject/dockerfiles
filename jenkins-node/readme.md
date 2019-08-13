@@ -5,6 +5,13 @@ Such a node can perform any Linux based jobs.
 
 ## Deployment
 
+Things to note:
+- RancherOS (by default) has a single user `rancher`
+- This user has no password
+- This user is a sudoer
+- Access is only possible via key authenticated SSH
+- Local login is only possible by selecting a specific boot option
+
 ### RancherOS deployment
 
 - Download the [RancherOS](https://rancher.com/rancher-os/) `.iso` and flash it to a USB stick (using [`dd`](https://linux.die.net/man/1/dd) for example).
