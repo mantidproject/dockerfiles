@@ -20,7 +20,7 @@ echo "    name: $NODE_NAME"
 echo "    secret: $JENKINS_SECRET"
 echo "    url: $JENKINS_URL"
 
-IMAGE='dannixon/docker-jenkins-slave-jnlp-docker'
+IMAGE='dannixon/jenkins-container-agent'
 
 # Ensure we have the latest version
 echo '=== Pulling latest image'
