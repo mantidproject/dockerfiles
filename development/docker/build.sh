@@ -31,6 +31,5 @@ function build_image {
 
 mkdir -p ${BUILD_LOG_DIR}
 
-build_image CentOS7.Dockerfile centos7 "1.32"
+build_image CentOS7.Dockerfile centos7 "1.33"
 build_image UbuntuBionic.Dockerfile ubuntubionic "1.4.1"
-build_image UbuntuXenial.Dockerfile ubuntuxenial "1.4.1"

@@ -8,7 +8,6 @@ There are images for each base OS:
 
 - [`mantidproject/mantid-development-centos7`](https://hub.docker.com/r/mantidproject/mantid-development-centos7/) - CentOS 7
 - [`mantidproject/mantid-development-ubuntubionic`](https://hub.docker.com/r/mantidproject/mantid-development-ubuntubionic/) - Ubuntu 18.04 (Bionic)
-- [`mantidproject/mantid-development-ubuntuxenial`](https://hub.docker.com/r/mantidproject/mantid-development-ubuntuxenial/) - Ubuntu 16.04 (Xenial)
 
 Typically you'd want to use the `latest` tag.
 This corresponds to the latest version of the developer package and the latest revision of the [paraview-build](https://github.com/mantidproject/paraview-build) script for the particular base OS.
@@ -32,7 +31,7 @@ The `mantid_development.sh` script can be used to start a container, this script
 ./mantid_development.sh [os] [source] [build] [external data]
 ```
 
-`[os]` is the image variant you want to use (one of `centos7`, `ubuntuxenial` or `ubuntubionic`).
+`[os]` is the image variant you want to use (one of `centos7` or `ubuntubionic`).
 
 `[source]`, `[build]` and `[external data]` are the volumes which will be mounted as the source (root of the Mantid Git repository), build and CMake external data directories.
 These can either be paths to the host filesystem or names of Docker volumes.
