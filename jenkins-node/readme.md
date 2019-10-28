@@ -23,7 +23,7 @@ Things to note:
 - SSH into the machine using it's hostname.
   If this works the hostname and SSH key configs have worked.
 - Download the [`deploy_netdata.sh`](./bin/deploy_netdata.sh) and [`deploy.sh`](./bin/deploy.sh) scripts.
-- Execute `deploy_netdata.sh`, this will deploy [Netdata](https://www.netdata.cloud/) on this machine.
+- Execute `deploy_netdata.sh [webook url suffix]`, where `[webook url suffix]` is obtained from Slack, this will deploy [Netdata](https://www.netdata.cloud/) on this machine.
   This can be used for remote monitoring.
 
 #### `cloud-init.yml`
