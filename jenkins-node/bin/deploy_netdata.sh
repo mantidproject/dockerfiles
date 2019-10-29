@@ -26,8 +26,10 @@ then
   docker container rm "$EXISTING_CONTAINER_ID"
 fi
 
+netdata_conf="$PWD/netdata"
+
 # Write the alert config script
-alarm_config_file="$PWD/health_alarm_notify.conf"
+alarm_config_file="$netdata_conf/health_alarm_notify.conf"
 echo 'SEND_SLACK="YES"' > "$alarm_config_file"
 echo 'DEFAULT_RECIPIENT_SLACK="#jenkins-admins"' >> "$alarm_config_file"
 echo "SLACK_WEBHOOK_URL=\"https://hooks.slack.com/services/$1\"" >> "$alarm_config_file"
@@ -41,6 +43,7 @@ docker run \
   --restart=always \
   --net=host \
   --volume "$alarm_config_file":/etc/netdata/health_alarm_notify.conf:ro \
+  --volume "$netdata_conf/health.d":/etc/netdata/health.d:ro \
   --volume /etc/passwd:/host/etc/passwd:ro \
   --volume /etc/group:/host/etc/group:ro \
   --volume /proc:/host/proc:ro \
