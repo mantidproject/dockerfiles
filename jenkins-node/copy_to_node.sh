@@ -1,6 +1,8 @@
 #!/bin/sh
 
+here="$( cd "$(dirname "$0")" ; pwd -P )"
+
 set -ex
 
-scp bin/* "$1":~
-scp -r netdata "$1":~
+scp "$here/bin/"* "$1":~
+scp -r "$here/netdata" "$1":~
