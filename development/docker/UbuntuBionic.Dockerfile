@@ -33,24 +33,11 @@ RUN apt-get update && \
     # Install ccache
     apt-get install -y \
       ccache && \
-    # Install Python 3 dependencies (see http://developer.mantidproject.org/Python3.html)
-    apt-get install -y \
-      python3-sip-dev \
-      python3-pyqt4 \
-      python3-numpy \
-      python3-scipy \
-      python3-sphinx \
-      python3-sphinx-bootstrap-theme \
-      python3-dateutil \
-      python3-matplotlib \
-      ipython3-qtconsole \
-      python3-h5py \
-      python3-yaml && \
     # Install xvfb
     apt-get install -y \
       xvfb && \
     # Install static analysis dependencies
-    pip install \
+    pip3 install \
       flake8==2.5.4 \
       pep8==1.6.2 \
       pyflakes==1.3.0 \
