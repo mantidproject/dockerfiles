@@ -38,9 +38,9 @@ RUN apt-get update && \
       xvfb && \
     # Install static analysis dependencies
     pip3 install \
-      flake8==2.5.4 \
-      pep8==1.6.2 \
-      pyflakes==1.3.0 \
+      flake8~=3.0 \
+      pep8~=1.0 \
+      pyflakes~=2.0 \
       mccabe==0.6.1 && \
     apt-get install -y \
       cppcheck && \
