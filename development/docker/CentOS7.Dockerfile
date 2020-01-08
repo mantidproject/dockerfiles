@@ -22,9 +22,9 @@ RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
       xorg-x11-server-Xvfb && \
     # Install static analysis dependencies
     pip3 install \
-      flake8==2.5.4 \
-      pep8==1.6.2 \
-      pyflakes==1.3.0 \
+      flake8~=3.0 \
+      pep8~=1.0 \
+      pyflakes~=2.0 \
       mccabe==0.6.1 && \
     # Clean up
     rm -rf /tmp/* /var/tmp/*
