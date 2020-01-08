@@ -21,7 +21,7 @@ RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     yum install -y \
       xorg-x11-server-Xvfb && \
     # Install static analysis dependencies
-    pip install \
+    pip3 install \
       flake8==2.5.4 \
       pep8==1.6.2 \
       pyflakes==1.3.0 \
