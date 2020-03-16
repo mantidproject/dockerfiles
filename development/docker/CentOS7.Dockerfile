@@ -33,7 +33,7 @@ RUN mkdir -p /mantid_src && \
 # Build ParaView
 RUN git clone https://github.com/mantidproject/paraview-build.git /tmp/paraview && \
     git --git-dir=/tmp/paraview/.git --work-tree=/tmp/paraview checkout ${PARAVIEW_BUILD_REVISION} && \
-    env HOME=/paraview BUILD_THREADS=`nproc` NODE_LABELS=centos7 /tmp/paraview/buildscript && \
+    env HOME=/paraview BUILD_THREADS=`nproc` NODE_LABELS=centos7 JOB_NAME=python3 /tmp/paraview/buildscript && \
     # Give world RW access to ParaView
     chmod -R o+rw /paraview && \
     # Clean up
