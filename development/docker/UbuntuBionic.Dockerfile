@@ -60,14 +60,6 @@ RUN git clone https://github.com/mantidproject/paraview-build.git /tmp/paraview 
     # Clean up
     rm -rf /tmp/* /var/tmp/*
 
-# Install clang-format-6
-RUN apt-get update && \
-    apt-get install -y \
-      clang-format-6.0 && \
-    # Clean up
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 # Set ccache cache location
 ENV CCACHE_DIR /ccache
 
