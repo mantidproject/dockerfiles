@@ -16,5 +16,5 @@ function push_image {
     ${ORG}/${IMAGE}:latest
 }
 
-push_image centos7 "1.30"
-push_image ubuntubionic "1.4.0"
+push_image centos7 "2.0"
+push_image ubuntubionic "2.0"
