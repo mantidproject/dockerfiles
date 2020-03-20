@@ -32,7 +32,7 @@ RUN apt-get update
 RUN apt-get install -t stretch-backports cmake -y --no-install-recommends
 
 # Ordered in probability of each updating from least->most
-RUN apt-get install clang-format-6.0 -y --no-install-recommends
+RUN apt-get install clang-format-6.0 parallel -y --no-install-recommends
 RUN apt-get install cmake -y --no-install-recommends
 RUN apt-get install doxygen -y --no-install-recommends
 RUN apt-get install python3 python3-pip -y --no-install-recommends
