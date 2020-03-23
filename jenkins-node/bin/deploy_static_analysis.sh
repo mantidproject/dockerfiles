@@ -37,6 +37,13 @@ then
   docker container rm "$EXISTING_CONTAINER_ID"
 fi
 
+WATCHTOWER_ID=`docker run -d \
+    --name watchtower \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    containrrr/watchtower`
+
+echo "Started Watchtower: $WATCHTOWER_ID"
+
 # Start a new container
 echo '=== Starting new container'
 NEW_CONTAINER_ID=`docker run \

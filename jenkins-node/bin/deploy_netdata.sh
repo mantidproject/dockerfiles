@@ -28,11 +28,20 @@ fi
 
 netdata_conf="$PWD/netdata"
 
+WATCHTOWER_ID=`docker run -d \
+    --name watchtower \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    containrrr/watchtower`
+
+echo "Started Watchtower: $WATCHTOWER_ID"
+
 # Write the alert config script
 alarm_config_file="$netdata_conf/health_alarm_notify.conf"
 echo 'SEND_SLACK="YES"' > "$alarm_config_file"
 echo 'DEFAULT_RECIPIENT_SLACK="#jenkins-admins"' >> "$alarm_config_file"
 echo "SLACK_WEBHOOK_URL=\"https://hooks.slack.com/services/$1\"" >> "$alarm_config_file"
+
+
 
 # Start a new container
 echo '=== Starting new container'
