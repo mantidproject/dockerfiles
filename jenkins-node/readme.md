@@ -69,6 +69,8 @@ ssh_authorized_keys:
 ## Maintenance
 
 - RancherOS mostly takes care of itself.
+- Watchtower will automatically deploy any updated images pushed upstream that use the same tag.
+  So if your prototyping/testing check your pushing to a local repo and not the Mantid docker.
 - An occasional `docker system prune` will remove unsued Docker objects that hog disk space.
 - You can monitor the systen via Netdata at `http://[hostname]:19999`.
   Useful things this can tell you include:
