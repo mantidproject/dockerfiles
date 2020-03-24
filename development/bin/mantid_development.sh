@@ -12,6 +12,7 @@ docker run \
   --tty \
   --env PUID=`id -u` \
   --env PGID=`id -g` \
+  --shm-size=512m \
   --volume "$SOURCE_DIR:/mantid_src" \
   --volume "$BUILD_DIR:/mantid_build" \
   --volume "$DATA_DIR:/mantid_data" \
