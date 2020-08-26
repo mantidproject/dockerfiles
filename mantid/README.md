@@ -63,6 +63,10 @@ This is mostly intended for developers maintaining the images.
 If any part of these steps is unclear don't push anything you create to DockerHub under the `mantidproject` organisation.
 By all means build images but make sure you have done what you expected to do before pushing anything.
 
+All images can built as a single script by running `scripts/build_all.sh` this also has the advantage of making sure the images are built in the correct order, for example if the developer images are updated
+
+`scripts/push_all.sh` will push all locally tagged images. It's important to make sure `build_all.sh` has run before and that the images are what you expect.
+
 ### Release
 
 TODO
