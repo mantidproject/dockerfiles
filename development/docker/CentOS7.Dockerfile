@@ -20,6 +20,9 @@ RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     # Install xvfb
     yum install -y \
       xorg-x11-server-Xvfb && \
+    # Install jemalloc
+    yum install -y \
+      jemalloc-devel && \
     # Clean up
     rm -rf /tmp/* /var/tmp/*
 

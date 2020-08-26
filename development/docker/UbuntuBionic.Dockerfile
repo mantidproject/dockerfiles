@@ -36,6 +36,9 @@ RUN apt-get update && \
     # Install xvfb
     apt-get install -y \
       xvfb && \
+    # Install jemalloc
+    apt-get install -y \
+      libjemalloc-dev && \
     # Install debugging tools
     apt-get install -y \
       gdb && \
