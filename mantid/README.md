@@ -38,6 +38,24 @@ x11docker \
 
 You will more than likely want to assign some volumes to access data too.
 
+## Rancher OS
+
+If your deploying to Rancher OS use the following alias to use git:
+
+```sh
+alias git="docker run -ti --rm -v $(pwd):/git alpine/git"
+```
+
+After doing a git clone you will need to re-run the alias to update the working dir:
+
+```sh
+alias git="docker run -ti --rm -v $(pwd):/git alpine/git"
+git clone https://github.com/mantidproject/dockerfiles.git
+alias git="docker run -ti --rm -v $(pwd):/git alpine/git"
+git status
+```
+
+
 ## Tags/versions
 
 The following tags are available:
