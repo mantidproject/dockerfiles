@@ -54,6 +54,11 @@ For running GUI parts of Mantid (i.e. MantidPlot and workbench) the easiest opti
 
 If you don't want to or can't use `x11docker` then you can try using simple X server mapping (see section below).
 
+### Python 3
+
+The required packages for building Mantid against Python 3 (as described [here](http://developer.mantidproject.org/Python3.html#id2)) are installed on the Ubuntu Xenial and Bionic images.
+If you wish to build against Python 3 you need to specify the `-DPYTHON_EXECUTABLE=/usr/bin/python3` parameter to `cmake` and append `-python3` to the ParaView directory.
+
 ### Network proxy
 
 One way to get networking to work over a proxy server is to directly use the host system's networking from Docker.
