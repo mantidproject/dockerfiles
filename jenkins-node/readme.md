@@ -62,7 +62,6 @@ ssh_authorized_keys:
   - Set environment variables:
     - `BUILD_THREADS` => set based on system
     - `MANTID_DATA_STORE` => `/mantid_data`
-    - `PARAVIEW_DIR` => `/paraview/build/ParaView-5.4.1` (adjust for current version)
 - Once at the connect agent screen use `deploy.sh` to create the container (run with no parameters to see usage)
 - You should see the agent become available in Jenkins and it should now be ready for use.
 

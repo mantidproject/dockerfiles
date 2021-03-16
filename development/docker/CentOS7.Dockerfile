@@ -1,7 +1,6 @@
 FROM centos:7
 
 ARG DEV_PACKAGE_VERSION
-ARG PARAVIEW_BUILD_REVISION
 
 # Add target user
 RUN useradd --uid 911 --user-group --shell /bin/bash --create-home abc
@@ -26,21 +25,11 @@ RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     # Clean up
     rm -rf /tmp/* /var/tmp/*
 
-# Create source, build, external data and ParaView directories
+# Create source, build, and external data directories.
 RUN mkdir -p /mantid_src && \
     mkdir -p /mantid_build && \
     mkdir -p /mantid_data && \
-    mkdir -p /ccache && \
-    mkdir -p /paraview
-
-# Build ParaView
-RUN git clone https://github.com/mantidproject/paraview-build.git /tmp/paraview && \
-    git --git-dir=/tmp/paraview/.git --work-tree=/tmp/paraview checkout ${PARAVIEW_BUILD_REVISION} && \
-    env HOME=/paraview BUILD_THREADS=`nproc` NODE_LABELS=centos7 JOB_NAME=python3 /tmp/paraview/buildscript && \
-    # Give world RW access to ParaView
-    chmod -R o+rw /paraview && \
-    # Clean up
-    rm -rf /tmp/* /var/tmp/*
+    mkdir -p /ccache
 
 # Set ccache cache location
 ENV CCACHE_DIR /ccache

@@ -1,7 +1,6 @@
 FROM ubuntu:bionic
 
 ARG DEV_PACKAGE_VERSION
-ARG PARAVIEW_BUILD_REVISION
 
 # Needed to allow install of tzdata
 ENV DEBIAN_FRONTEND noninteractive
@@ -50,17 +49,7 @@ RUN apt-get update && \
 RUN mkdir -p /mantid_src && \
     mkdir -p /mantid_build && \
     mkdir -p /mantid_data && \
-    mkdir -p /ccache && \
-    mkdir -p /paraview
-
-# Build ParaView
-RUN git clone https://github.com/mantidproject/paraview-build.git /tmp/paraview && \
-    git -C /tmp/paraview checkout ${PARAVIEW_BUILD_REVISION} && \
-    env HOME=/paraview BUILD_THREADS=`nproc` NODE_LABELS=ubuntu JOB_NAME=python3 /tmp/paraview/buildscript && \
-    # Give world RW access to ParaView
-    chmod -R o+rw /paraview && \
-    # Clean up
-    rm -rf /tmp/* /var/tmp/*
+    mkdir -p /ccache
 
 # Set ccache cache location
 ENV CCACHE_DIR /ccache
