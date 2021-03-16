@@ -15,14 +15,12 @@ function build_image {
   docker build \
     --file=${DOCKERFILE} \
     --build-arg DEV_PACKAGE_VERSION=${DEV_PACKAGE_VERSION} \
-    --build-arg PARAVIEW_BUILD_REVISION=${PARAVIEW_BUILD_REVISION} \
     --tag=${ORG}/${IMAGE}:${TAG} \
     . | tee "${BUILD_LOG_DIR}/${IMAGE}_${TAG}.log"
 
   docker build \
     --file=${DOCKERFILE} \
     --build-arg DEV_PACKAGE_VERSION=${DEV_PACKAGE_VERSION} \
-    --build-arg PARAVIEW_BUILD_REVISION=${PARAVIEW_BUILD_REVISION} \
     --tag=${ORG}/${IMAGE}:latest \
     . | tee "${BUILD_LOG_DIR}/${IMAGE}_latest.log"
 
