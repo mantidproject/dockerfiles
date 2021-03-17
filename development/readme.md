@@ -9,6 +9,8 @@ There are images for each base OS:
 - [`mantidproject/mantid-development-centos7`](https://hub.docker.com/r/mantidproject/mantid-development-centos7/) - CentOS 7
 - [`mantidproject/mantid-development-ubuntubionic`](https://hub.docker.com/r/mantidproject/mantid-development-ubuntubionic/) - Ubuntu 18.04 (Bionic)
 
+Typically you'd want to use the `latest` tag, this corresponds to the latest version of the developer package.
+
 If you do need a specific developer package version then they are available as tags.
 Tags follow the naming convention of `devpkg-VER`, where `VER` is the developer package version installed.
 
@@ -51,11 +53,6 @@ For running GUI parts of Mantid (i.e. MantidPlot and workbench) the easiest opti
 ```
 
 If you don't want to or can't use `x11docker` then you can try using simple X server mapping (see section below).
-
-### Python 3
-
-The required packages for building Mantid against Python 3 (as described [here](http://developer.mantidproject.org/Python3.html#id2)) are installed on the Ubuntu Xenial and Bionic images.
-If you wish to build against Python 3 you need to specify the `-DPYTHON_EXECUTABLE=/usr/bin/python3` parameter to `cmake`.
 
 ### Network proxy
 
