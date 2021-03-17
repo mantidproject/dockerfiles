@@ -41,6 +41,8 @@ RUN apt-get update && \
     # Install debugging tools
     apt-get install -y \
       gdb && \
+    # Install pre-commit
+    python3 -m pip install pre-commit && \
     # Clean up
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
