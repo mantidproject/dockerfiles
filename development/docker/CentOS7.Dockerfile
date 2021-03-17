@@ -9,7 +9,8 @@ RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     yum install -y \
       centos-release-scl \
       yum-plugin-copr \
-      sudo && \
+      sudo \
+      wget && \
     # Add Mantid repository, install developer package and GCC 7
     yum copr enable -y mantid/mantid && \
     yum install -y mantid-developer-${DEV_PACKAGE_VERSION} devtoolset-7-gcc-c++ && \
@@ -22,6 +23,8 @@ RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     # Install jemalloc
     yum install -y \
       jemalloc-devel && \
+    # Install pre-commit
+    python3 -m pip install pre-commit && \
     # Clean up
     rm -rf /tmp/* /var/tmp/*
 
