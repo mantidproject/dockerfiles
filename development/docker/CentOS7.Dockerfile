@@ -9,8 +9,7 @@ RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     yum install -y \
       centos-release-scl \
       yum-plugin-copr \
-      sudo \
-      wget && \
+      sudo && \
     # Add Mantid repository, install developer package and GCC 7
     yum copr enable -y mantid/mantid && \
     yum install -y mantid-developer-${DEV_PACKAGE_VERSION} devtoolset-7-gcc-c++ && \
