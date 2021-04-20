@@ -25,9 +25,9 @@ It is recommended to have these directories mounted to locations on the host fil
 
 To ensure file permissions are handled correctly if mapping volumes to your host filesystem you must pass the `PUID` and `PGID` environment variables when starting a container, these should be set to your user ID and group ID respectively.
 
-The `mantid_development.sh` script can be used to start a container, this script takes four parameters:
+The `mantid_development.sh` and `mantid_development.bat` scripts can be used to start a container. If your host system is Windows then use `mantid_development.bat`, otherwise you can use `mantid_development.sh`. These scripts take four parameters:
 ```sh
-./mantid_development.sh [os] [source] [build] [external data]
+./mantid_development.* [os] [source] [build] [external data]
 ```
 
 `[os]` is the image variant you want to use (one of `centos7` or `ubuntubionic`).
@@ -40,7 +40,7 @@ From here you can run `cmake` and your build tool of choice just as you would on
 Inside the container you will have the username `abc` which is a standard (i.e. non-root) user with `sudo` ability.
 
 The `mantid_development.sh` (and `mantid_development_x11docker.sh`) scripts may need to be modified to suit your system and the environment that you are running them under.
-In their current state they are a reasonable default.
+In their current state they are a reasonable default. The `mantid_development.bat` script should be used if your host system environment is Windows.
 
 All images contain a script (`$HOME/configure.sh`) which will perform a sensible CMake configuration ready for building.
 Of course, this can be done manually if a specific configuration is required, however the script should be inspected to find common paths, etc.
@@ -69,7 +69,7 @@ To actually specify the proxy settings, pass `--env http_proxy="http://proxy.dom
 
 ### Advanced/non-standard usage
 
-The `mantid_development.sh` and `mantid_development_x11docker.sh` scripts are the bare minimum requirements for developing under Docker.
+The `mantid_development.bat`, `mantid_development.sh`, `mantid_development_x11docker.sh` scripts are the bare minimum requirements for developing under Docker.
 This section gives some examples of additional arguments you may want to include in those scripts for specific purposes.
 
 All examples are arguments to `docker run`.
