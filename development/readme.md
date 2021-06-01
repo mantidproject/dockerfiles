@@ -1,6 +1,6 @@
 # Mantid development environment in Docker
 
-Docker container for building, testing and developing Mantid.
+Docker container for building, testing and developing Mantid. If your host system is Windows then it might be better to setup a [Windows Subsystem for Linux (WSL2)](https://developer.mantidproject.org/WindowsSubsystemForLinux.html).
 
 ## Base images and versions
 
