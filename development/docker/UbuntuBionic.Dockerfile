@@ -38,6 +38,8 @@ RUN apt-get update && \
     # Install jemalloc
     apt-get install -y \
       libjemalloc-dev && \
+    # Install libpci for tests in a conda env
+    apt-get install -y libpci-dev && \
     # Install debugging tools
     apt-get install -y \
       gdb && \
