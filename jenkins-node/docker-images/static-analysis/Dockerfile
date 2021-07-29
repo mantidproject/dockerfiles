@@ -25,6 +25,7 @@ ARG PEP_VERSION=1.7.1
 
 COPY --from=cppcheck_build /cppcheck/build/bin/cppcheck /usr/local/bin/
 COPY --from=cppcheck_build /cppcheck/cfg /usr/local/share/CppCheck
+COPY --from=cppcheck_build /cppcheck/htmlreport /tmp/cppcheck-htmlreport
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -38,3 +39,5 @@ RUN apt-get update && \
 RUN pip3 install \
     flake8==${FLAKE_VERSION} \
     pep8==${PEP_VERSION}
+
+RUN cd /tmp/cppcheck-htmlreport && python3 setup.py install
