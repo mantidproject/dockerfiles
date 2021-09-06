@@ -4,8 +4,8 @@
 
 FROM alpine:latest AS cppcheck_build
 
-# Version 1.82
-ARG cppcheck_commit=23b253e9eb3296a03afd5d52908726da1231f0dd
+# Version 2.5
+ARG cppcheck_commit=f5b44b0b0b59d6d3284357e08884ad8c59612599
 
 RUN apk add git ninja cmake g++ pcre-dev && \
     git clone https://github.com/danmar/cppcheck.git
