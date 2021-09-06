@@ -24,7 +24,7 @@ ARG FLAKE_VERSION=3.7.9
 ARG PEP_VERSION=1.7.1
 
 COPY --from=cppcheck_build /cppcheck/build/bin/cppcheck /usr/local/bin/
-COPY --from=cppcheck_build /cppcheck/cfg /usr/local/share/CppCheck
+COPY --from=cppcheck_build /cppcheck/cfg /usr/local/share/Cppcheck/cfg
 COPY --from=cppcheck_build /cppcheck/htmlreport /tmp/cppcheck-htmlreport
 
 RUN apt-get update && \
