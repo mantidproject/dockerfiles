@@ -1,6 +1,17 @@
+# Arguments allowed to be used in FROM have to come
+# before the first stage
+ARG CPPCHECK_VERSION=2.5
+
+# Import cppcheck. COPY --from cannot used variables.
+# Define a local name
+FROM neszt/cppcheck-docker:${CPPCHECK_VERSION} AS upstream_cppcheck
+
+# Base
 FROM ubuntu:bionic
 
 ARG DEV_PACKAGE_VERSION
+ARG FLAKE_VERSION=3.7.9
+ARG PEP_VERSION=1.7.1
 
 # Needed to allow install of tzdata
 ENV DEBIAN_FRONTEND noninteractive
@@ -48,6 +59,18 @@ RUN apt-get update && \
     # Clean up
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Copy in cppcheck
+COPY --from=upstream_cppcheck /usr/bin/cppcheck /usr/local/bin/
+COPY --from=upstream_cppcheck /usr/bin/cppcheck-htmlreport /usr/local/bin/
+COPY --from=upstream_cppcheck /cfg/ /cfg/
+# Fix-up for Python3
+RUN sed -e '1 s@python@python3@' -i /usr/local/bin/cppcheck-htmlreport
+
+# Install versions of Python static analysis tools
+RUN pip3 install \
+    flake8==${FLAKE_VERSION} \
+    pep8==${PEP_VERSION}
 
 # Create build and external data directories
 RUN mkdir -p /mantid_src && \
