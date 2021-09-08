@@ -29,5 +29,5 @@ function build_image {
 
 mkdir -p ${BUILD_LOG_DIR}
 
-build_image CentOS7.Dockerfile centos7 "2.2"
-build_image UbuntuBionic.Dockerfile ubuntubionic "2.2"
+build_image CentOS7.Dockerfile centos7 "2.3"
+build_image UbuntuBionic.Dockerfile ubuntubionic "2.3"
