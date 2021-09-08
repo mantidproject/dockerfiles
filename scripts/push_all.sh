@@ -7,7 +7,5 @@ ROOT_DIR="$(dirname "$(dirname "$(readlink -fm "$0")")")"
 
 cd $ROOT_DIR/development/docker/
 ./push.sh
-cd $ROOT_DIR/jenkins-node/docker-images/os-builder
-./push.sh
-cd $ROOT_DIR/jenkins-node/docker-images/static-analysis
+cd $ROOT_DIR/jenkins-node/docker-images
 ./push.sh
