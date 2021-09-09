@@ -45,6 +45,9 @@ RUN apt-get update && \
     apt-get update && \
     wget -O /tmp/mantid-developer.deb https://downloads.sourceforge.net/project/mantid/developer/mantid-developer_${DEV_PACKAGE_VERSION}_all.deb && \
     gdebi --non-interactive /tmp/mantid-developer.deb && \
+    # Set qt5 by default
+    apt-get install -y \ 
+      qt5-default && \
     # Install ccache
     apt-get install -y \
       ccache && \
