@@ -36,6 +36,11 @@ RUN apt-get update && \
     wget -O - http://apt.isis.rl.ac.uk/2E10C193726B7213.asc 2>/dev/null | apt-key add - && \
     apt-add-repository -y "deb [arch=amd64] http://apt.isis.rl.ac.uk $(lsb_release -c | cut -f 2) main" && \
     apt-add-repository -y ppa:mantid/mantid && \
+    # Add LLVM repository
+    wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key 2>/dev/null| apt-key add - && \
+    echo "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-13 main" | tee /etc/apt/sources.list.d/clang-13.list && \
+    apt-get update && apt-get install -y clang-tidy-13 && \
+
     # Install the Mantid developer package
     apt-get update && \
     wget -O /tmp/mantid-developer.deb https://downloads.sourceforge.net/project/mantid/developer/mantid-developer_${DEV_PACKAGE_VERSION}_all.deb && \
