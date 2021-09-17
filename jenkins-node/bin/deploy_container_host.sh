@@ -40,7 +40,7 @@ fi
 WATCHTOWER_ID=`docker run -d \
     --name watchtower \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    containrrr/watchtower`
+    containrrr/watchtower --cleanup`
 
 echo "Started Watchtower: $WATCHTOWER_ID"
 
