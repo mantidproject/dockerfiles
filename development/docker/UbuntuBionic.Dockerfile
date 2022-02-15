@@ -1,6 +1,6 @@
 # Arguments allowed to be used in FROM have to come
 # before the first stage
-ARG CPPCHECK_VERSION=2.5
+ARG CPPCHECK_VERSION=2.7
 
 # Import cppcheck. COPY --from cannot used variables.
 # Define a local name
