@@ -9,6 +9,8 @@ RUN apt-get update && \
     python3 \
     python3-pip \
     python3-venv \
+    gzip \
+    bzip2 \
     ssh && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
