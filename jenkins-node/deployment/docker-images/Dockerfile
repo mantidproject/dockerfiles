@@ -11,6 +11,7 @@ RUN apt-get update && \
     python3-venv \
     gzip \
     bzip2 \
+    jq \
     ssh && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
