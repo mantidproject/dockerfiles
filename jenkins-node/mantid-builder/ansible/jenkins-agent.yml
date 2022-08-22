@@ -2,7 +2,13 @@
   hosts: all
   vars:
     package_updates_reboot: true
+    pip_install_packages:
+      - name: docker
 
   roles:
     - role: dannixon.system.package_updates
     - role: dannixon.system.interactive_users
+    - role: geerlingguy.pip
+      become: yes
+    - role: geerlingguy.docker
+      become: yes
