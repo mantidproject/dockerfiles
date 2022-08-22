@@ -1,4 +1,8 @@
 - name: Deploy Docker-based Jenkins agent for Mantid builds
   hosts: all
+  vars:
+    package_updates_reboot: true
+
   roles:
+    - role: dannixon.system.package_updates
     - role: dannixon.system.interactive_users
