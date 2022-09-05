@@ -1,0 +1,15 @@
+---
+
+- name: Deploy dockerized Jenkins agent
+  community.docker.docker_container:
+    name: "{{ agent_name }}"
+    image: ghcr.io/mantidproject/jenkins-node-centos7-slim:latest
+    detach: yes
+    init: yes
+    network_mode: host
+    recreate: yes
+    shm_size: 512M
+    env:
+      JENKINS_AGENT_NAME: "{{ agent_name }}"
+      JENKINS_URL: https://builds.mantidproject.org
+      JENKINS_SECRET: "{{ agent_secret }}"
