@@ -12,3 +12,6 @@
       become: yes
     - role: geerlingguy.docker
       become: yes
+    - role: agent
+      become: yes
+      tags: "agent"
