@@ -23,6 +23,7 @@ RUN yum install -y \
   texlive-latex-bin \
   texlive-was \
   tex-preview \
+  which \
   xorg-x11-server-Xvfb && \
   # Install pre-commit
   python3 -m pip install pre-commit && \
