@@ -16,4 +16,4 @@ function push_image_slim {
     ${REGISTRY}/${ORG}/${IMAGE}:latest
 }
 
-push_image_slim centos7 "0.1"
+push_image_slim centos7 ${VERSION}

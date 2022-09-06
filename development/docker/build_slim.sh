@@ -25,4 +25,4 @@ function build_image_slim {
 
 mkdir -p ${BUILD_LOG_DIR}
 
-build_image_slim CentOS7Slim.Dockerfile centos7 "0.1"
+build_image_slim CentOS7Slim.Dockerfile centos7 ${VERSION}
