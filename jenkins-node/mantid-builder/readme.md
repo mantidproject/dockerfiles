@@ -1,18 +1,86 @@
 # Jenkins nodes for Mantid in Docker
 
-This describes how to deploy and managed a containerized build node.
+This describes how to deploy and manage a containerized build node.
 Such a node can perform any Linux based jobs.
 
-## Deployment
+The instructions are split by the OS used as the base:
+
+- [Cloud VM](#cloud-vm). Assumes a clean image deployed in a cloud that
+  is not yet set up to run Docker.
+- [RancherOS](#rancheros). Not recommended as this is no longer supported.
+
+## Cloud VM
+
+### OS deployment
+
+Use the wizard provided by the cloud provider, e.g. Openstack for SCD cloud at ISIS.
+We're running containers so the base operating system does not really matter.
+If in doubt choose the latest non-gui Ubuntu version. When selecting
+the resources for the machine we suggest at least 8 cores, 32GB RAM and
+150GB disk.
+
+The person creating the cloud environment should have the same key as one listed
+in the [ansible scripts](./ansible/group_vars/all/users.yml).
+
+### Jenkins controller node provision
+
+- Provision a new node in [Jenkins](https://builds.mantidproject.org/computer) with the following changes:
+  - Set *Remote root directory* to `/jenkins_workdir`
+  - Set environment variables:
+    - `BUILD_THREADS` => set based on system, e.g. number of cores
+    - `MANTID_DATA_STORE` => `/mantid_data`
+- Once created make a note of the secret (the long string of letters and numbers)
+
+### Deploy Docker and Jenkins agent container
+
+The ansible scripts will both install docker (if not available) and deploy the
+node image.
+On a Linux or Mac (Ansible will not work on Windows):
+
+- cd [ansible](./ansible)
+- Install Ansible through Conda (only the first time):
+  - `mamba create -p ./condaenv ansible`
+  - `mamba activate ./condaenv`
+- Install collections from Ansible galaxy:
+  - `ansible-galaxy install -r requirements.yml`
+- Create an `inventory.txt` file with the details of the machines (1 per line):
+
+```ini
+[all]
+ip_address_or_hostname agent_name=NAME_OF_AGENT_ON_JENKINS agent_secret=SECRET_DISPLAYED_ON_CONNECTION_SCREEN
+```
+
+- Deploy to the listed machines:
+
+```sh
+ansible-playbook -i inventory.txt jenkins-agent.yml -u SSH_USERNAME -K
+```
+
+- Wait for the play to finish and visit `https://builds.mantidproject.org/computer/NAME_OF_AGENT_ON_JENKINS`. The agent should be connected.
+
+### Maintenance
+
+### Troubleshooting
+
+Here some useful commands to run on the machine if the agent does not connect:
+
+- `docker ps`: Shows the list of running containers
+- `docker ps -a`: Shows the list of all containers, including stopped.
+  Check the `CREATED` & `STATUS` columns to see if the container stops
+  very quickly after starting.
+- `docker logs NAME_OF_AGENT_ON_JENKINS`:
+  Shows logs from the agent loading and connecting.
+  This can help with diagnosing connection issues.
+
+## RancherOS
 
 Things to note:
+
 - RancherOS (by default) has a single user `rancher`
 - This user has no password
 - This user is a sudoer
 - Access is only possible via key authenticated SSH
 - Local login is only possible by selecting a specific boot option
-
-### RancherOS deployment
 
 - Download the [RancherOS](https://rancher.com/rancher-os/) `.iso` and flash it to a USB stick (using [`dd`](https://linux.die.net/man/1/dd) for example).
 - Prepare another (FAT32 formatted) USB stick with the `cloud-init.yml` file (see [below](#cloud-inityml)).
@@ -32,10 +100,12 @@ Things to note:
 This file controls what cloud-init will do to RancherOS after install.
 
 The two main things we need to do are:
-  - Setting the hostname
-  - Adding SSH keys for all admins
+
+- Setting the hostname
+- Adding SSH keys for all admins
 
 The snippet below shows how this can be done (make sure to update the hostname and ensure SSH keys are correct):
+
 ```yaml
 hostname: ndwXXXX
 ssh_authorized_keys:
@@ -55,7 +125,7 @@ ssh_authorized_keys:
 
 ### Jenkins setup
 
-- Provision a node in Jenkis [as usual](http://developer.mantidproject.org/JenkinsConfiguration.html) with the following changes:
+- Provision a node in Jenkins [as usual](http://developer.mantidproject.org/JenkinsConfiguration.html) with the following changes:
   - Set *Remote root directory* to `/jenkins_workdir`
   - Set environment variables:
     - `BUILD_THREADS` => set based on system
@@ -71,11 +141,11 @@ ssh_authorized_keys:
 - An occasional `docker system prune` will remove unsued Docker objects that hog disk space.
 - You can monitor the systen via Netdata at `http://[hostname]:19999`.
   Useful things this can tell you include:
-    - Has the RAM been exhausted (see *System Overview* > *ram*)
-    - Is the system oversubscribed (see *System Overview* > *load*)
-    - Is there plenty of free disk space (see *Disks*)
-    - Has the data room cooling failed (see *CPUs* > *throttling*)
-    - Has anything bad happened in the past (see *Alarms* > *Log*)
+  - Has the RAM been exhausted (see *System Overview* > *ram*)
+  - Is the system oversubscribed (see *System Overview* > *load*)
+  - Is there plenty of free disk space (see *Disks*)
+  - Has the data room cooling failed (see *CPUs* > *throttling*)
+  - Has anything bad happened in the past (see *Alarms* > *Log*)
 - To update Netdata run the `deploy_netdata.sh` script again.
   It will pull a new image if available, stop the existing container and start another.
   The Netdata web UI will show a notification when there are updates available.
