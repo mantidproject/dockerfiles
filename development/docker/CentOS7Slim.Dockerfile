@@ -17,6 +17,9 @@ RUN yum install -y \
   ccache \
   curl \
   git \
+  graphviz \
+  libXScrnSaver \
+  pciutils-libs \
   python36-pip \
   sudo \
   texlive-latex \
