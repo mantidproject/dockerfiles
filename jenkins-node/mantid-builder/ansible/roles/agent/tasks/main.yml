@@ -8,6 +8,7 @@
     init: yes
     network_mode: host
     recreate: yes
+    pull: yes
     shm_size: 512M
     volumes:
       - "{{ agent_name }}:/jenkins_workdir"
