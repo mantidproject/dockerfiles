@@ -20,18 +20,27 @@ RUN yum install -y \
   graphviz \
   libXScrnSaver \
   pciutils-libs \
+  perl-Digest-MD5 \
   python36-pip \
   sudo \
-  texlive-latex \
-  texlive-latex-bin \
-  texlive-was \
-  tex-preview \
   which \
   xorg-x11-server-Xvfb && \
   # Install pre-commit
   python3 -m pip install pre-commit && \
   # Clean up
   rm -rf /tmp/* /var/tmp/*
+
+COPY ./install_latex.sh /tmp/
+RUN bash /tmp/install_latex.sh && \
+   rm -rf /latex
+
+#Set paths for latex
+ENV PATH=/usr/local/texlive/2022/bin/x86_64-linux:$PATH
+ENV MANPATH=$MANPATH:/usr/local/texlive/2022/texmf-dist/doc/man
+ENV INFOPATH=$INFOPATH:/usr/local/texlive/2022/texmf-dist/doc/info
+
+#install anyfontsize package
+RUN tlmgr install anyfontsize
 
 # Copy in cppcheck
 COPY --from=upstream_cppcheck /usr/bin/cppcheck /usr/local/bin/
