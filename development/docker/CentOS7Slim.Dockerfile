@@ -7,6 +7,7 @@ ARG CPPCHECK_VERSION=2.5
 FROM neszt/cppcheck-docker:${CPPCHECK_VERSION} AS upstream_cppcheck
 
 # Base
+# CentOS 7 matches platform used by conda-forge
 FROM centos:7
 
 # Add target user

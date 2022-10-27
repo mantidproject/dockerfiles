@@ -1,3 +1,5 @@
+#! /bin/bash
+
 #Install latex direct from texlive
 mkdir -p /latex
 cd /latex
