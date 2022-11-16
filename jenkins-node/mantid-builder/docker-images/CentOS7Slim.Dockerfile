@@ -5,7 +5,7 @@ FROM ghcr.io/mantidproject/mantid-development-centos7-slim:${DEVELOPMENT_IMAGE_V
 
 # Install dependencies
 RUN yum install -y \
-  java-1.8.0-openjdk && \
+  java-11-openjdk-devel && \
   rm -rf /tmp/* /var/tmp/*
 
 # Setup Jenkins agent
