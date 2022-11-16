@@ -26,8 +26,6 @@ RUN yum install -y \
   sudo \
   which \
   xorg-x11-server-Xvfb && \
-  # Install pre-commit
-  python3 -m pip install pre-commit && \
   # Clean up
   rm -rf /tmp/* /var/tmp/*
 
