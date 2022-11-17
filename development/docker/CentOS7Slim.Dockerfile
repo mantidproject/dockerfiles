@@ -10,6 +10,16 @@ FROM neszt/cppcheck-docker:${CPPCHECK_VERSION} AS upstream_cppcheck
 # CentOS 7 matches platform used by conda-forge
 FROM centos:7
 
+
+# Install minimal developer tools
+RUN yum install -y \
+  https://repo.ius.io/ius-release-el7.rpm && \
+  yum -y remove git && \
+  yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+  
+RUN yum install -y \
+    git236
+
 # Add target user
 RUN useradd --uid 911 --user-group --shell /bin/bash --create-home abc
 
@@ -20,7 +30,6 @@ LABEL org.opencontainers.image.source https://github.com/mantidproject/mantid-de
 RUN yum install -y \
   ccache \
   curl \
-  git \
   graphviz \
   libXScrnSaver \
   pciutils-libs \
@@ -43,7 +52,7 @@ ENV INFOPATH=$INFOPATH:/usr/local/texlive/2022/texmf-dist/doc/info
 
 #install anyfontsize package
 RUN tlmgr install anyfontsize
-
+  
 # Copy in cppcheck
 COPY --from=upstream_cppcheck /usr/bin/cppcheck /usr/local/bin/
 COPY --from=upstream_cppcheck /usr/bin/cppcheck-htmlreport /usr/local/bin/
@@ -67,7 +76,7 @@ VOLUME ["/mantid_src", "/mantid_build", "/mantid_data", "/ccache"]
 WORKDIR /mantid_build
 
 # Fixes "D-Bus library appears to be incorrectly set up;" error
-RUN dbus-uuidgen > /var/lib/dbus/machine-id
+RUN dbus-uuidgen > /var/lib/dbus/machine-id 
 
 # Run as abc user on starting the container
 ADD entrypoint.sh /entrypoint.sh
