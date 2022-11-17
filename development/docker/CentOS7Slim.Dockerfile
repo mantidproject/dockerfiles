@@ -23,7 +23,7 @@ RUN yum install -y \
 RUN useradd --uid 911 --user-group --shell /bin/bash --create-home abc
 
 #Add label for transparency
-LABEL org.opencontainers.image.source https://github.com/mantidproject/mantid-development-centos7-slim
+LABEL org.opencontainers.image.source https://github.com/mantidproject/dockerfiles
 
 # Install minimal developer tools
 RUN yum install -y \
