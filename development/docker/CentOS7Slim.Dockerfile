@@ -10,7 +10,6 @@ FROM neszt/cppcheck-docker:${CPPCHECK_VERSION} AS upstream_cppcheck
 # CentOS 7 matches platform used by conda-forge
 FROM centos:7
 
-
 # Install minimal developer tools
 RUN yum install -y \
   https://repo.ius.io/ius-release-el7.rpm && \
@@ -32,6 +31,7 @@ RUN yum install -y \
   curl \
   graphviz \
   libXScrnSaver \
+  openssl \
   pciutils-libs \
   perl-Digest-MD5 \
   python36-pip \
