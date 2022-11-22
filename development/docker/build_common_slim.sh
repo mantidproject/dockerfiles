@@ -3,6 +3,6 @@
 # Use GitHub packages container registry
 REGISTRY="ghcr.io"
 ORG="mantidproject"
-VERSION="0.12"
+VERSION="0.13"
 
 BUILD_LOG_DIR="build_logs"

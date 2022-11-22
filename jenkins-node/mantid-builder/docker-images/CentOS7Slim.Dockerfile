@@ -1,6 +1,6 @@
 # Arguments allowed to be used in FROM have to come
 # before the first stage
-ARG DEVELOPMENT_IMAGE_VERSION=0.12
+ARG DEVELOPMENT_IMAGE_VERSION=0.13
 FROM ghcr.io/mantidproject/mantid-development-centos7-slim:${DEVELOPMENT_IMAGE_VERSION}
 
 #Add label for transparency

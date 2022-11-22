@@ -6,35 +6,32 @@ ARG CPPCHECK_VERSION=2.5
 # Define a local name
 FROM neszt/cppcheck-docker:${CPPCHECK_VERSION} AS upstream_cppcheck
 
+#Add label for transparency
+LABEL org.opencontainers.image.source https://github.com/mantidproject/dockerfiles
+
 # Base
 # CentOS 7 matches platform used by conda-forge
 FROM centos:7
 
-# Install minimal developer tools
+# Install IUS repo for additional yum installs (e.g. git v2 onwards)
+# Install EPEL repo as IUS repo has some dependencies on it
 RUN yum install -y \
   https://repo.ius.io/ius-release-el7.rpm && \
-  yum -y remove git && \
   yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
   
-RUN yum install -y \
-    git236
-
 # Add target user
 RUN useradd --uid 911 --user-group --shell /bin/bash --create-home abc
-
-#Add label for transparency
-LABEL org.opencontainers.image.source https://github.com/mantidproject/dockerfiles
 
 # Install minimal developer tools
 RUN yum install -y \
   ccache \
   curl \
+  git236 \
   graphviz \
   libXScrnSaver \
   openssl \
   pciutils-libs \
   perl-Digest-MD5 \
-  python36-pip \
   sudo \
   which \
   xorg-x11-server-Xvfb && \
