@@ -27,5 +27,32 @@ RUN C:\TEMP\Install.cmd C:\TEMP\vs_buildtools.exe --quiet --wait --norestart --n
     --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended`
     --installPath C:\BuildTools
 
+#Install git
+ENV ChocolateyUseWindowsCompression false 
+RUN powershell Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
+RUN powershell -NoProfile -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+RUN choco install git.install -y --no-progress
+RUN powershell Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
+
+#Create .bashrc file and set BASH_ENV var
+COPY create_bashrc.bat C:\TEMP\
+RUN powershell Start-Process -FilePath 'C:\TEMP\create_bashrc.bat'
+ENV BASH_ENV C:\Users\Jenkins\.bashrc
+
+# Create source, build, and external data directories.
+RUN mkdir C:\jenkins_workdir\mantid_src
+RUN mkdir C:\jenkins_workdir\mantid_build
+RUN mkdir C:\jenkins_workdir\mantid_data
+RUN mkdir C:\jenkins_workdir\ccache
+
+# Allow mounting source, build, data and ccache directories
+VOLUME C:\jenkins_workdir\mantid_src
+VOLUME C:\jenkins_workdir\mantid_build
+VOLUME C:\jenkins_workdir\mantid_data
+VOLUME C:\jenkins_workdir\ccache
+
+# Set default working directory to build directory
+WORKDIR C:\jenkins_workdir\mantid_build
+
 # Start the agent process
 ENTRYPOINT ["powershell.exe", "-f", "C:/ProgramData/Jenkins/jenkins-agent.ps1"]
