@@ -1,0 +1,1 @@
+echo export PATH=$PATH:/c/Program\ Files/Git/bin:/c/Program\ Files/Git/cmd:/c/Program\ Files/Git/usr/bin:/c/Users/jenkins/mambaforge:/c/Users/jenkins/mambaforge/Library/usr/bin:/c/Users/jenkins/mambaforge/Library/bin:/c/Users/jenkins/mambaforge/condabin:/c/Users/jenkins/mambaforge/Scripts; git config --system core.longpaths true > .bashrc; fi
