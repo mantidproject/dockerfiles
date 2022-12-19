@@ -27,6 +27,14 @@ RUN C:\TEMP\Install.cmd C:\TEMP\vs_buildtools.exe --quiet --wait --norestart --n
     --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended`
     --installPath C:\BuildTools
 
+#Enable long paths
+New-ItemProperty `
+    -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
+    -Name "LongPathsEnabled" `
+    -Value 1 `
+    -PropertyType DWORD `
+    -Force
+
 #Install git
 ENV ChocolateyUseWindowsCompression false 
 RUN powershell Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
