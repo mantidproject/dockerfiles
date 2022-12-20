@@ -28,12 +28,12 @@ RUN C:\TEMP\Install.cmd C:\TEMP\vs_buildtools.exe --quiet --wait --norestart --n
     --installPath C:\BuildTools
 
 #Enable long paths
-New-ItemProperty `
-    -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
-    -Name "LongPathsEnabled" `
-    -Value 1 `
-    -PropertyType DWORD `
-    -Force
+RUN powershell New-ItemProperty `
+                   -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
+                   -Name "LongPathsEnabled" `
+                   -Value 1 `
+                   -PropertyType DWORD `
+                   -Force
 
 #Install git
 ENV ChocolateyUseWindowsCompression false 
@@ -46,21 +46,6 @@ RUN powershell Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
 COPY create_bashrc.bat C:\TEMP\
 RUN powershell Start-Process -FilePath 'C:\TEMP\create_bashrc.bat'
 ENV BASH_ENV C:\Users\Jenkins\.bashrc
-
-# Create source, build, and external data directories.
-RUN mkdir C:\jenkins_workdir\mantid_src
-RUN mkdir C:\jenkins_workdir\mantid_build
-RUN mkdir C:\jenkins_workdir\mantid_data
-RUN mkdir C:\jenkins_workdir\ccache
-
-# Allow mounting source, build, data and ccache directories
-VOLUME C:\jenkins_workdir\mantid_src
-VOLUME C:\jenkins_workdir\mantid_build
-VOLUME C:\jenkins_workdir\mantid_data
-VOLUME C:\jenkins_workdir\ccache
-
-# Set default working directory to build directory
-WORKDIR C:\jenkins_workdir\mantid_build
 
 # Start the agent process
 ENTRYPOINT ["powershell.exe", "-f", "C:/ProgramData/Jenkins/jenkins-agent.ps1"]
