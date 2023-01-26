@@ -83,7 +83,7 @@ Server: Mirantis Container Runtime
 5. Confirm that the image has successfully been built viewing the output from `docker images`
 6. Create a container from the image using the command:
    ```sh
-   start-Job -ScriptBlock {docker run --name <virtual machine name> --storage-opt "size=250GB" isiscloudwin1 -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <virtual machine name>}`
+   docker run -d --name <virtual machine name> --storage-opt "size=250GB" isiscloudwin1 -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <virtual machine name>
    ```
 
    This command runs in the background, so don’t expect output.
