@@ -70,25 +70,28 @@ Server: Mirantis Container Runtime
 ## Set up Node on Jenkins
 
 1. Using the `jenkins` web UI (https://builds.mantidproject.org/), navigate to `Manage Jenkins` then `Manage nodes and clouds` under `System Configuration`.
-2. On the side bar, select `New Node`. Enter the Node name which should be the same as the virtual machine name.
-3. Select the `Copy Existing Node` radio button. Type `isiscloudwin1` into the emergent text box and click `Create` then `Save`.
+2. On the side bar, select `New Node`. Enter the Node name using the naming convention <virtual machine name>-<n>, <n> being the node index base 1 to be hosted on that VM.
+3. Select the `Copy Existing Node` radio button. Type `isiscloudwin1-1` into the emergent text box and click `Create` then `Save`.
 4. Take note of the jenkins secret, an encryption key stated after `-secret` in the code box entitled `Run from agent command line`. This key will be needed to enable access to Jenkins.
 
-## Build Image and Create container
+## Build Image (Only required upon the setting up of the first windows node, or following an change to the image).
 
 1. Clone the `mantidproject/dockerfiles` repository. 
 2. Open `powershell` in administrator mode.
 3. `cd` into `<dockerfiles root path>\ Windows\jenkins-node`
-4. Run `docker build -t <virtual machine name> -f Win.Dockerfile .`
+4. Run `docker build -t <docker image name> -f Win.Dockerfile .`
 5. Confirm that the image has successfully been built viewing the output from `docker images`
-6. Create a container from the image using the command:
+
+## Create container
+1. Open `powershell` in administrator mode.
+2. `cd` into `<dockerfiles root path>\ Windows\jenkins-node`
+3. Create a container from the image using the command:
    ```sh
-   docker run -d --name <virtual machine name> --storage-opt "size=250GB" isiscloudwin1 -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <virtual machine name>
+   docker run -d --name <cloud node name> --storage-opt "size=250GB" <docker image name> -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
    ```
 
-   This command runs in the background, so don’t expect output.
-7. Confirm that the container has been created and is listed as running using `docker container ps -a`.
-8. To SSH into the container to access the command line, `docker exec -it isiscloudwin1 cmd` can be used.
+4. Confirm that the container has been created and is listed as running using `docker container ps -a`.
+5. To SSH into the container to access the command line, `docker exec -it isiscloudwin1 cmd` can be used.
 
 ## Testing the new node
 
