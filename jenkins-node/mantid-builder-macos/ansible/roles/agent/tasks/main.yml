@@ -1,0 +1,48 @@
+---
+
+- name: Deploy Jenkins agent on macOS
+  tasks:
+    # Install Requirements
+    
+    - name: Install homebrew
+      include_role:
+        name: geerlingguy.mac.homebrew
+
+    - name: Make sure homebrew bin is in the path
+      ansible.builtin.lineinfile:
+        path: /etc/paths
+        state: present
+        line: '/opt/homebrew/bin'
+      become: true
+      become_user: root
+
+    - name: Install git
+      community.general.homebrew:
+        name: git
+        state: latest
+
+    - name: Install Java 11
+      community.general.homebrew:
+        name: java11
+        state: present
+
+    # Configure macOS Settings
+
+    - name: Disable screensaver
+      shell: defaults write com.apple.screensaver idleTime 0
+
+    - name: Disable saved application states to avoid dialog
+      shell: defaults write org.python.python NSQuitAlwaysKeepsWindows -bool false
+        
+    # TODO: Disable autolock (this seems to change between versions, so might not be possible to script)
+    
+    - name: Download jenkins slave script
+      shell: curl -o ~/jenkins-slave.sh https://raw.githubusercontent.com/mantidproject/mantid/main/buildconfig/Jenkins/jenkins-slave.sh
+    
+    - name: Start script as chrontab entry
+      ansible.builtin.cron:
+        name: "Run slave script"
+        minute: "*/5"
+        job: "$HOME/jenkins-slave.sh {{ agent_name }} {{ agent_secret }}"
+
+
