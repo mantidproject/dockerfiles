@@ -2,6 +2,10 @@
 # Deploy Jenkins agent on macOS
 
 # Install Requirements
+
+- name: Add user to sudoers on new macs
+  shell: /Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add
+  ignore_errors: true  # Not all the macs have these, so don't panic if it fails.
     
 - name: Install homebrew
   include_role:
@@ -43,5 +47,9 @@
     name: "Run slave script"
     minute: "*/5"
     job: "$HOME/jenkins-slave.sh {{ agent_name }} {{ agent_secret }}"
+
+- name: Remove user from sudoers on new macs
+  shell: /Applications/Privileges.app/Contents/Resources/PrivilegesCLI --remove
+  ignore_errors: true  # Not all the macs have these, so don't panic if it fails.
 
 
