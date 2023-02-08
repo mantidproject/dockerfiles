@@ -3,7 +3,7 @@
 
 # Install Requirements
 
-- name: Add user to sudoers on new macs
+- name: Add user to sudoers on new macs.
   shell: /Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add
   ignore_errors: true  # Not all the macs have these, so don't panic if it fails.
     
@@ -11,7 +11,7 @@
   include_role:
     name: geerlingguy.mac.homebrew
 
-- name: Make sure homebrew bin is in the path
+- name: Make sure homebrew bin is in the path.
   ansible.builtin.lineinfile:
     path: /etc/paths
     state: present
@@ -19,37 +19,43 @@
   become: true
   become_user: root
 
-- name: Install git
+- name: Install git.
   community.general.homebrew:
     name: git
     state: latest
 
-- name: Install Java 11
+- name: Install Java 11.
   community.general.homebrew:
     name: java11
     state: present
 
-# Configure macOS Settings
+# Configure macOS Settings.
 
-- name: Disable screensaver
+- name: Disable screensaver.
   shell: defaults write com.apple.screensaver idleTime 0
 
-- name: Disable saved application states to avoid dialog
+- name: Disable saved application states to avoid dialog.
   shell: defaults write org.python.python NSQuitAlwaysKeepsWindows -bool false
-        
-# TODO: Disable autolock (this seems to change between versions, so might not be possible to script)
-    
-- name: Download jenkins slave script
-  shell: curl -o ~/jenkins-slave.sh https://raw.githubusercontent.com/mantidproject/mantid/main/buildconfig/Jenkins/jenkins-slave.sh
 
-- name: Start script as chrontab entry
+# Test and start the agent. Note: Connection will only begin consistently every 5th minute if changes are made.
+
+- name: Download jenkins slave script.
+  shell: curl -o $HOME/jenkins-slave.sh https://raw.githubusercontent.com/mantidproject/mantid/main/buildconfig/Jenkins/jenkins-slave.sh
+
+- name: Make the slave script executable.
+  shell: chmod 777 $HOME/jenkins-slave.sh
+
+- name: Check the Jenkins agent connection script.
+  script: ./check-connection.sh {{ agent_name }} {{ agent_secret }}
+
+- name: Setup a chrontab entry to run the agent script every 5th minute.
   ansible.builtin.cron:
     name: "Run slave script"
     minute: "*/5"
     job: "$HOME/jenkins-slave.sh {{ agent_name }} {{ agent_secret }}"
 
-- name: Remove user from sudoers on new macs
+# Tidy up the evironment.
+
+- name: Remove user from sudoers on new macs.
   shell: /Applications/Privileges.app/Contents/Resources/PrivilegesCLI --remove
   ignore_errors: true  # Not all the macs have these, so don't panic if it fails.
-
-
