@@ -15,19 +15,24 @@ There are few steps that need to be manually taken on a brand new machine before
 
 - Login to the provided administrator account.
 - Set up a `mantidbuilder` user on the new machine:
-  - Open the `System Preferences -> Users & Groups` menu.
-  - Press the `+` button below the list of users and add a new administrator account. Use `mantidbuilder` for both the name fields and provide a strong password.
+
+    - Open the `System Preferences -> Users & Groups` menu.
+    - Press the `+` button below the list of users and add a new administrator account. Use `mantidbuilder` for both the name fields and provide a strong password.
+
 - Enable remote access:
-  - Open `System Preferences -> Sharing`.
-  - Enable `Remote Login` for all users and allow full disk access.
-  - Make a note of the `ssh` login instructions, especially the hostname after the `@`.
-  - Store the chosen password and the hostname in the `ISIS Jenkins Nodes` file in Keeper.
-  - Enable `Remote Management` for all users.
+
+    - Open `System Preferences -> Sharing`.
+    - Enable `Remote Login` for all users and allow full disk access.
+    - Make a note of the `ssh` login instructions, especially the hostname after the `@`.
+    - Store the chosen password and the hostname in the `ISIS Jenkins Nodes` file in Keeper.
+    - Enable `Remote Management` for all users.
+
 - Set security settings to allow for builds and consistent access:
-  - Open `System Preferences -> Security & Privacy`.
-  - In `General`, untick the `Require password [...] after sleep or screensaver begins` checkbox.
-  - In `FileVault` press the button to `Turn Off FileVault`.
-    - FileVault encrypts the contents of the disk until the first login. This means that the `ssh` service is not started until someone logs in on the physical machine, which makes the machine a pain to access after reboot.
+
+    - Open `System Preferences -> Security & Privacy`.
+    - In `General`, untick the `Require password [...] after sleep or screensaver begins` checkbox.
+    - In `FileVault` press the button to `Turn Off FileVault`.
+        - FileVault encrypts the contents of the disk until the first login. This means that the `ssh` service is not started until someone logs in on the physical machine, which makes the machine a pain to access after reboot.
 
 ## Jenkins Controller Node Creation
 
@@ -49,28 +54,32 @@ The ansible scripts will set up the machine and connect it to the Jenkins contro
 1. If you already have the `ansible-linode` repo and associated conda environment, activate it and skip to step 4.
 2. Clone the [`mantidproject/ansible-linode`](https://github.com/mantidproject/ansible-linode) repo.
 3. Navigate to the base of the cloned repo and run:
-  - `mamba create --prefix ./condaenv ansible`
-  - `mamba activate ./condaenv`
-  - Note: You can activate the environment from anywhere by providing the full path to the `condaenv` directory.
+
+    - `mamba create --prefix ./condaenv ansible`
+    - `mamba activate ./condaenv`
+    - Note: You can activate the environment from anywhere by providing the full path to the `condaenv` directory.
+
 4. Clone the [`dockerfiles`](https://github.com/mantidproject/dockerfiles) repo and navigate to `jenkins-node/mantid-builder-macos/ansible`.
 5. Install the required collections from Ansible Galaxy by running:
-  - `ansible-galaxy install -r requirements.yml`
+    - `ansible-galaxy install -r requirements.yml`
 6. Time to use that secret you made a note of. Create an `inventory.txt` file with the details of the machines to deploy to (one per line):
-```ini
-[all]
-<IP_ADDRESS_OR_HOSTNAME_1> agent_name=<NAME_OF_AGENT_ON_JENKINS_1> agent_secret=<SECRET_DISPLAYED_ON_CONNECTION_SCREEN_1>
-<IP_ADDRESS_OR_HOSTNAME_2> agent_name=<NAME_OF_AGENT_ON_JENKINS_2> agent_secret=<SECRET_DISPLAYED_ON_CONNECTION_SCREEN_2>
-```
-If you've forgotten the secret, it can be found under `Environment Variables` in the `System Information` section of the agent.
+
+    ```ini
+    [all]
+    <IP_ADDRESS_OR_HOSTNAME_1> agent_name=<NAME_OF_AGENT_ON_JENKINS_1> agent_secret=<SECRET_DISPLAYED_ON_CONNECTION_SCREEN_1>
+    <IP_ADDRESS_OR_HOSTNAME_2> agent_name=<NAME_OF_AGENT_ON_JENKINS_2> agent_secret=<SECRET_DISPLAYED_ON_CONNECTION_SCREEN_2>
+    ```
+
+    If you've forgotten the secret, it can be found under `Environment Variables` in the `System Information` section of the agent.
 
 ### Running the Script to Deploy the Agent
 
 1. Run the playbook to deploy to all the machines defined in your `inventory.txt` file:
 
-```sh
-ansible-playbook -i inventory.txt jenkins-agent.yml -u mantidbuilder -K
-```
+    ```sh
+    ansible-playbook -i inventory.txt jenkins-agent.yml -u mantidbuilder -K
+    ```
 
 2. When prompted, enter the agent's password that you made earlier. If you weren't the one who made the password, it should be in the `ISIS Jenkins Nodes` file on Keeper.
 3. Wait for the play to complete and visit `https://builds.mantidproject.org/computer/NAME_OF_AGENT_ON_JENKINS`. The agent should be connected within five minutes.
-  - Note: The agent is kept connected to the controller by a crontab entry that runs on every 5th minute. This means that on first setup the note may not connect until a minute divisible by five has passed. 
+    - Note: The agent is kept connected to the controller by a crontab entry that runs on every 5th minute. This means that on first setup the note may not connect until a minute divisible by five has passed. 
