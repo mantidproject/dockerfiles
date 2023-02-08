@@ -1,12 +1,14 @@
 ---
 # Deploy Jenkins agent on macOS
 
-# Install Requirements
+# Set up the environment
 
 - name: Add user to sudoers on new macs.
   shell: /Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add
   ignore_errors: true  # Not all the macs have these, so don't panic if it fails.
     
+# Install Requirements
+
 - name: Install homebrew
   include_role:
     name: geerlingguy.mac.homebrew
