@@ -3,6 +3,5 @@
 
   roles:
     - role: agent
-      become: yes
       tags: "agent"
 
