@@ -6,10 +6,19 @@ ARG CPPCHECK_VERSION=2.5
 # Define a local name
 FROM neszt/cppcheck-docker:${CPPCHECK_VERSION} AS upstream_cppcheck
 
+#Add label for transparency
+LABEL org.opencontainers.image.source https://github.com/mantidproject/dockerfiles
+
 # Base
 # CentOS 7 matches platform used by conda-forge
 FROM centos:7
 
+# Install IUS repo for additional yum installs (e.g. git v2 onwards)
+# Install EPEL repo as IUS repo has some dependencies on it
+RUN yum install -y \
+  https://repo.ius.io/ius-release-el7.rpm && \
+  yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+  
 # Add target user
 RUN useradd --uid 911 --user-group --shell /bin/bash --create-home abc
 
@@ -17,17 +26,15 @@ RUN useradd --uid 911 --user-group --shell /bin/bash --create-home abc
 RUN yum install -y \
   ccache \
   curl \
-  git \
+  git236 \
   graphviz \
   libXScrnSaver \
+  openssl \
   pciutils-libs \
   perl-Digest-MD5 \
-  python36-pip \
   sudo \
   which \
   xorg-x11-server-Xvfb && \
-  # Install pre-commit
-  python3 -m pip install pre-commit && \
   # Clean up
   rm -rf /tmp/* /var/tmp/*
 
@@ -42,7 +49,7 @@ ENV INFOPATH=$INFOPATH:/usr/local/texlive/2022/texmf-dist/doc/info
 
 #install anyfontsize package
 RUN tlmgr install anyfontsize
-
+  
 # Copy in cppcheck
 COPY --from=upstream_cppcheck /usr/bin/cppcheck /usr/local/bin/
 COPY --from=upstream_cppcheck /usr/bin/cppcheck-htmlreport /usr/local/bin/
@@ -66,7 +73,7 @@ VOLUME ["/mantid_src", "/mantid_build", "/mantid_data", "/ccache"]
 WORKDIR /mantid_build
 
 # Fixes "D-Bus library appears to be incorrectly set up;" error
-RUN dbus-uuidgen > /var/lib/dbus/machine-id
+RUN dbus-uuidgen > /var/lib/dbus/machine-id 
 
 # Run as abc user on starting the container
 ADD entrypoint.sh /entrypoint.sh
