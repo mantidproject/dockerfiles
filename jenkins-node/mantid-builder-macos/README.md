@@ -82,4 +82,4 @@ The ansible scripts will set up the machine and connect it to the Jenkins contro
 
 2. When prompted, enter the agent's password that you made earlier. If you weren't the one who made the password, it should be in the `ISIS Jenkins Nodes` file on Keeper.
 3. Wait for the play to complete and visit `https://builds.mantidproject.org/computer/NAME_OF_AGENT_ON_JENKINS`. The agent should be connected within five minutes.
-    - Note: The agent is kept connected to the controller by a crontab entry that runs on every 5th minute. This means that on first setup the note may not connect until a minute divisible by five has passed. 
+    - Note: The agent is kept connected to the controller by a crontab entry that runs on every 5th minute. This means that on first setup the agent may not connect until a minute divisible by five has passed. 
