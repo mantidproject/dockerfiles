@@ -35,7 +35,7 @@ Before setting up a cloud Windows Jenkins node, you will need to have the follow
 ## Install Docker
 
 1. Open `powershell` in administrator mode. Run `Set-ExecutionPolicy Bypass -Scope Process -Force`.
-1. Run `Install-Module -Name DockerMsftProvider -Repository PSGallery -Force`. This is the provider than will enable access to the docker online package repository.
+1. Run `Install-Module -Name DockerMsftProvider -Repository PSGallery -Force`. This is the provider that will enable access to the docker online package repository.
 3. Check the `DockerMsftProvider` module has been installed by checking the output of `Get-PackageProvider -ListAvailable`.
 4. Run `Install-Package -Name docker -ProviderName DockerMsftProvider` to install `docker`.
 5. Check that the docker package has been installed using `Get-Package -Name Docker -ProviderName DockerMsftProvider`.
