@@ -8,7 +8,7 @@ Before setting up a cloud Windows Jenkins node, you will need to have the follow
 
 - Admin access to the cloud Windows virtual machine to host the node.
 - Admin access to Jenkins.
-- Read access to the `mantidproject/dockerfiles` repository.
+- Read access to the `mantidproject/dockerfiles` repository (https://github.com/mantidproject/dockerfiles).
 
 ## Connect to the windows cloud virtual machine
 
