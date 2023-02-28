@@ -1,9 +1,9 @@
 ---
 interactive_users:
-  # Martyn Gigg
-  - username: dmn58364
+  # Conor Finn
+  - username: mkq48465
     sudoer: true
-    ssh_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDMiTatvlc3qbH6a9u0Fq0WjTvm/wHItGQlmif9juwrvWUk3hbDIAJoXs2qrvU4qBlHP3GlnJvIcuVEjk5UCH+MrL7aFM7D9j6SkuvHEKss/JZF9TRO08z0/i7r7xmrPNSOHhZc2NlMLDOzkaXAWEvf2X0TLNo9NIwZlVK+rAnUSVkNpnzHDwrxNwhhxwOB71Y65LYFhdOjbuw6JV0B1ssIdLWoypdOj2ooJS27h+XM2RRE5JBeQzQIII/mPVIXcbfyo/1VlZt9f/pPy3EOz9XPisU/109UDJ70vvsEr3LXAWMpUPOoPK5HCVQAX2YbK17I1RJX/HVgHT+oUpA12InGZLqGuDqclqGoGX7J9bFX97AG8VnpuQUUOFloNfJo/OZZUwSoPcobDKhr9gDcGKPIUomeIlAef8cLtRSWTIjj/k7j95CbCri8hwg+BKGVpr57ZidAWhuHtdKbTK8nALj8PkzC8Q+/2AAbgdtmrqfuw6//A7iAarLomqY+IbTuZx0= dmn58364@NDLT1369MAC"
+    ssh_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC20VCiUGDsTcOjrKuPG6LsoN3Q3pLFcndV0jwfUBR3O0p2EszPSEsZimq3+wU5JR1IxWcX6lnB7LgePoIs/QHkEaaBn7C1W1/hv+GP3GDaj27u/DHGmbWJpbgD7PPpoD18DL0XM2T9H80SNWfWKOb39yC8uEONSYos7vHP+0abpZo/+VTy0RUu/YFoMi8CugsnGeMeyOha4lEjkc0SBD+ZF53awovsIjKFIIx8AnnUFpdPJ3vliUfXusq+dZQac4XDkuZ3hoLnNRLPKezkQRsrGgABcCvddN7zDSQy59y/BX1CU9pSooXXAEAzH8eMeOSpYfLtxQca3au4hRxzkNcQE1JNDPiN7spYzLjMxQNwCaQ7OJnE57v4kPwrkkB4Ep326bsvvucdxY+B6RLmp51dnQGUvie7PsgS7s6Q51k2JcWgLaxRuvfpSOWaHPIbITar8+BfIPF+5DhiELGSIlShtVlrkxrYXO1ggvgaojfAhKV1SxabGeuOVEsRAzOSwBc= conor.finn@NDLT1581MAC"
 
   # Sarah Foxley
   - username: ekg26817
