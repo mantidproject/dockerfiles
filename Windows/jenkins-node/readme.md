@@ -85,7 +85,7 @@ Server: Mirantis Container Runtime
 2. `cd` into `<dockerfiles root path>\Windows\jenkins-node`
 3. Create a container from the image using the command:
    ```sh
-   docker run -d --name <cloud node name> --storage-opt "size=250GB" <docker image name> -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
+   docker run -d --name <cloud node name> --storage-opt "size=250GB" --restart on-failure:3 <docker image name> -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
    ```
 
 4. Confirm that the container has been created and is listed as running using `docker container ps -a`.
@@ -102,3 +102,56 @@ Server: Mirantis Container Runtime
 7. If the node is not running the job, there may be other nodes with the `win-64-cloud-test` label. Either bring these other nodes offline (ensuring they are not undertaking any jobs) or raise the `Preference Score` of the desired node via `Configure` and rerun the job.
 8. From the menu on the left-hand side of the page, select `Script Console`, ensure that the job status is successful upon conclusion, and that all the tests pass (note that the job status cannot solely be relied upon).
 9. Finally, change the label on the node back to `win-64-cloud` via `Configure` (and reset the preference score if applicable). This will enable the node to take part in the CI/CD pipeline.
+
+# Cloud Windows Jenkins Node Troubleshooting
+
+## First response to failure
+
+If a cloud windows Jenkins node has run into issues, the first port of call should be to stop, remove, and rerun the docker container:
+
+### Bring the node offline
+
+1. Log in to the `Jenkins` web UI (https://builds.mantidproject.org/), navigate to `Manage Jenkins`, then `Manage nodes and clouds` under `System Configuration`.
+2. On the `Manage nodes and clouds` page of Jenkins, select the node in question from the table.
+3. Ensure the node is offline if it isn't already: If `Mark this node temporarily offline` is available on the right of screen, select it.
+
+### Restart the container and bring back online
+
+4. On your local machine, connect to the VM hosting the node in question using the instructions outlined [previously](##-connect-to-the-windows-cloud-virtual-machine).
+5. Open `powershell` in administrator mode.
+6. Stop the container: `docker stop <cloud node name>`.
+7. Remove the container: `docker rm <cloud node name>`.
+8. Run the container: 
+   ```sh
+   docker run -d --name <cloud node name> --storage-opt "size=250GB" --restart on-failure:3 <docker image name> -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
+   ```
+
+9. Confirm that the container has been created and is listed as running using `docker container ps -a`.
+10. On the `Jenkins` web UI, refresh the page and ensure that `Agent is connected` is displayed. Click `Bring this node back online`.
+
+## Upon continued failure
+
+If a cloud windows Jenkins node continues to fail having been rerun, the issue may be with the VM which is hosting it. To restart this VM:
+
+1. Bring the node offline as detailed [previously](###-bring-the-node-offline).
+2. On your local machine, connect to the VM hosting the node in question using the instructions outlined [previously](##-connect-to-the-windows-cloud-virtual-machine).
+3. Using the start menu, simply click the power symbol and select `Restart`.
+4. After a short period, [restart the container and bring back online](###-restart-the-container-and-bring-back-online)
+
+## Upon failure to restart
+
+If the virtual machine fails to come back online after restart, or if issues persist after restart, the VM should be restarted via the `Virtual Machine Manager Console` (VMMC):
+
+### Install the VMMC
+
+1. Access `\\FITCLOUDVMMSB2\VMM2016ConsoleInstall$`. If you cannot access this file location, you will have to be granted permissions: please contact a member of the RAL Mantid Devops team.
+2. In the subdirectory `BaseInstallVMM2016` run `setup.exe`. Select `Install`, then all defaults as you progress through the installation.
+3. After a successful install, navigate to the second subdirectory `LatestConsoleUR` and run `UR7_kb4496921_AdminConsole_amd64.smp`. This will install the latest update.
+
+### Using the VMMC
+1. Start the VMMC from the start menu.
+2. Enter `fitcloudbase.isis.cclrc.ac.uk:8100` as the `Server Name` and select the `Specify credentials` radio button and log in with your FED ID/password (no need to specify a domain). If unable to login please contact a member of the RAL Mantid Devops team as you may need to be granted permissions.
+3. Upon successful login, the console will open. On the `VMs and Services pane` on the left hand side, under the `Clouds` collapsible header, you will see three clouds: `F5GALAXY Cloud`, `F6GALAXY Cloud` and `F7GALAXY Cloud`.
+4. Our VMs are hosted on `F6GALAXY Cloud` and `F7GALAXY Cloud`. As you click on the clouds, the VMs hosted on that cloud will appear in the main central pane. Find and select the VM in question.
+5. Having selected the VM, on the task bar click `reset`. You will be promoted with a warning - click `OK if you want to proceed with a reset of the VM`.
+6. After a short period follow reset of the VM, [restart the container and bring back online](###-restart-the-container-and-bring-back-online).
