@@ -117,26 +117,26 @@ If a cloud windows Jenkins node has run into issues, the first port of call shou
 
 ### Restart the container and bring back online
 
-4. On your local machine, connect to the VM hosting the node in question using the instructions outlined [previously](##-connect-to-the-windows-cloud-virtual-machine).
-5. Open `powershell` in administrator mode.
-6. Stop the container: `docker stop <cloud node name>`.
-7. Remove the container: `docker rm <cloud node name>`.
-8. Run the container: 
+1. On your local machine, [connect to the VM hosting the node in question using the instructions outlined](##-connect-to-the-windows-cloud-virtual-machine).
+2. Open `powershell` in administrator mode.
+3. Stop the container: `docker stop <cloud node name>`.
+4. Remove the container: `docker rm <cloud node name>`.
+5. Run the container: 
    ```sh
    docker run -d --name <cloud node name> --storage-opt "size=250GB" --restart on-failure:3 <docker image name> -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
    ```
 
-9. Confirm that the container has been created and is listed as running using `docker container ps -a`.
-10. On the `Jenkins` web UI, refresh the page and ensure that `Agent is connected` is displayed. Click `Bring this node back online`.
+6. Confirm that the container has been created and is listed as running using `docker container ps -a`.
+7. On the `Jenkins` web UI, refresh the page and ensure that `Agent is connected` is displayed. Click `Bring this node back online`.
 
 ## Upon continued failure
 
 If a cloud windows Jenkins node continues to fail having been rerun, the issue may be with the VM which is hosting it. To restart this VM:
 
-1. Bring the node offline as detailed [previously](###-bring-the-node-offline).
-2. On your local machine, connect to the VM hosting the node in question using the instructions outlined [previously](##-connect-to-the-windows-cloud-virtual-machine).
+1. Bring the node offline as detailed in the above [section](###-bring-the-node-offline).
+2. On your local machine, [connect to the VM hosting the node in question](##-connect-to-the-windows-cloud-virtual-machine).
 3. Using the start menu, simply click the power symbol and select `Restart`.
-4. After a short period, [restart the container and bring back online](###-restart-the-container-and-bring-back-online)
+4. After a short period, [restart the container and bring it back online](###-restart-the-container-and-bring-back-online)
 
 ## Upon failure to restart
 
@@ -153,5 +153,5 @@ If the virtual machine fails to come back online after restart, or if issues per
 2. Enter `fitcloudbase.isis.cclrc.ac.uk:8100` as the `Server Name` and select the `Specify credentials` radio button and log in with your FED ID/password (no need to specify a domain). If unable to login please contact a member of the RAL Mantid Devops team as you may need to be granted permissions.
 3. Upon successful login, the console will open. On the `VMs and Services pane` on the left hand side, under the `Clouds` collapsible header, you will see three clouds: `F5GALAXY Cloud`, `F6GALAXY Cloud` and `F7GALAXY Cloud`.
 4. Our VMs are hosted on `F6GALAXY Cloud` and `F7GALAXY Cloud`. As you click on the clouds, the VMs hosted on that cloud will appear in the main central pane. Find and select the VM in question.
-5. Having selected the VM, on the task bar click `reset`. You will be promoted with a warning - click `OK if you want to proceed with a reset of the VM`.
-6. After a short period follow reset of the VM, [restart the container and bring back online](###-restart-the-container-and-bring-back-online).
+5. Having selected the VM, on the task bar click `reset`. You will be promoted with a warning - click `OK` if you want to proceed with a reset of the VM.
+6. After a short period following reset of the VM, [restart the container and bring it back online](###-restart-the-container-and-bring-back-online).
