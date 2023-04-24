@@ -21,7 +21,7 @@ RUN yum install -y \
   git236 \
   graphviz \
   libXScrnSaver \
-  make \
+  openssl \
   pciutils-libs \
   perl-Digest-MD5 \
   sudo \
