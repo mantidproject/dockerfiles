@@ -21,9 +21,10 @@ RUN yum install -y \
   git236 \
   graphviz \
   libXScrnSaver \
-  openssl \
+  make \
   pciutils-libs \
   perl-Digest-MD5 \
+  perl-IPC-Cmd \
   sudo \
   wget \
   which \
@@ -31,7 +32,7 @@ RUN yum install -y \
   # Clean up
   rm -rf /tmp/* /var/tmp/* 
 
-# Install patched version of OpenSSL (v1.1.1t)
+# Install patched version of OpenSSL (v3.1.0)
 COPY ./install_openssl.sh /tmp/
 RUN bash /tmp/install_openssl.sh && \
    rm -rf /OpenSSL
