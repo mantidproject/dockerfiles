@@ -28,6 +28,7 @@ ENV AGENT_WORKDIR=/jenkins_workdir
 
 # Startup script to run on container launch
 COPY jenkins_agent /usr/share/jenkins/agent.sh
+chmod 755 /usr/share/jenkins/agent.sh
 
 # Allow mounting as a volume
 VOLUME ["/jenkins_workdir"]
