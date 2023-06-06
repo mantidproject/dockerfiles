@@ -34,6 +34,12 @@ There are few steps that need to be manually taken on a brand new machine before
     - In `FileVault` press the button to `Turn Off FileVault`.
         - FileVault encrypts the contents of the disk until the first login. This means that the `ssh` service is not started until someone logs in on the physical machine, which makes the machine a pain to access after reboot.
 
+- Install XCode Command Line Tools:
+
+    - Launch a terminal.
+    - Run `xcode-select --install`.
+    - Wait for the popup to appear and click `Install`.
+
 ## Jenkins Controller Node Creation
 
 - Provision a new node in [Jenkins](https://builds.mantidproject.org/computer) with the following changes:
@@ -74,6 +80,7 @@ The ansible scripts will set up the machine and connect it to the Jenkins contro
 
 ### Running the Script to Deploy the Agent
 
+1. Add your SSH key to the host by running `ssh-copy-id mantidbuilder@<HOSTNAME>` in a terminal.
 1. Run the playbook to deploy to all the machines defined in your `inventory.txt` file:
 
     ```sh
@@ -82,4 +89,11 @@ The ansible scripts will set up the machine and connect it to the Jenkins contro
 
 2. When prompted, enter the agent's password that you made earlier. If you weren't the one who made the password, it should be in the `ISIS Jenkins Nodes` file on Keeper.
 3. Wait for the play to complete and visit `https://builds.mantidproject.org/computer/NAME_OF_AGENT_ON_JENKINS`. The agent should be connected within five minutes.
+
     - Note: The agent is kept connected to the controller by a crontab entry that runs on every 5th minute. This means that on first setup the agent may not connect until a minute divisible by five has passed. 
+
+
+## Troubleshooting
+
+- You may need to log in manually or by using VNC at least once to allow the ansible script to run. This can be due to FireVault blocking SSH connections until the machine is unlocked.
+    - To make use of VNC from a mac: Open finder and press `Cmd+K`, then enter `vnc://<HOSTNAME>`. Use the `mantidbuilder` login for the machine.
