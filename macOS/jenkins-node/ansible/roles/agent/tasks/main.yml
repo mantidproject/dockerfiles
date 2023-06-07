@@ -26,6 +26,17 @@
     name: git
     state: latest
 
+- name: Install gnu-tar.
+  community.general.homebrew:
+    name: gnu-tar
+    state: present
+
+- name: Ensure that gnu-tar has been added to the path
+  ansible.builtin.lineinfile:
+    path: ~/.zshenv
+    line: export PATH="/opt/homebrew/opt/gnu-tar/libexec/gnubin:$PATH"
+    create: true
+
 - name: Install Java 11.
   community.general.homebrew:
     name: java11
@@ -36,11 +47,33 @@
   become: true
   become_user: root
 
-- name: Ensure that the java install has been added to the path
+- name: Ensure that the java install has been added to the path.
   ansible.builtin.lineinfile:
     path: ~/.zshrc
     line: export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
     create: true
+
+- name: Download the Mac SDK.
+  ansible.builtin.get_url:
+    url: https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.10.sdk.tar.xz
+    dest: ~/
+    mode: '777'
+    force: true
+
+- name: Unarchive the Mac SDK.
+  ansible.builtin.unarchive:
+    src: ~/MacOSX10.10.sdk.tar.xz
+    dest: ~/
+    remote_src: yes
+
+- name: Move the Mac SDK into opt
+  shell: mv /Users/mantidbuilder/MacOSX10.10.sdk /opt
+  become: true
+
+- name: Remove the downloaded Mac SDK's Tarball.
+  ansible.builtin.file:
+    path: ~/MacOSX10.10.sdk.tar.xz
+    state: absent
 
 # Configure macOS Settings.
 
