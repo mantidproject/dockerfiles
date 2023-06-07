@@ -26,54 +26,17 @@
     name: git
     state: latest
 
-- name: Install gnu-tar.
-  community.general.homebrew:
-    name: gnu-tar
-    state: present
+- name: Install and Set up Java 11
+  include_tasks: java11.yml
 
-- name: Ensure that gnu-tar has been added to the path
-  ansible.builtin.lineinfile:
-    path: ~/.zshenv
-    line: export PATH="/opt/homebrew/opt/gnu-tar/libexec/gnubin:$PATH"
-    create: true
-
-- name: Install Java 11.
-  community.general.homebrew:
-    name: java11
-    state: present
-
-- name: Symlink Java 11.
-  shell: ln -sfn /opt/homebrew/opt/openjdk@11/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-11.jdk
-  become: true
-  become_user: root
-
-- name: Ensure that the java install has been added to the path.
-  ansible.builtin.lineinfile:
-    path: ~/.zshrc
-    line: export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
-    create: true
-
-- name: Download the Mac SDK.
-  ansible.builtin.get_url:
-    url: https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.10.sdk.tar.xz
-    dest: ~/
-    mode: '777'
-    force: true
-
-- name: Unarchive the Mac SDK.
-  ansible.builtin.unarchive:
-    src: ~/MacOSX10.10.sdk.tar.xz
-    dest: ~/
-    remote_src: yes
-
-- name: Move the Mac SDK into opt
-  shell: mv /Users/mantidbuilder/MacOSX10.10.sdk /opt
-  become: true
-
-- name: Remove the downloaded Mac SDK's Tarball.
-  ansible.builtin.file:
-    path: ~/MacOSX10.10.sdk.tar.xz
-    state: absent
+- name: Check for the MacOSX SDK
+  stat:
+    path: /opt/MacOSX10.10.sdk
+  register: sdk_stats
+  
+- name: Download and Install MacOSX SDK
+  include_tasks: mac-sdk.yml
+  when: not sdk_stats.stat.exists
 
 # Configure macOS Settings.
 
@@ -85,22 +48,10 @@
 
 # Test and start the agent. Note: Connection will only begin consistently every 5th minute if changes are made.
 
-- name: Download jenkins slave script.
-  shell: curl -o $HOME/jenkins-slave.sh https://raw.githubusercontent.com/mantidproject/mantid/main/buildconfig/Jenkins/jenkins-slave.sh
+- name: Start the jenkins agent
+  include_tasks: start-jenkins-agent.yml
 
-- name: Make the slave script executable.
-  shell: chmod 777 $HOME/jenkins-slave.sh
-
-- name: Check the Jenkins agent connection script.
-  script: ./check-connection.sh {{ agent_name }} {{ agent_secret }}
-
-- name: Setup a chrontab entry to run the agent script every 5th minute.
-  ansible.builtin.cron:
-    name: "Run slave script"
-    minute: "*/5"
-    job: "$HOME/jenkins-slave.sh {{ agent_name }} {{ agent_secret }}"
-
-# Tidy up the evironment.
+# Tidy up the environment.
 
 - name: Remove user from sudoers on new macs.
   shell: /Applications/Privileges.app/Contents/Resources/PrivilegesCLI --remove
