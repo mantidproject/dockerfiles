@@ -72,24 +72,21 @@ Server: Mirantis Container Runtime
 4. The node configuration will appear, in the `Labels` input box append `-test` to `win-64-cloud` then click `Save`.
 5. Take note of the jenkins secret, an encryption key stated after `-secret` in the code box entitled `Run from agent command line`. This key will be needed to enable access to Jenkins.
 
-## Build Image (Only required upon the setting up of the first windows node on a VM, or following a change to the image).
+## Pull Image (Only required upon the setting up of the first windows node on a VM, or following a change to the image).
 
-1. Clone the `mantidproject/dockerfiles` repository (https://github.com/mantidproject/dockerfiles).
-2. Open `powershell` in administrator mode.
-3. `cd` into `<dockerfiles root path>\ Windows\jenkins-node`
-4. Run `docker build -t <docker image name> -f Win.Dockerfile .`
-5. Confirm that the image has successfully been built by viewing the output from `docker images`
+1. Open `powershell` in administrator mode.
+2. Run `docker pull ghcr.io/mantidproject/isiscloudwin:latest`
+3. Confirm that the image has successfully been pulled by viewing the output from `docker images`
 
 ## Create container
 1. Open `powershell` in administrator mode.
-2. `cd` into `<dockerfiles root path>\Windows\jenkins-node`
-3. Create a container from the image using the command:
+2. Create a container from the image using the command:
    ```sh
-   docker run -d --name <cloud node name> --storage-opt "size=250GB" --restart on-failure:3 <docker image name> -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
+   docker run -d --name <cloud node name> --storage-opt "size=250GB" ghcr.io/mantidproject/isiscloudwin:latest -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
    ```
 
-4. Confirm that the container has been created and is listed as running using `docker container ps -a`.
-5. To SSH into the container to access the command line, `docker exec -it <cloud node name> cmd` can be used.
+3. Confirm that the container has been created and is listed as running using `docker container ps -a`.
+4. To SSH into the container to access the command line, `docker exec -it <cloud node name> cmd` can be used.
 
 ## Testing the new node
 
