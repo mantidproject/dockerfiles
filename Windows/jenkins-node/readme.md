@@ -145,7 +145,7 @@ If the virtual machine fails to come back online after restart, or if issues per
 ### Install the VMMC
 
 1. Access `\\FITCLOUDVMMSB2\VMM2016ConsoleInstall$`. If you cannot access this file location, you will have to be granted permissions: please contact a member of the RAL Mantid Devops team.
-2. In the subdirectory `BaseInstallVMM2016` run `setup.exe`. Select `Install`, then all defaults as you progress through the installation.
+2. In the subdirectory `BaseInstallVMM2016` run `setup.exe`. Select `Install`, then `Add Features`, ticking the `VMM Console` checkbox. Follow the install through selecting all defaults as you progress.
 3. After a successful install, navigate to the second subdirectory `LatestConsoleUR` and run `UR7_kb4496921_AdminConsole_amd64.smp`. This will install the latest update.
 
 ### Using the VMMC
