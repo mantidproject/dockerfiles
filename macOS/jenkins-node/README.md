@@ -40,6 +40,11 @@ There are few steps that need to be manually taken on a brand new machine before
     - Run `xcode-select --install`.
     - Wait for the popup to appear and click `Install`.
 
+
+- Back on the machine you will be doing the deployment on, you will need to add your SSH key to the new mac:
+
+    - `ssh-copy-id mantidbuilder@<HOST>`
+
 ## Jenkins Controller Node Creation
 
 - Provision a new node in [Jenkins](https://builds.mantidproject.org/computer) with the following changes:
