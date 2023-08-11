@@ -18,6 +18,9 @@ We're running containers so the base operating system does not really matter.
 If in doubt choose the latest non-gui Ubuntu version. When selecting
 the resources for the machine we suggest at least 8 cores, 32GB RAM and
 150GB disk.
+When creating several VMs with the 'Count' option please note that the 
+internal VM names always start with 1, even when the image names end on 
+a higher number.
 
 The person creating the cloud environment should have the same key as one listed
 in the [ansible scripts](./ansible/group_vars/all/users.yml).
