@@ -61,7 +61,16 @@ ansible-playbook -i inventory.txt jenkins-agent.yml -u SSH_USERNAME -K
 
 - Wait for the play to finish and visit `https://builds.mantidproject.org/computer/NAME_OF_AGENT_ON_JENKINS`. The agent should be connected.
 
-### Maintenance
+## Maintenance
+
+### Updating nodes
+
+To update the packages on our Linux nodes, you can create an `inventory.txt` file with a line for each node, and then run the following
+playbook from the ansible directory:
+
+```sh
+ansible-playbook -i inventory.txt update.yml -u SSH_USERNAME -K
+```
 
 ### Troubleshooting
 
