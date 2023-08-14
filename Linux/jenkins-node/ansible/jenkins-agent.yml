@@ -7,11 +7,15 @@
 
   roles:
     - role: dannixon.system.package_updates
+      tags: "initial-setup"
     - role: dannixon.system.interactive_users
+      tags: "initial-setup"      
     - role: geerlingguy.pip
       become: yes
+      tags: "initial-setup"      
     - role: geerlingguy.docker
       become: yes
+      tags: "initial-setup"      
     - role: agent
       become: yes
       tags: "agent"
