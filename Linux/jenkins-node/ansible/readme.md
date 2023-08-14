@@ -7,7 +7,7 @@ New Linux nodes for use on Jenkins are now set up using ansible scripts in this 
 - Ensure you have activated a conda environment with ansible (you may need to use the conda environment set up for use with the ansible-linode repo)
 - set up a new node on Jenkins (this will give you the secret code)
 - navigate to the [`Ansible folder`](https://github.com/mantidproject/dockerfiles/tree/main/Linux/jenkins-node/ansible)
-- Update the `inventory.txt` file with the IP address, agent name and agent secret (i.e. Jenkins secret code). Be sure to save this file when update complete!
+- Update the `inventory.yaml` file with the host IP address, agent name and agent secret of each node to be set up. Also, specify the `deploy_type`, `jenkins_url`, and `jenkins_identity variables depending upon if you are connecting the nodes to a production or staging environment. To get the 'jenkins_identify' use the following command in the jenkins console: `hudson.remoting.Base64.encode(org.jenkinsci.main.modules.instance_identity.InstanceIdentity.get().getPublic().getEncoded())`.
 - Run the following command, replacing FedID with your FedID
 ```
 ansible-playbook -i inventory.txt jenkins-agent.yml -u FedID -K
@@ -46,5 +46,4 @@ docker volume rm machinename
 ./deploy.sh machinename agent_secret "https://builds.mantidproject.org" latest 50G
 ```
 - on success close the ssh connection and check node connects on Jenkins
-
 
