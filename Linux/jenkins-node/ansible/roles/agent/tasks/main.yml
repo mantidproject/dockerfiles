@@ -16,7 +16,7 @@
       JENKINS_AGENT_NAME: "{{ agent_name }}"
       JENKINS_SECRET: "{{ agent_secret }}"
       JENKINS_URL: "{{ jenkins_url }}"
-    when: "'staging' not in ansible_run_tags"
+  when: deploy_type == 'production'
 
 - name: Deploy dockerized Jenkins agent - staging
   community.docker.docker_container:
@@ -37,5 +37,4 @@
       JENKINS_SECRET: "{{ agent_secret }}"
       JENKINS_DIRECT_CONNECTION: "{{ jenkins_url }}:37899"
       JENKINS_INSTANCE_IDENTITY: "{{ jenkins_identity }}"
-    tags:
-      - staging
+  when: deploy_type == 'staging'
