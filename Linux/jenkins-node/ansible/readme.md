@@ -8,7 +8,9 @@ New Linux nodes for use on Jenkins are now set up using ansible scripts in this 
 - set up a new node on Jenkins (this will give you the secret code)
 - navigate to the [`Ansible folder`](https://github.com/mantidproject/dockerfiles/tree/main/Linux/jenkins-node/ansible)
 - Update the `inventory.txt` file with the IP address, agent name and agent secret (i.e. Jenkins secret code). Be sure to save this file when update complete!
-- If creating staging nodes, update the `jenkins-agent-staging.yml` file to specify the correct `jenkins_url`, and `jenkins_identity` variables. To get the `jenkins_identity` use the following command in the jenkins console: `hudson.remoting.Base64.encode(org.jenkinsci.main.modules.instance_identity.InstanceIdentity.get().getPublic().getEncoded())`.
+- If creating staging nodes, update the `jenkins-agent-staging.yml` file to specify the correct `jenkins_url`, and `jenkins_identity` variables. To get the `jenkins_identity` use the following command in the jenkins console: 
+```sh
+hudson.remoting.Base64.encode(org.jenkinsci.main.modules.instance_identity.InstanceIdentity.get().getPublic().getEncoded())
 - Run the following command, replacing `staging` with `production` if appropriate and replacing `FedID` with your FedID.
 ```
 ansible-playbook -i inventory.txt jenkins-agent-staging.yml -u FedID -K
