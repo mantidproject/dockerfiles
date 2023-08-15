@@ -1,0 +1,23 @@
+- name: Deploy Docker-based Jenkins agent for Mantid builds
+  hosts: all
+  vars:
+    package_updates_reboot: true
+    deploy_type: production
+    jenkins_url: https://builds.mantidproject.org
+    pip_install_packages:
+      - name: docker
+
+  roles:
+    - role: dannixon.system.package_updates
+      tags: "initial-setup"
+    - role: dannixon.system.interactive_users
+      tags: "initial-setup"      
+    - role: geerlingguy.pip
+      become: yes
+      tags: "initial-setup"      
+    - role: geerlingguy.docker
+      become: yes
+      tags: "initial-setup"      
+    - role: agent
+      become: yes
+      tags: "agent"

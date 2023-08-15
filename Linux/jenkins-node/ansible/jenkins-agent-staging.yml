@@ -2,6 +2,9 @@
   hosts: all
   vars:
     package_updates_reboot: true
+    deploy_type: staging
+    jenkins_url: builds.a.staging-mantidproject.org
+    jenkins_identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiLMKzBwG+8WGmLXsXa0jmiMan3sHTRzpPS2OOcQNV1EodjGPos5XzlLIeXRvBs0X8QcZNnIq06/rnxqXMjN5pEvjFdSG4VVrWaV/7sD+joQtmE68/4AZ5/H5Fw6R+kIVgfmRINxyDsDiVo6VXZwL4vqMj5P28uH8yGlGKbBGTVNXnORl27KMIPHn4vfmXlqhc15EG2WrPokGHJAwDO4UlmuU8cSGTaHF1oEn1vMuUnyh1/gJA3D0cT4I4zIVykal6ZUprVEfzFwmFPqn3UoUj53UYdnYgW995vtXwZYNvKeY/71C9JcgCl4MRNUkvfFvNag3B/9lFiFNMK1Kt1ymaQIDAQAB
     pip_install_packages:
       - name: docker
 
