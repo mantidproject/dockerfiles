@@ -4,13 +4,18 @@ New Linux nodes for use on Jenkins are now set up using ansible scripts in this 
 
 ## Setting up cloud nodes
 
-- Ensure you have activated a conda environment with ansible (you may need to use the conda environment set up for use with the ansible-linode repo)
-- set up a new node on Jenkins (this will give you the secret code)
+- Ensure you have activated a conda environment with ansible (you may need to use the conda environment set up for use with the ansible-linode repo).
+- Set up a new node on Jenkins. The easiest way to set up a jenkins node is to copy an existing node: From the jenkins menu, select `New Item`, type in the name for your node, then scroll down to the `copy from` box and enter the node name you wish to copy.
+- To get the secret for your newly set up node, select your new node from the `Build Executor Status` pane on the left hand side of the jenkins home page. The secret should be displayed as part of the command in the box below `Run from agent command line:`. Note, if you are setting up a node directly on the staging server you will have to use the following command in the jenkins console to obtain the secret:
+```
+jenkins.model.Jenkins.getInstance().getComputer("<jenkins node name>").getJnlpMac()
+```
 - navigate to the [`Ansible folder`](https://github.com/mantidproject/dockerfiles/tree/main/Linux/jenkins-node/ansible)
 - Update the `inventory.txt` file with the IP address, agent name and agent secret (i.e. Jenkins secret code). Be sure to save this file when update complete!
 - If creating staging nodes, update the `jenkins-agent-staging.yml` file to specify the correct `jenkins_url`, and `jenkins_identity` variables. To get the `jenkins_identity` use the following command in the jenkins console: 
-```sh
+```
 hudson.remoting.Base64.encode(org.jenkinsci.main.modules.instance_identity.InstanceIdentity.get().getPublic().getEncoded())
+```
 - Run the following command, replacing `staging` with `production` if appropriate and replacing `FedID` with your FedID.
 ```
 ansible-playbook -i inventory.txt jenkins-agent-staging.yml -u FedID -K
@@ -18,6 +23,16 @@ ansible-playbook -i inventory.txt jenkins-agent-staging.yml -u FedID -K
 - you will be asked for a password - enter your FedID password
 - when ansible script is complete check that node is now live on Jenkins with appropriate labels
 
+### Ansible tags
+
+When running the `jenkins-agent-staging.yml` or `jenkins-agent-production.yml` playbooks, two tags are provided: `initial-setup` and `agent`. These tags allow you to perform sequences of roles in isolation.
+- `initial-setup`: roles tagged with the `initial-setup` tag install required packages and configure the host machine upon which the agent will be run.
+- `agent`: roles tagged with the `agent` tag deploy the docker container that constitutes the jenkins agent.
+
+To use a tag, you pass it in to the `ansible-playbook` command with the `-t` flag. For example, if you have already set up the host machine and just want to deploy a jenkins agent:
+```
+ansible-playbook -i inventory.txt jenkins-agent-staging.yml -u FedID -K -t agent
+```
 
 ## Cleaning nodes
 
