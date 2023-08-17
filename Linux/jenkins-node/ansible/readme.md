@@ -6,7 +6,7 @@ New Linux nodes for use on Jenkins are now set up using ansible scripts in this 
 
 - Ensure you have activated a conda environment with ansible (you may need to use the conda environment set up for use with the ansible-linode repo).
 - Set up a new node on Jenkins. The easiest way to set up a jenkins node is to copy an existing node: From the jenkins menu, select `New Item`, type in the name for your node, then scroll down to the `copy from` box and enter the node name you wish to copy.
-- To get the secret for your newly set up node, select your new node from the `Build Executor Status` pane on the left hand side of the jenkins home page. The secret should be displayed as part of the command in the box below `Run from agent command line:`. Note, if you are setting up a node directly on the staging server you will have to use the following command in the jenkins console to obtain the secret:
+- To get the secret for your newly set up node, select your new node from the `Build Executor Status` pane on the left hand side of the jenkins home page. The secret should be displayed as part of the command in the box below `Run from agent command line:`. Note, if you are setting up a node directly on the staging server you will have to use the following command in the jenkins console (`<jenkins_url>/script`) to obtain the secret:
 ```
 jenkins.model.Jenkins.getInstance().getComputer("<jenkins node name>").getJnlpMac()
 ```
