@@ -70,7 +70,7 @@ The ansible scripts will set up the machine and connect it to the Jenkins contro
     - `mamba activate ./condaenv`
     - Note: You can activate the environment from anywhere by providing the full path to the `condaenv` directory.
 
-4. Clone the [`dockerfiles`](https://github.com/mantidproject/dockerfiles) repo and navigate to `jenkins-node/mantid-builder-macos/ansible`.
+4. Clone the [`dockerfiles`](https://github.com/mantidproject/dockerfiles) repo and navigate to `macOS/jenkins-node/ansible`.
 5. Install the required collections from Ansible Galaxy by running:
     - `ansible-galaxy install -r requirements.yml`
 6. Time to use that secret you made a note of. Create an `inventory.txt` file with the details of the machines to deploy to (one per line):
