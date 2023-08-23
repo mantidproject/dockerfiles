@@ -1,4 +1,6 @@
 ---
 - hosts: all
+  vars:
+    package_updates_reboot: true
   roles:
     - role: dannixon.system.package_updates
