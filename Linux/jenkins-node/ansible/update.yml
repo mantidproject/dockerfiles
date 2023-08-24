@@ -2,5 +2,9 @@
 - hosts: all
   vars:
     package_updates_reboot: true
+    deploy_type: production
+    jenkins_url: https://builds.mantidproject.org
   roles:
     - role: dannixon.system.package_updates
+    - role: agent
+      become: yes
