@@ -35,31 +35,32 @@ Before setting up a cloud Windows Jenkins node, you will need to have the follow
 ## Install Docker
 
 1. Open `powershell` in administrator mode. Run `Set-ExecutionPolicy Bypass -Scope Process -Force`.
-1. Run `Install-Module -Name DockerMsftProvider -Repository PSGallery -Force`. This is the provider that will enable access to the docker online package repository.
-3. Check the `DockerMsftProvider` module has been installed by checking the output of `Get-PackageProvider -ListAvailable`.
-4. Run `Install-Package -Name docker -ProviderName DockerMsftProvider` to install `docker`.
-5. Check that the docker package has been installed using `Get-Package -Name Docker -ProviderName DockerMsftProvider`.
-6. Restart the virtual machine using `Restart-Computer -Force`, then remote back in to the machine.
-7. Reopen `powershell` in administrator mode. Start the `docker` service using `Start-service docker`
-8. Check docker is running correctly using `Docker version` (note the lack of `--`). If docker is available, the following output or similar is to be expected:
+2. Install `docker` using the following command. This will restart the host VM; you will need to remote back into the machine.
+```sh
+Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/microsoft/Windows-Containers/Main/helpful_tools/Install-DockerCE/install-docker-ce.ps1" -o install-docker-ce.ps1
+.\install-docker-ce.ps1
+```
+
+4. Reopen `powershell` in administrator mode. Start the `docker` service using `Start-service docker`
+5. Check docker is running correctly using `Docker version` (note the lack of `--`). If docker is available, the following output or similar is to be expected:
 ```sh
 Client: Mirantis Container Runtime
- Version:           20.10.9
- API version:       1.41
- Go version:        go1.16.12m2
- Git commit:        591094d
- Built:             12/21/2021 21:34:30
+ Version:           24.0.7
+ API version:       1.43
+ Go version:        go1.20.10
+ Git commit:        afdd53b
+ Built:             Thu Oct 26 09:08:44 2023
  OS/Arch:           windows/amd64
  Context:           default
  Experimental:      true
 
 Server: Mirantis Container Runtime
  Engine:
-  Version:          20.10.9
-  API version:      1.41 (minimum version 1.24)
-  Go version:       go1.16.12m2
-  Git commit:       9b96ce992b
-  Built:            12/21/2021 21:33:06
+  Version:          24.0.7
+  API version:      1.43 (minimum version 1.24)
+  Go version:       go1.20.10
+  Git commit:       311b9ff
+  Built:            Thu Oct 26 09:07:37 2023
   OS/Arch:          windows/amd64
   Experimental:     false
 ```
