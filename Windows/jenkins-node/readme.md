@@ -41,8 +41,7 @@ Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/microsoft/
 .\install-docker-ce.ps1
 ```
 
-4. Reopen `powershell` in administrator mode. Start the `docker` service using `Start-service docker`
-5. Check docker is running correctly using `Docker version` (note the lack of `--`). If docker is available, the following output or similar is to be expected:
+4. Reopen `powershell` in administrator mode. Check docker is running correctly using `Docker version` (note the lack of `--`). If docker is available, the following output or similar is to be expected:
 ```sh
 Client: Mirantis Container Runtime
  Version:           24.0.7
