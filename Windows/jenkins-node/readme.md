@@ -72,7 +72,7 @@ Server: Mirantis Container Runtime
 4. The node configuration will appear, in the `Labels` input box append `-test` to `win-64-cloud` then click `Save`.
 5.
     * _Production:_ Take note of the jenkins secret, an encryption key stated after `-secret` in the code box entitled `Run from agent command line`. This key will be needed to enable access to Jenkins.
-    * _Staging:_ To find the jenkins secret for the new node and the jenkins instance identify, follow instructions detailed in the [Linux documentation](https://github.com/mantidproject/dockerfiles/tree/main/Linux/jenkins-node/ansible#setting-up-cloud-nodes). Both of these keys will be needed to
+    * _Staging:_ To find the jenkins secret for the new node and the jenkins instance identity, follow instructions detailed in the [Linux documentation](https://github.com/mantidproject/dockerfiles/tree/main/Linux/jenkins-node/ansible#setting-up-cloud-nodes). Both of these keys will be needed to
      enable access to Jenkins.
 
 ## Pull Image (Only required upon the setting up of the first windows node on a VM, or following a change to the image).
