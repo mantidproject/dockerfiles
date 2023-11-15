@@ -70,7 +70,9 @@ Server: Mirantis Container Runtime
 2. On the side bar, select `New Node`. Enter the Node name using the naming convention `<virtual machine name>-<n>`, `<n>` being the node index base 1 to be hosted on that VM.
 3. Select the `Copy Existing Node` radio button. Type `isiscloudwin1-1` into the emergent text box and click `Create`.
 4. The node configuration will appear, in the `Labels` input box append `-test` to `win-64-cloud` then click `Save`.
-5. Take note of the jenkins secret, an encryption key stated after `-secret` in the code box entitled `Run from agent command line`. This key will be needed to enable access to Jenkins.
+5a. _Production:_ Take note of the jenkins secret, an encryption key stated after `-secret` in the code box entitled `Run from agent command line`. This key will be needed to enable access to Jenkins.
+5b. _Staging:_ To find the jenkins secret for the new node and the jenkins instance identify, follow instructions detailed in the [Linux documentation](https://github.com/mantidproject/dockerfiles/tree/main/Linux/jenkins-node/ansible#setting-up-cloud-nodes). Both of these keys will be needed to
+enable access to Jenkins.
 
 ## Pull Image (Only required upon the setting up of the first windows node on a VM, or following a change to the image).
 
@@ -80,9 +82,14 @@ Server: Mirantis Container Runtime
 
 ## Create container
 1. Open `powershell` in administrator mode.
-2. Create a container from the image using the command:
+2a. Create a container to host a _production_ node from the image using following command.
    ```sh
    docker run -d --name <cloud node name> --storage-opt "size=250GB" ghcr.io/mantidproject/isiscloudwin:latest -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
+   ```
+   
+2a. Create a container to host a _staging node_ from the image using following command. Note that you will additionally have to the specify the <staging_server_address>  and <jenkins_instance_identity> placeholders.
+   ```sh
+   docker run -d --name <cloud node name> --storage-opt "size=250GB" -e JENKINS_DIRECT_CONNECTION=<staging_server_address>:37899 -e JENKINS_INSTANCE_IDENTITY=<jenkins_instance_identity>  ghcr.io/mantidproject/isiscloudwin:latest -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
    ```
 
 3. Confirm that the container has been created and is listed as running using `docker container ps -a`.
