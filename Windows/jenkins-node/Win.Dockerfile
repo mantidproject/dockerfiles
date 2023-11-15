@@ -58,7 +58,7 @@ RUN `
         || IF "%ERRORLEVEL%"=="3010" EXIT 0) `
     `
     # Cleanup
-    && del /q vs_buildtools.ex
+    && del /q vs_buildtools.exe
 
 # Start the agent process
 ENTRYPOINT ["powershell.exe", "-f", "C:/ProgramData/Jenkins/jenkins-agent.ps1"]
