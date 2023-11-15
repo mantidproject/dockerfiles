@@ -9,7 +9,7 @@ RUN xcopy /y C:\Windows\System32\opengl32.dll C:\GatheredDlls\ && `
 	xcopy /y C:\Windows\System32\MFReadWrite.dll C:\GatheredDlls\ && `
 	xcopy /y C:\Windows\System32\dxva2.dll C:\GatheredDlls\
 
-FROM jenkins/inbound-agent:4.13-2-jdk11-windowsservercore-ltsc2019
+FROM jenkins/inbound-agent:3192.v713e3b_039fb_e-3-jdk11-windowsservercore-ltsc2019
 COPY --from=full C:\GatheredDlls\ C:\Windows\System32\
 
 # Reset the shell.
@@ -28,7 +28,8 @@ RUN powershell New-ItemProperty `
                    -Force
 
 #Install chocolatey
-ENV ChocolateyUseWindowsCompression false 
+ENV ChocolateyUseWindowsCompression false
+ENV chocolateyVersion 1.4.0
 RUN powershell Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
 RUN powershell -NoProfile -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 RUN powershell Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
@@ -57,7 +58,7 @@ RUN `
         || IF "%ERRORLEVEL%"=="3010" EXIT 0) `
     `
     # Cleanup
-    && del /q vs_buildtools.exe
+    && del /q vs_buildtools.ex
 
 # Start the agent process
 ENTRYPOINT ["powershell.exe", "-f", "C:/ProgramData/Jenkins/jenkins-agent.ps1"]
