@@ -86,12 +86,12 @@ Server: Mirantis Container Runtime
 2.
     * _Production:_ Create a container from the image using following command.
       ```sh
-      docker run -d --name <cloud node name> --storage-opt "size=250GB" ghcr.io/mantidproject/isiscloudwin:latest -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
+      docker run -d --name <cloud node name> --storage-opt "size=250GB" --restart on-failure:3 ghcr.io/mantidproject/isiscloudwin:latest -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
       ```
 
     * _Staging:_ Create a container from the image using following command. Note that you will additionally have to the specify the <staging_server_address>  and <jenkins_instance_identity> placeholders.
       ```sh
-      docker run -d --name <cloud node name> --storage-opt "size=250GB" -e JENKINS_DIRECT_CONNECTION=<staging_server_address>:37899 -e JENKINS_INSTANCE_IDENTITY=<jenkins_instance_identity>  ghcr.io/mantidproject/isiscloudwin:latest -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
+      docker run -d --name <cloud node name> --storage-opt "size=250GB" --restart on-failure:3 -e JENKINS_DIRECT_CONNECTION=<staging_server_address>:37899 -e JENKINS_INSTANCE_IDENTITY=<jenkins_instance_identity>  ghcr.io/mantidproject/isiscloudwin:latest -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
       ```
 
 3. Confirm that the container has been created and is listed as running using `docker container ps -a`.
