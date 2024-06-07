@@ -1,0 +1,7 @@
+- name: Deploy macOS Jenkins agent for Mantid.
+  hosts: all
+
+  roles:
+    - role: agent
+      tags: "agent"
+
