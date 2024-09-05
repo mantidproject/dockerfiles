@@ -46,6 +46,10 @@
 - name: Disable saved application states to avoid dialog.
   shell: defaults write org.python.python NSQuitAlwaysKeepsWindows -bool false
 
+- name: Ensure the machine boots back up after a power failure.
+  shell: systemsetup -setrestartpowerfailure on
+  become: true
+
 # Test and start the agent. Note: Connection will only begin consistently every 5th minute if changes are made.
 
 - name: Start the jenkins agent
