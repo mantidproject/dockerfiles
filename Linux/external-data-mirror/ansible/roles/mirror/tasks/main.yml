@@ -1,0 +1,6 @@
+- name: Create a directory to hold the mirror of the external data.
+  ansible.builtin.file:
+    path: /external-data/
+    state: directory
+    mode: '0755'
+
