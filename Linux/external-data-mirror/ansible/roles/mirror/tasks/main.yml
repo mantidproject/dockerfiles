@@ -4,3 +4,6 @@
     state: directory
     mode: '0755'
 
+- name: Exchange SSH keys with linode so we can access the data.
+  import_tasks: exchange-keys.yml
+
