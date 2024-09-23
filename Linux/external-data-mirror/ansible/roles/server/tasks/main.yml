@@ -1,0 +1,11 @@
+- name: Spin up the nginx docker container to serve the downloaded testing data.
+  community.docker.docker_container:
+    name: "nginx-external-data"
+    image: "nginx:stable"
+    state: "started"
+    detach: True
+    restart_policy: "always"
+    network_mode: "host"
+    ports: "80:80"
+    volumes:
+      "/external-data/:/usr/share/nginx/html/externaldata/:ro"

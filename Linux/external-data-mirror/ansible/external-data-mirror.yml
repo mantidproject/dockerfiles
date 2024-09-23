@@ -3,7 +3,13 @@
 
   roles:
     - role: dannixon.system.interactive_users
-      tags: "initial-setup"
-    - role: mirror
+      tags: "setup"
+    - role: geerlingguy.docker
+      become: yes
+      tags: "setup"   
+    - role: mirror-data
       become: yes
       tags: "mirror"
+    - role: server
+      become: yes
+      tags: "server"
