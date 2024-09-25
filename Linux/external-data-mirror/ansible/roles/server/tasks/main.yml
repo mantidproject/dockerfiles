@@ -8,4 +8,4 @@
     network_mode: "host"
     ports: "80:80"
     volumes:
-      "/external-data/:/usr/share/nginx/html/externaldata/:ro"
+      "/external-data/:/usr/share/nginx/html/external-data/:ro"
