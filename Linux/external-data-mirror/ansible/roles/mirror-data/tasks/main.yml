@@ -5,8 +5,9 @@
     mode: '0755'
 
 - name: Check if machine has SSH access to the main data store.
-  ansible.builtin.command: ssh {{ main_server_user }}@{{ main_server_hostname }} 'echo success'
+  ansible.builtin.command: ssh -o BatchMode=True root@{{ main_server_hostname }} 'echo success'
   register: connected
+  ignore_errors: True
 
 - name: Exchange SSH keys with linode so we can access the data.
   import_tasks: exchange-keys.yml
