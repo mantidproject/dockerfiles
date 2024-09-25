@@ -11,10 +11,10 @@
 
 - name: Add public key to main server's authorized keys
   ansible.posix.authorized_key:
-    user: "{{ main_server_user }}"
+    user: root
     key: "{{ lookup('file','/tmp/{{ ansible_hostname }}-id_rsa.pub')}}"
-  remote_user: "{{ main_server_user }}"
-  delegate_to: "{{ main_server_ip }}"
+  remote_user: root
+  delegate_to: "{{ main_server_hostname }}"
 
 - name: Touch the known_hosts file if it's missing
   file:
@@ -23,13 +23,13 @@
     mode: 0644
 
 - name: Check if known_hosts contains existing server fingerprint
-  command: ssh-keygen -F {{ main_server_user }}
+  command: ssh-keygen -F {{ main_server_hostname }}
   register: key_exists
   failed_when: key_exists.stderr != ''
   changed_when: False
 
 - name: Scan for existing remote ssh fingerprint
-  command: ssh-keyscan -T5 {{ main_server_ip }}
+  command: ssh-keyscan -T5 {{ main_server_hostname }}
   register: keyscan
   failed_when: keyscan.rc != 0 or keyscan.stdout == ''
   changed_when: False

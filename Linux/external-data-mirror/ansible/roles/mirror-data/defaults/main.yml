@@ -1,7 +1,0 @@
-# Default values for creating external data mirror.
-
-# IP of server containing external data main copy.
-main_server_ip: "198.74.56.37"
-
-# User on the main server.
-main_server_user: root
