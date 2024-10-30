@@ -7,9 +7,12 @@ Developers deploying these playbooks will require ssh access to `mantidproject.o
 
 ## Setup
 
-- Provision a new linux virtual machine (VM) (on OpenStack at STFC) with an ssh key that 
+### VM Provisioning
+- Create a new linux virtual machine (VM) (on OpenStack at STFC) with an ssh key that 
   you have on your system.
-- Add the `HTTP` security group to the instance.
+- Add the `HTTP` security group to the VM to allow traffic into the node on port `80`.
+
+### Ansible Setup
 - Create an `ansible` conda environment:
 
 ```sh
@@ -66,3 +69,7 @@ load balancer pool.
  `HTTP Pool` &rarr; `Members` &rarr; `Add/Remove Members`.
 - Add your new VM to this pool and set the port to `80` (HTTP).
 - Your new node should now be accessible via the floating IP address of the load balancer.
+
+```sh
+http://<LOAD_BALANCER_IP>/external-data/MD5/<TEST_FILE_HASH>
+```
