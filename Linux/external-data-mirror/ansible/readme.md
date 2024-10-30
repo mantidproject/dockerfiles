@@ -9,6 +9,7 @@ Developers deploying these playbooks will require ssh access to `mantidproject.o
 
 - Provision a new linux virtual machine (VM) (on OpenStack at STFC) with an ssh key that 
   you have on your system.
+- Add the `HTTP` security group to the instance.
 - Create an `ansible` conda environment:
 
 ```sh
@@ -54,3 +55,14 @@ ansible-playbook -i inventory.txt external-data-mirror.yml -u <YOUR_VM_USERNAME>
     containing the copied data.
 
 The new server can now be accessed by: `http://<VM_IP_ADDRESS>/external-data/MD5/<TEST_FILE_HASH>`
+
+### Configuring the Load Balancer (STFC Cloud)
+
+For the mantid build process to be able to access your new mirror, it needs to be added to the
+load balancer pool.
+
+
+- Navigate to `Network` &rarr; `Load Balancers` &rarr; `External Data LB` &rarr; `Pools` &rarr; 
+ `HTTP Pool` &rarr; `Members` &rarr; `Add/Remove Members`.
+- Add your new VM to this pool and set the port to `80` (HTTP).
+- Your new node should now be accessible via the floating IP address of the load balancer.
