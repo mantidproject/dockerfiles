@@ -2,3 +2,4 @@
 condaenv/
 inventory.txt
 vault-password.txt
+.idea/
