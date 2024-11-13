@@ -1,0 +1,16 @@
+- name: Deploy dockerized GitHub runner
+  community.docker.docker_container:
+    name: "{{ runner_name }}"
+    image: ghcr.io/thomashampson/github-runner-rockylinux8:latest
+    detach: yes
+    init: yes
+    network_mode: host
+    recreate: yes
+    pull: yes
+    shm_size: 512M
+    volumes:
+      - "{{ runner_name }}_ccache:/ccache"
+      - "{{ runner_name }}_external_data:/mantid_data"
+    env:
+      GITHUB_RUNNER_NAME: "{{ runner_name }}"
+      GITHUB_TOKEN: "{{ github_token }}"
