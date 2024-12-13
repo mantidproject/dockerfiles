@@ -26,7 +26,7 @@ RUN useradd -m docker
 RUN yum install -y \
   curl \
   gcc \
-#   git236 \
+  git \
   graphviz \
   libXScrnSaver \
   jq \
@@ -83,5 +83,7 @@ COPY start.sh start.sh
 RUN chmod +x start.sh
 
 USER docker
+
+ENV USER=docker
 
 ENTRYPOINT ["./start.sh"]
