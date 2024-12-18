@@ -13,7 +13,7 @@ ARG RUNNER_VERSION="2.321.0"
 
 # Add label for transparency.
 # "org.opencontainers.image.source" is a standard key for pointing to the source used to build this docker image.
-LABEL org.opencontainers.image.source https://github.com/mantidproject/dockerfiles
+LABEL org.opencontainers.image.source=https://github.com/mantidproject/dockerfiles
 
 # update the base packages and add a non-sudo user
 RUN useradd -m docker
@@ -34,6 +34,7 @@ RUN yum install -y \
   pciutils-libs \
   perl-Digest-MD5 \
   perl-IPC-Cmd \
+  python3 \
   sudo \
   wget \
   which \
