@@ -34,13 +34,15 @@ RUN yum install -y \
   pciutils-libs \
   perl-Digest-MD5 \
   perl-IPC-Cmd \
-  python3 \
   sudo \
   wget \
   which \
   xorg-x11-server-Xvfb && \
   # Clean up
   rm -rf /tmp/* /var/tmp/* 
+
+# Install Python - required for publish-unit-test-result-action
+RUN dnf install python3.12 -y
 
 # Install patched version of OpenSSL (v3.1.0)
 # COPY ./install_openssl.sh /tmp/
