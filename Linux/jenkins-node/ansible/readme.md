@@ -38,21 +38,21 @@ ansible-playbook -i inventory.txt jenkins-agent-staging.yml -u FedID -K -t agent
 
 - Before cleaning any nodes mark them temporarily offline on Jenkins and ensure no jobs are running on them before cleaning.
 
-- Update the `inventory.txt` file as above, including only the nodes you need to clean.
+- Update the `inventory.txt` file as above, including only the nodes you intend to clean.
 
-- The tasks in the cleaning role make use of tags to restrict what is cleaned:
+- The tasks in the cleaning playbook make use of tags to restrict what is cleaned:
 
   - `pr`: Pull Requests.
   - `nightly`: Nightly deployments for main and release next.
   - `package`: Build Packages from Branch
   - `docs`: Docs build and publish.  
 
-- Run the following with the desired tags (which use a comma-separated list). **If no tags are provided all workspaces will be deleted.**:
+- Run the following with the desired tags (which use a comma-separated list):
 ```sh
 ansible-playbook -i inventory.txt clean-jenkins-agents.yml -u FedID -K -t pr,nightly,package,docs
 ```
 
-- Mark the shutdown nodes back online. 
+- Set the nodes you shut down back online.
 
 ### Troubleshooting
 
