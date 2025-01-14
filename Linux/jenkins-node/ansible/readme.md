@@ -36,13 +36,27 @@ ansible-playbook -i inventory.txt jenkins-agent-staging.yml -u FedID -K -t agent
 
 ## Cleaning nodes
 
-Before cleaning any nodes mark them temporarily offline on Jenkins and ensure no jobs are running on them before cleaning.
+- Before cleaning any nodes mark them temporarily offline on Jenkins and ensure no jobs are running on them before cleaning.
 
-The easiest way to clean nodes is using a groovy script on Jenkins. Use the links below for guidance
-- [`Remove directories across multiple nodes`](https://developer.mantidproject.org/JenkinsConfiguration.html#remove-directories-across-multiple-nodes)
-- [`Remove directories from single node`](https://developer.mantidproject.org/JenkinsConfiguration.html#remove-directories-from-single-node)
+- Update the `inventory.txt` file as above, including only the nodes you need to clean.
 
-If this does not work you may need to spin up a new docker container. Use the instructions for Changing docker image below.
+- The tasks in the cleaning role are defined by tags:
+
+  - `pr`: Pull Requests.
+  - `nightly`: Nightly deployments for main and release next.
+  - `package`: Build Packages from Branch
+  - `docs`: Docs build and publish.  
+
+- Run the following with the desired tags, uses a comma-separated list. **If no tags are provided all workspaces will be deleted.**:
+```sh
+ansible-playbook -i inventory.txt clean-jenkins-agents.yml -u FedID -K -t pr,nightly,package,docs
+```
+
+- Mark the shutdown nodes back online. 
+
+### Troubleshooting
+
+- If this does not work you may need to spin up a new docker container. Use the instructions for Changing docker image below.
 
 ## Changing docker image
 
