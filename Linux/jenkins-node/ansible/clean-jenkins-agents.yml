@@ -1,0 +1,7 @@
+- name: Clean jenkins agents by removing workspaces.
+  hosts: all
+
+  # Tags available: pr, nightly, package, docs
+  roles:
+    - role: clean-agent
+      become: yes

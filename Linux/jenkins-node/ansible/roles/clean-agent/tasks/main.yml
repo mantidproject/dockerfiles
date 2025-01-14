@@ -1,0 +1,27 @@
+- name: Remove PR directories
+  community.docker.docker_container_exec:
+    container: "{{ agent_name }}"
+    command: bash -l -c "rm -rf pull_requests*"
+    chdir: "/jenkins_workdir/workspace"
+    tags: pr
+
+- name: Remove Nightly directories
+  community.docker.docker_container_exec:
+    container: "{{ agent_name }}"
+    command: bash -l -c "rm -rf *_nightly_deployment*"
+    chdir: "/jenkins_workdir/workspace"
+    tags: nightly
+
+- name: Remove Packages from Branch directories
+  community.docker.docker_container_exec:
+    container: "{{ agent_name }}"
+    command: bash -l -c "rm -rf build_packages_from_branch*"
+    chdir: "/jenkins_workdir/workspace"
+    tags: package
+
+- name: Remove Docs Build directories
+  community.docker.docker_container_exec:
+    container: "{{ agent_name }}"
+    command: bash -l -c "rm -rf build_and_publish_docs*"
+    chdir: "/jenkins_workdir/workspace"
+    tags: docs
