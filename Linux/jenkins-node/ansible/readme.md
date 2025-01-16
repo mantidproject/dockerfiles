@@ -2,22 +2,39 @@
 
 New Linux nodes for use on Jenkins are now set up using ansible scripts in this folder.
 
+## Ansible Vault
+
+Names and Jenkins Secrets for existing nodes are stored in this repository, encrypted, by Ansible Vault. Set this up locally so that you can access and amend any
+relevant secrets.
+
+- Create a new file in this directory called `vault-password.txt`. Ensure it is not being tracked by git.
+- Copy the password, stored in Keeper, for the "Linux Inventory Ansible Vault" into this password file.
+- The `inventory_template.txt` file contains the names and secrets for linux nodes 1-10 for the A and B groups.
+- When only spinning up new Openstack nodes (without making any new ones on Jenkins) use the following to view the template and use it to create a regular `inventory.txt` file for the nodes you want to redeploy, replacing `ip_address` with the relevant IP address from openstack:
+```sh
+ansible-vault view --vault-password-file vault-password.txt inventory_template.txt
+```
+- When creating new nodes on Jenkins, edit the file to add your new names and secrets to the template:
+```sh
+ansible-vault edit --vault-password-file vault-password.txt inventory_template.txt
+```
+
 ## Setting up cloud nodes
 
 - Ensure you have activated a conda environment with ansible (you may need to use the conda environment set up for use with the ansible-linode repo).
 - Set up a new node on Jenkins. The easiest way to set up a jenkins node is to copy an existing node: From the jenkins menu, select `New Item`, type in the name for your node, then scroll down to the `copy from` box and enter the node name you wish to copy.
 - To get the secret for your newly set up node, select your new node from the `Build Executor Status` pane on the left hand side of the jenkins home page. The secret should be displayed as part of the command in the box below `Run from agent command line:`. Note, if you are setting up a node directly on the staging server you will have to use the following command in the jenkins console (`<jenkins_url>/script`) to obtain the secret:
-```
+```groovy
 jenkins.model.Jenkins.getInstance().getComputer("<jenkins node name>").getJnlpMac()
 ```
 - navigate to the [`Ansible folder`](https://github.com/mantidproject/dockerfiles/tree/main/Linux/jenkins-node/ansible)
-- Update the `inventory.txt` file with the IP address, agent name and agent secret (i.e. Jenkins secret code). Be sure to save this file when update complete!
+- Update the `inventory.txt` file (and `inventory_template.txt`, if relevant) with the IP address, agent name and agent secret (i.e. Jenkins secret code). Be sure to save this file when update complete!
 - If creating staging nodes, update the `jenkins-agent-staging.yml` file to specify the correct `jenkins_url`, and `jenkins_identity` variables. To get the `jenkins_identity` use the following command in the jenkins console: 
-```
+```groovy
 hudson.remoting.Base64.encode(org.jenkinsci.main.modules.instance_identity.InstanceIdentity.get().getPublic().getEncoded())
 ```
 - Run the following command, replacing `staging` with `production` if appropriate and replacing `FedID` with your FedID.
-```
+```sh
 ansible-playbook -i inventory.txt jenkins-agent-staging.yml -u FedID -K
 ```
 - you will be asked for a password - enter your FedID password
