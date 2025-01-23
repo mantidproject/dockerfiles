@@ -21,11 +21,12 @@ There are few steps that need to be manually taken on a brand new machine before
 
 - Enable remote access:
 
-    - Open `System Preferences -> Sharing`.
+    - Open `System Preferences -> Sharing`. May also be `System Preferences -> General -> Sharing`.
     - Enable `Remote Login` for all users and allow full disk access.
     - Make a note of the `ssh` login instructions, especially the hostname after the `@`.
     - Store the chosen password and the hostname in the `ISIS Jenkins Nodes` file in Keeper.
     - Enable `Remote Management` for all users.
+    - Click the `i` button and enable `VNC viewers may control screen with password`.
 
 - Set security settings to allow for builds and consistent access:
 
