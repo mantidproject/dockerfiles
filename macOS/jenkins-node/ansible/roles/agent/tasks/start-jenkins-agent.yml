@@ -1,16 +1,16 @@
 # Test and start the agent. Note: Connection will only begin consistently every 5th minute if changes are made.
 
-- name: Download jenkins slave script.
-  shell: curl -o $HOME/jenkins-slave.sh https://raw.githubusercontent.com/mantidproject/mantid/main/buildconfig/Jenkins/jenkins-slave.sh
+- name: Download jenkins agent script.
+  shell: curl -o $HOME/jenkins-agent.sh https://raw.githubusercontent.com/mantidproject/mantid/refs/heads/main/buildconfig/Jenkins/jenkins-agent.sh
 
-- name: Make the slave script executable.
-  shell: chmod 777 $HOME/jenkins-slave.sh
+- name: Make the agent script executable.
+  shell: chmod 777 $HOME/jenkins-agent.sh
 
 - name: Check the Jenkins agent connection script.
   script: ./check-connection.sh {{ agent_name }} {{ agent_secret }}
 
-- name: Setup a chrontab entry to run the agent script every 5th minute.
+- name: Setup a crontab entry to run the agent script every 5th minute.
   ansible.builtin.cron:
-    name: "Run slave script"
+    name: "Run agent script"
     minute: "*/5"
-    job: "$HOME/jenkins-slave.sh {{ agent_name }} {{ agent_secret }}"
+    job: "$HOME/jenkins-agent.sh {{ agent_name }} {{ agent_secret }} >> ~/agentlog.txt 2>&1"
