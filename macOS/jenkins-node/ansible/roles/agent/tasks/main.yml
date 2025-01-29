@@ -38,6 +38,17 @@
   include_tasks: mac-sdk.yml
   when: not sdk_stats.stat.exists
 
+- name: Install node
+  community.general.homebrew:
+    name: node
+    state: present
+
+- name: Install create-dmg
+  community.general.npm:
+    name: create-dmg
+    global: true
+    state: latest
+
 # Configure macOS Settings.
 
 - name: Disable screensaver.
