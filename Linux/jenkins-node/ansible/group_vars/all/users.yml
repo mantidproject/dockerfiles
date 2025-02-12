@@ -20,11 +20,6 @@ interactive_users:
     sudoer: true
     ssh_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDbIUpR0gYUaCmAx+z0j7amPBy/TxOxott90icoMI+W3PNiyA5hjF1Tfo6yRawFXzGxBbrMc+JNUgOVHXV4P7pIcny+lX9YvSGFuFvROLmNeo9yf0Nyu198tutpHKmejy6nKIlm4IM/IeTzBz0jBcCu//1UNWv/b/hwel8ZYyMCesTcV2janOyg8HvQYMVCkGgQ0c74NAFG55MyL2BrbGlVxkGk7xwan2NmELShyc4pQsOknrMW8/tu10SDCDFB+zFBg8HfeW+qFZ4QMKHPhfp3DqmLMCmUs/W1D+8Os+zH4+MDVqIYiiNWLlnOMc0ulPMHLJQO8LVYcuQcgzdLddyLh1iYOX7ThfmqVqSfblOx7+W9K5yU5+96k4RMd6BEjUqOsg7a91n1boL6OdX8yp/LTMZHAuCr3pFeoilJ/d0IUFU1XcHZwELdqTvifdLnUnxL6JXw7sPFkLRRbxguEH6QzkLJ+CVONf3I9Hi4Zcyf7Pfxmq2qgH0oq418LxY0O5k= clrc\eoc57742@NDLT1439"
 
-  # Robert Applin
-  - username: mlc47243
-    sudoer: true
-    ssh_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDD9RMOb7VJBEesEAaxAzY1GBQMYndAmmkBZMFUBbf97EbXVXCiQWba2doAjSblADXnf4+rodGCrJfEkxaUmM00qRzgxI0wred1XuVzbmH5A16Y3vIBlRlKSUGh9cCGHzabahsMBNzifCsxG73nmCnj+pySvSITGBXcg8/ZeaJu9apZ1TvsmJ+L+ffAs5koqT+DJU40QfR79CJP/TxE3RLNiFa35DtOJH6mHo+4/jUQQLCky1ue2eLilhHu2SHHZNakM9fNdbEUZZwTtib9VGjQxveAmSixC+vag1ITbcaKXfaRd/IkRbv3CSf/4wN+3HPbSkQOxee9bXL+ChEPvypvMGzRHRk7CCA95gxGli0qFT9jJoMDNmDu8paltfGGHubV/lOM4mD/koPkHc8YgtFSwCcq//O3Qk6rhal62zEyw+vKeLzsAb5dnf5p7jc74P3puw96pB7zJTnYxzHMiwrqC9V1pU/emnKuJpbW0y9fQjVODKwvyitfjGxEb2baQLk= mlc47243@mlc47243-OptiPlex-7050"
-
   # Mial Lewis
   - username: wym92459
     sudoer: true
