@@ -3,6 +3,20 @@
 
   # Tags available: pr, nightly, package, docs
   tasks:
+  - name: Collect workspace sizes
+    community.docker.docker_container_exec:
+      container: "{{ agent_name }}"
+      command: bash -l -c "du -sh * | column -t"
+      chdir: "/jenkins_workdir/workspace"
+    register: du_result
+    become: yes
+    tags: [always]
+
+  - name: Display workspace sizes
+    debug:
+      msg: "{{ du_result.stdout_lines }}"
+    tags: [always]
+
   - name: Remove PR directories
     community.docker.docker_container_exec:
       container: "{{ agent_name }}"
