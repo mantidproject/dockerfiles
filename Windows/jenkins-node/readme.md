@@ -22,7 +22,13 @@ Before setting up a cloud Windows Jenkins node, you will need to have the follow
 
 1. The easiest way to install `git` is via `chocolatey`. To use `chocolatey`, it must first be installed itself.
 2. Open `powershell` in administrator mode. Run `Set-ExecutionPolicy Bypass -Scope Process -Force`.
-3. Run
+3. Next you need to check the version of .NET is installed. The easiest way to do this is to use the `How to: Determine which .NET Framework versions are installed` (https://learn.microsoft.com/en-us/dotnet/framework/install/how-to-determine-which-versions-are-installed).
+4. If .NET Framework version is `< 4.8` then you will need to run the following before following step 5
+```sh
+$env:chocolateyVersion = '1.4.0'
+```
+
+5. Run
    ```sh
    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))`
    ```
@@ -69,11 +75,13 @@ Server: Mirantis Container Runtime
 1. Using the `jenkins` web UI (https://builds.mantidproject.org/), navigate to `Manage Jenkins` then `Manage nodes and clouds` under `System Configuration`.
 2. On the side bar, select `New Node`. Enter the Node name using the naming convention `<virtual machine name>-<n>`, `<n>` being the node index base 1 to be hosted on that VM.
 3. Select the `Copy Existing Node` radio button. Type `isiscloudwin1-1` into the emergent text box and click `Create`.
-4. The node configuration will appear, in the `Labels` input box append `-test` to `win-64-cloud` then click `Save`.
+4. The node configuration will appear. 
 5.
     * _Production:_ Take note of the jenkins secret, an encryption key stated after `-secret` in the code box entitled `Run from agent command line`. This key will be needed to enable access to Jenkins.
     * _Staging:_ To find the jenkins secret for the new node and the jenkins instance identity, follow instructions detailed in the [Linux documentation](https://github.com/mantidproject/dockerfiles/tree/main/Linux/jenkins-node/ansible#setting-up-cloud-nodes). Both of these keys will be needed to
      enable access to Jenkins.
+
+6. Once you have taken note of the jenkins secret set this node to be temporarily offline. 
 
 ## Pull Image (Only required upon the setting up of the first windows node on a VM, or following a change to the image).
 
@@ -96,18 +104,8 @@ Server: Mirantis Container Runtime
 
 3. Confirm that the container has been created and is listed as running using `docker container ps -a`.
 4. To SSH into the container to access the command line, `docker exec -it <cloud node name> cmd` can be used.
+5. Finally return to Jenkins and mark this node as being back online. It should now be ready to use.
 
-## Testing the new node
-
-1. Log in to the `Jenkins` web UI (https://builds.mantidproject.org/), navigate to `Manage Jenkins`, then `Manage nodes and clouds` under `System Configuration`.
-2. On the `Manage nodes and clouds` page of Jenkins, select the new node from the table.
-3. Ensure the node is online. If `Bring this node back online` is available on the right of screen, select it.
-4. If the cloud node is connected to Jenkins, `Agent is connected` will be stated below the agent name. 
-5. In a new tab, navigate to the Jenkins home page, from the pipeline table select `testing-new-windows-builder`. From the menu on the left-hand side of the page, select `Build Now`.
-6. Switch back to the previous tab, refreshing if necessary. Observe that the new node is running the `testing-new-windows-builder` job.
-7. If the node is not running the job, there may be other nodes with the `win-64-cloud-test` label. Either bring these other nodes offline (ensuring they are not undertaking any jobs) or raise the `Preference Score` of the desired node via `Configure` and rerun the job.
-8. From the menu on the left-hand side of the page, select `Script Console`, ensure that the job status is successful upon conclusion, and that all the tests pass (note that the job status cannot solely be relied upon).
-9. Finally, change the label on the node back to `win-64-cloud` via `Configure` (and reset the preference score if applicable). This will enable the node to take part in the CI/CD pipeline.
 
 # Cloud Windows Jenkins Node Troubleshooting
 
