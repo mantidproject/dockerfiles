@@ -1,0 +1,16 @@
+- name: Deploy a docker container serving a mirror of the mantid external data store.
+  hosts: all
+
+  roles:
+    - role: dannixon.system.interactive_users
+      tags: "setup"
+    - role: geerlingguy.docker
+      become: yes
+      tags: "setup"   
+    - role: mirror-data
+      become: yes
+      tags: "mirror"
+    - role: server
+      become: yes
+      tags: "server"
+    
