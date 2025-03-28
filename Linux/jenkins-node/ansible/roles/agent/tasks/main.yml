@@ -35,6 +35,5 @@
     env:
       JENKINS_AGENT_NAME: "{{ agent_name }}"
       JENKINS_SECRET: "{{ agent_secret }}"
-      JENKINS_DIRECT_CONNECTION: "{{ jenkins_url }}:37899"
-      JENKINS_INSTANCE_IDENTITY: "{{ jenkins_identity }}"
+      JENKINS_URL: "{{ jenkins_url }}"
   when: deploy_type == 'staging'
