@@ -30,6 +30,8 @@ If you make changes to the main file you will also need to update the Jenkins im
 
 On Linux an easy way to build a docker container from the image is to run the `build_slim.sh` file from the same folder as the image you want to build.
 
+To build the jenkins-node docker container run `DOCKER_BUILDKIT=1 ./build.sh` from the folder the file is located in.
+
 ## Publishing updated images
 
 All our images are hosted on GitHub instead of Docker. In order to publish new images to GitHub you will need to do the following
