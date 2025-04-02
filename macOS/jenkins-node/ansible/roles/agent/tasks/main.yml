@@ -1,0 +1,73 @@
+---
+# Deploy Jenkins agent on macOS
+
+# Set up the environment
+
+- name: Add user to sudoers on new macs.
+  shell: /Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add
+  ignore_errors: true  # Not all the macs have these, so don't panic if it fails.
+    
+# Install Requirements
+
+- name: Install homebrew
+  include_role:
+    name: geerlingguy.mac.homebrew
+
+- name: Make sure homebrew bin is in the path.
+  ansible.builtin.lineinfile:
+    path: /etc/paths
+    state: present
+    line: '/opt/homebrew/bin'
+  become: true
+  become_user: root
+
+- name: Install git.
+  community.general.homebrew:
+    name: git
+    state: latest
+
+- name: Install and Set up Java 11
+  include_tasks: java11.yml
+
+- name: Check for the MacOSX SDK
+  stat:
+    path: /opt/MacOSX10.10.sdk
+  register: sdk_stats
+  
+- name: Download and Install MacOSX SDK
+  include_tasks: mac-sdk.yml
+  when: not sdk_stats.stat.exists
+
+- name: Install node
+  community.general.homebrew:
+    name: node
+    state: present
+
+- name: Install create-dmg
+  community.general.npm:
+    name: create-dmg
+    global: true
+    state: latest
+
+# Configure macOS Settings.
+
+- name: Disable screensaver.
+  shell: defaults write com.apple.screensaver idleTime 0
+
+- name: Disable saved application states to avoid dialog.
+  shell: defaults write org.python.python NSQuitAlwaysKeepsWindows -bool false
+
+- name: Ensure the machine boots back up after a power failure.
+  shell: systemsetup -setrestartpowerfailure on
+  become: true
+
+# Test and start the agent. Note: Connection will only begin consistently every 5th minute if changes are made.
+
+- name: Start the jenkins agent
+  include_tasks: start-jenkins-agent.yml
+
+# Tidy up the environment.
+
+- name: Remove user from sudoers on new macs.
+  shell: /Applications/Privileges.app/Contents/Resources/PrivilegesCLI --remove
+  ignore_errors: true  # Not all the macs have these, so don't panic if it fails.
