@@ -1,7 +1,6 @@
 # Base
-# Although CentOS 7 matches platform used by conda-forge it is now EOL so using Alma 9
 
-FROM almalinux:9-base
+FROM almalinux:9
 
 #Add label for transparency
 LABEL org.opencontainers.image.source https://github.com/mantidproject/dockerfiles
