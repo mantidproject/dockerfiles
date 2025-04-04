@@ -16,8 +16,9 @@ COPY --from=full C:\GatheredDlls\ C:\Windows\System32\
 SHELL ["cmd", "/S", "/C"]
 
 # Install Node.js LTS
-ADD https://nodejs.org/dist/v8.11.3/node-v8.11.3-x64.msi C:\TEMP\node-install.msi
-RUN start /wait msiexec.exe /i C:\TEMP\node-install.msi /l*vx "%TEMP%\MSI-node-install.log" /qn ADDLOCAL=ALL
+ADD https://nodejs.org/dist/v20.9.0/node-v20.9.0-x64.msi C:\TEMP\node-install.msi
+SHELL ["powershell", "-NoProfile ", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+RUN Start-Process -Wait msiexec.exe  -ArgumentList @('/i', 'C:\TEMP\node-install.msi', '/l*vx', '"%TEMP%\MSI-node-install.log"', '/qn', 'ADDLOCAL=ALL')
 
 #Enable long paths
 RUN powershell New-ItemProperty `
@@ -30,8 +31,7 @@ RUN powershell New-ItemProperty `
 #Install chocolatey
 ENV ChocolateyUseWindowsCompression false
 ENV chocolateyVersion 1.4.0
-RUN powershell Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
-RUN powershell -NoProfile -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+RUN powershell Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 RUN powershell Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
 
 #Install git
@@ -42,15 +42,18 @@ COPY create_bashrc.bat C:\TEMP\
 RUN powershell Start-Process -FilePath 'C:\TEMP\create_bashrc.bat'
 ENV BASH_ENV C:\Users\Jenkins\.bashrc
 
+# Restore the default Windows shell for correct batch processing.  
+SHELL ["cmd", "/S", "/C"]  
+
 #Install visual studio build tools
 RUN `
     # Download the Build Tools bootstrapper.
-    curl -SL --output vs_buildtools.exe https://aka.ms/vs/16/release/vs_buildtools.exe `
+    curl -SL --output vs_buildtools.exe https://aka.ms/vs/17/release/vs_buildtools.exe `
     `
-    # Install Build Tools with the Microsoft.VisualStudio.Workload.VCTools workload, excluding workloads and components with known issues.
+    # Install Build Tools with the Microsoft.VisualStudio.Workload.AzureBuildTools workload, excluding workloads and components with known issues.
     && (start /w vs_buildtools.exe --quiet --wait --norestart --nocache `
-        --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools" `
-        --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended`
+        --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools" `
+        --add Microsoft.VisualStudio.Workload.AzureBuildTools `
         --remove Microsoft.VisualStudio.Component.Windows10SDK.10240 `
         --remove Microsoft.VisualStudio.Component.Windows10SDK.10586 `
         --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 `
