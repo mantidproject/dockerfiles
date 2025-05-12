@@ -1,7 +1,7 @@
 - name: Deploy dockerized Jenkins agent
   community.docker.docker_container:
     name: "{{ agent_name }}"
-    image: ghcr.io/mantidproject/jenkins-node-centos7-slim:latest
+    image: ghcr.io/mantidproject/jenkins-node-alma9:latest
     detach: yes
     init: yes
     network_mode: host
@@ -21,7 +21,7 @@
 - name: Deploy dockerized Jenkins agent - staging
   community.docker.docker_container:
     name: "{{ agent_name }}"
-    image: ghcr.io/mantidproject/jenkins-node-centos7-slim:latest
+    image: ghcr.io/mantidproject/jenkins-node-alma9:latest
     detach: yes
     init: yes
     network_mode: host
