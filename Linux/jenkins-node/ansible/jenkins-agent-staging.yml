@@ -9,9 +9,9 @@
       - name: docker
 
   roles:
-    - role: dannixon.system.package_updates
+    - role: setup
       tags: "initial-setup"
-    - role: dannixon.system.interactive_users
+    - role: interactive_users
       tags: "initial-setup"      
     - role: geerlingguy.pip
       become: yes
