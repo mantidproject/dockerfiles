@@ -1,0 +1,24 @@
+- name: remove repository from sources list that gives error on update
+  become: true
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/repository_egi_eu_sw_production_cas_1_current.list
+    state: absent
+
+- name: Ensure apt packages are up to date
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: "yes"
+  register: updates
+
+- name: Check if reboot is required
+  stat:
+    path: /var/run/reboot-required
+  register: package_updates_reboot
+
+- name: Ensure system is rebooted
+  ansible.builtin.reboot:
+    msg: Rebooting post package update (via Ansible)
+  become: true
+  when: updates.changed and package_updates_reboot
+
