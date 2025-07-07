@@ -1,16 +1,16 @@
 # escape=`
 # Use JNLP agent as base and install required tools
-FROM mcr.microsoft.com/windows:10.0.17763.3887-amd64 AS full
+# Use the latest Windows Server Core 2022 image.
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
-RUN xcopy /y C:\Windows\System32\opengl32.dll C:\GatheredDlls\ && `
-	xcopy /y C:\Windows\System32\glu32.dll C:\GatheredDlls\ && `
-	xcopy /y C:\Windows\System32\MF.dll C:\GatheredDlls\ && `
-	xcopy /y C:\Windows\System32\MFPlat.dll C:\GatheredDlls\ && `
-	xcopy /y C:\Windows\System32\MFReadWrite.dll C:\GatheredDlls\ && `
-	xcopy /y C:\Windows\System32\dxva2.dll C:\GatheredDlls\
+#RUN	xcopy /y C:\Windows\System32\glu32.dll C:\GatheredDlls\ && `
+#	xcopy /y C:\Windows\System32\MF.dll C:\GatheredDlls\ && `
+#	xcopy /y C:\Windows\System32\MFPlat.dll C:\GatheredDlls\ && `
+#	xcopy /y C:\Windows\System32\MFReadWrite.dll C:\GatheredDlls\ && `
+#	xcopy /y C:\Windows\System32\dxva2.dll C:\GatheredDlls\
 
 FROM jenkins/inbound-agent:3301.v4363ddcca_4e7-3-jdk17-windowsservercore-ltsc2019
-COPY --from=full C:\GatheredDlls\ C:\Windows\System32\
+#COPY --from=full C:\GatheredDlls\ C:\Windows\System32\
 
 # Reset the shell.
 SHELL ["cmd", "/S", "/C"]
@@ -50,11 +50,10 @@ RUN `
     # Download the Build Tools bootstrapper.
     curl -SL --output vs_buildtools.exe https://aka.ms/vs/17/release/vs_buildtools.exe `
     `
-    # Install Build Tools with the Microsoft.VisualStudio.Workload.AzureBuildTools workload, excluding workloads and components with known issues.
+    # Install Build Tools with the Microsoft.VisualStudio.Workload.MSBuildTools workload, excluding workloads and components with known issues.
     && (start /w vs_buildtools.exe --quiet --wait --norestart --nocache `
         --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools" `
-        --add Microsoft.VisualStudio.Workload.AzureBuildTools `
-		--add Microsoft.VisualStudio.Component.VC.CMake.Project `
+        --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended`
         --remove Microsoft.VisualStudio.Component.Windows10SDK.10240 `
         --remove Microsoft.VisualStudio.Component.Windows10SDK.10586 `
         --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 `
