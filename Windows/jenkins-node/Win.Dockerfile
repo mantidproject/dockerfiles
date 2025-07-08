@@ -6,7 +6,8 @@ RUN	xcopy /y C:\Windows\System32\glu32.dll C:\GatheredDlls\ && `
 	xcopy /y C:\Windows\System32\MF.dll C:\GatheredDlls\ && `
 	xcopy /y C:\Windows\System32\MFPlat.dll C:\GatheredDlls\ && `
 	xcopy /y C:\Windows\System32\MFReadWrite.dll C:\GatheredDlls\ && `
-	xcopy /y C:\Windows\System32\dxva2.dll C:\GatheredDlls\
+	xcopy /y C:\Windows\System32\dxva2.dll C:\GatheredDlls\ && `
+	xcopy /y C:\Windows\System32\opengl32.dll C:\GatheredDlls\
 
 FROM jenkins/inbound-agent:3301.v4363ddcca_4e7-3-jdk17-windowsservercore-ltsc2019
 COPY --from=full C:\GatheredDlls\ C:\Windows\System32\
