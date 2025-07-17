@@ -39,7 +39,7 @@
   when: not sdk_stats.stat.exists
 
 - name: Prepare for installing the create-dmg package.
-  include_tasks: create-dmg-prep.yml
+  include_tasks: create-dmg.yml
 
 # Configure macOS Settings.
 

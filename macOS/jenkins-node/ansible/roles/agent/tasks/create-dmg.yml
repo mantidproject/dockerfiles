@@ -1,0 +1,16 @@
+# Set up the create-dmg installation.
+
+- name: Install graphicsmagick.
+  community.general.homebrew:
+    name: graphicsmagick
+    state: present
+
+- name: Install imagemagick.
+  community.general.homebrew:
+    name: imagemagick
+    state: present
+
+- name: Install create-dmg.
+  community.general.homebrew:
+    name: create-dmg
+    state: present
