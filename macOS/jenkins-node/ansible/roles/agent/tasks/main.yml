@@ -5,7 +5,7 @@
 
 - name: Add user to sudoers on new macs.
   shell: /Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add
-  ignore_errors: true  # Not all the macs have these, so don't panic if it fails.
+  ignore_errors: true  # Not all the macs have these, so don't panic if it fails. (ISIS Specific)
     
 # Install Requirements
 
@@ -26,8 +26,8 @@
     name: git
     state: latest
 
-- name: Install and Set up Java 11
-  include_tasks: java11.yml
+- name: Install and Set up Java {{ JAVA_VERSION }}.
+  include_tasks: java.yml
 
 - name: Check for the MacOSX SDK
   stat:
@@ -38,16 +38,8 @@
   include_tasks: mac-sdk.yml
   when: not sdk_stats.stat.exists
 
-- name: Install node
-  community.general.homebrew:
-    name: node
-    state: present
-
-- name: Install create-dmg
-  community.general.npm:
-    name: create-dmg
-    global: true
-    state: latest
+- name: Prepare for installing the create-dmg package.
+  include_tasks: create-dmg-prep.yml
 
 # Configure macOS Settings.
 

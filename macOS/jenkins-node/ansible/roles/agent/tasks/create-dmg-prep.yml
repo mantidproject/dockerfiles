@@ -1,0 +1,23 @@
+# Set up the create-dmg installation prerequisites.
+
+- name: Install graphicsmagick.
+  community.general.homebrew:
+    name: graphicsmagick
+    state: present
+
+- name: Install imagemagick.
+  community.general.homebrew:
+    name: imagemagick
+    state: present
+
+- name: Install the node package manager.
+  community.general.homebrew:
+    name: node
+    state: present
+
+- name: Manually install create-dmg.
+  ansible.builtin.pause:
+    prompt: |
+      SSH into the {{ inventory_hostname }} and run "/opt/homebrew/bin/npm install create-dmg".
+      Press Enter when complete.
+      Press Ctrl+C then A to abort.

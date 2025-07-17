@@ -1,0 +1,17 @@
+# Set up Java {{ JAVA_VERSION }} Installation.
+
+- name: Install Java {{ JAVA_VERSION }}.
+  community.general.homebrew:
+    name: openjdk@{{ JAVA_VERSION }}
+    state: present
+
+- name: Symlink Java {{ JAVA_VERSION }}.
+  shell: ln -sfn /opt/homebrew/opt/openjdk@{{ JAVA_VERSION }}/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-{{ JAVA_VERSION }}.jdk
+  become: true
+  become_user: root
+
+- name: Ensure that the java install has been added to the path.
+  ansible.builtin.lineinfile:
+    path: ~/.zshrc
+    line: export PATH="/opt/homebrew/opt/openjdk@{{ JAVA_VERSION }}/bin:$PATH"
+    create: true
