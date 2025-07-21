@@ -1,3 +1,11 @@
+---
+# Install Git.
+
+- name: Install git via homebrew.
+  community.general.homebrew:
+    name: git
+    state: latest
+
 # Set up the create-dmg installation.
 
 - name: Install graphicsmagick.

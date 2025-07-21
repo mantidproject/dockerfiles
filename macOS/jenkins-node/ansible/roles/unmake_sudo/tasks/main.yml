@@ -1,0 +1,6 @@
+---
+# Make the user a normal user.
+
+- name: Remove user from sudoers on ISIS-managed macs.
+  shell: /Applications/Privileges.app/Contents/Resources/PrivilegesCLI --remove
+  ignore_errors: true

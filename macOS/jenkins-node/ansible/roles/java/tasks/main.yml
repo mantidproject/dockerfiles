@@ -1,3 +1,4 @@
+---
 # Set up Java {{ JAVA_VERSION }} Installation.
 
 - name: Install Java {{ JAVA_VERSION }}.

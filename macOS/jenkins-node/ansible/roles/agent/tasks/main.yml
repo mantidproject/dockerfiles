@@ -1,65 +1,17 @@
 ---
-# Deploy Jenkins agent on macOS
-
-# Set up the environment
-
-- name: Add user to sudoers on new macs.
-  shell: /Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add
-  ignore_errors: true  # Not all the macs have these, so don't panic if it fails. (ISIS Specific)
-    
-# Install Requirements
-
-- name: Install homebrew
-  include_role:
-    name: geerlingguy.mac.homebrew
-
-- name: Make sure homebrew bin is in the path.
-  ansible.builtin.lineinfile:
-    path: /etc/paths
-    state: present
-    line: '/opt/homebrew/bin'
-  become: true
-  become_user: root
-
-- name: Install git.
-  community.general.homebrew:
-    name: git
-    state: latest
-
-- name: Install and Set up Java {{ JAVA_VERSION }}.
-  include_tasks: java.yml
-
-- name: Check for the MacOSX SDK
-  stat:
-    path: /opt/MacOSX10.10.sdk
-  register: sdk_stats
-  
-- name: Download and Install MacOSX SDK
-  include_tasks: mac-sdk.yml
-  when: not sdk_stats.stat.exists
-
-- name: Install the create-dmg package.
-  include_tasks: create-dmg.yml
-
-# Configure macOS Settings.
-
-- name: Disable screensaver.
-  shell: defaults write com.apple.screensaver idleTime 0
-
-- name: Disable saved application states to avoid dialog.
-  shell: defaults write org.python.python NSQuitAlwaysKeepsWindows -bool false
-
-- name: Ensure the machine boots back up after a power failure.
-  shell: systemsetup -setrestartpowerfailure on
-  become: true
-
 # Test and start the agent. Note: Connection will only begin consistently every 5th minute if changes are made.
 
-- name: Start the jenkins agent
-  include_tasks: start-jenkins-agent.yml
+- name: Download jenkins agent script.
+  shell: curl -o $HOME/jenkins-agent.sh https://raw.githubusercontent.com/mantidproject/mantid/refs/heads/main/buildconfig/Jenkins/jenkins-agent.sh
 
-# Tidy up the environment.
+- name: Make the agent script executable.
+  shell: chmod 777 $HOME/jenkins-agent.sh
 
-- name: Remove user from sudoers on new macs.
-  shell: /Applications/Privileges.app/Contents/Resources/PrivilegesCLI --remove
-  ignore_errors: true  # Not all the macs have these, so don't panic if it fails.
+- name: Check the Jenkins agent connection script.
+  script: ./check-connection.sh {{ agent_name }} {{ agent_secret }}
+
+- name: Setup a crontab entry to run the agent script every 5th minute.
+  ansible.builtin.cron:
+    name: "Run agent script"
+    minute: "*/5"
+    job: "$HOME/jenkins-agent.sh {{ agent_name }} {{ agent_secret }} >> ~/agentlog.txt 2>&1"

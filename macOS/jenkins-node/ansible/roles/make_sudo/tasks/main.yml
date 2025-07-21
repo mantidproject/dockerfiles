@@ -1,0 +1,7 @@
+---
+# Make the user a super user.
+
+- name: Add user to sudoers on ISIS-managed macs.
+  shell: /Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add
+  ignore_errors: true  # This is only relevant on ISIS-managed Macs, so don't panic if it fails.
+
