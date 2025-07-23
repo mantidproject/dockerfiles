@@ -1,7 +1,7 @@
 - name: Playbook to clean macOS jenkins agents by removing workspaces.
   hosts: all
 
-  # Tags available: pr, nightly, package, docs
+  # Tags available: pr, nightly, package, docs, core
   tasks:
   - name: Collect workspace sizes
     ansible.builtin.shell:

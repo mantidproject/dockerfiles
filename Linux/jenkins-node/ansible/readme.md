@@ -65,12 +65,13 @@ ansible-playbook -i inventory.txt jenkins-agent-staging.yml -u FedID -K -t agent
 
   - `pr`: Pull Requests.
   - `nightly`: Nightly deployments for main and release next.
-  - `package`: Build Packages from Branch
-  - `docs`: Docs build and publish.  
+  - `package`: Build Packages from Branch.
+  - `docs`: Docs build and publish.
+  - `core`: Core Team test pipeline builds.
 
 - Run the following with the desired tags (which use a comma-separated list):
 ```sh
-ansible-playbook -i inventory.txt clean-jenkins-agents.yml -u FedID -K -t pr,nightly,package,docs
+ansible-playbook -i inventory.txt clean-jenkins-agents.yml -u FedID -K -t pr,nightly,package,docs,core
 ```
 
 - Set the nodes you shut down back online.
