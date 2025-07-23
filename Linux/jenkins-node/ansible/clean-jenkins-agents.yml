@@ -48,3 +48,11 @@
       chdir: "/jenkins_workdir/workspace"
     become: yes
     tags: [never, docs]
+
+  - name: Remove Core Pipeline directories
+    community.docker.docker_container_exec:
+      container: "{{ agent_name }}"
+      command: bash -l -c "rm -rf Core_Team_test_pipeline*"
+      chdir: "/jenkins_workdir/workspace"
+    become: yes
+    tags: [never, core]

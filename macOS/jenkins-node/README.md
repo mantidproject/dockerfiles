@@ -98,6 +98,9 @@ The ansible scripts will set up the machine and connect it to the Jenkins contro
 
     - Note: The agent is kept connected to the controller by a crontab entry that runs on every 5th minute. This means that on first setup the agent may not connect until a minute divisible by five has passed. 
 
+## Cleaning nodes
+
+    See [here](/Linux/jenkins-node/ansible/readme.md#Cleaning-nodes) for instructions on using the `clean-jenkins-agents.yml` playbook to clean nodes.
 
 ## Troubleshooting
 
