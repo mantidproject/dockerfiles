@@ -56,6 +56,7 @@ RUN `
         --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64;14.38.33135 `
         --add Microsoft.VisualStudio.Component.Windows10SDK `
         --add Microsoft.VisualStudio.Component.VC.CoreBuildTools `
+        --add Microsoft.VisualStudio.Component.VC.v142.x86.x64 `
         || IF "%ERRORLEVEL%"=="3010" EXIT 0) `
     `
     # Cleanup
