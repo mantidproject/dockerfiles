@@ -53,10 +53,10 @@ RUN `
     # Install Build Tools with the Microsoft.VisualStudio.Workload.MSBuildTools workload, excluding workloads and components with known issues.
     && (start /w vs_buildtools.exe --quiet --wait --norestart --nocache `
         --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools" `
+        --add Microsoft.VisualStudio.ComponentGroup.Tools.VC.143.x86.x64 `
         --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64;14.38.33135 `
         --add Microsoft.VisualStudio.Component.Windows10SDK `
-        --add Microsoft.VisualStudio.Component.VC.CoreBuildTools `
-        --add Microsoft.VisualStudio.Component.VC.v142.x86.x64 `
+        --remove Microsoft.VisualStudio.Component.VC.Tools.x86.x64;14.44.35207 `
         || IF "%ERRORLEVEL%"=="3010" EXIT 0) `
     `
     # Cleanup
