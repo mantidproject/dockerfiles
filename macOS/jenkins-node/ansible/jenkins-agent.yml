@@ -12,6 +12,8 @@
       tags: [java, dependencies]
     - role: sdk
       tags: [sdk, dependencies]
+    - role: create_dmg
+      tags: [dmg, dependencies]
     - role: other_dependencies
       tags: [other_dependencies, dependencies]
     - role: settings
