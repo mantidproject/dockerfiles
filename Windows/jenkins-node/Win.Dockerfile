@@ -50,11 +50,12 @@ RUN `
     # Download the Build Tools bootstrapper.
     curl -SL --output vs_buildtools.exe https://aka.ms/vs/17/release/vs_buildtools.exe `
     `
-    # Install Build Tools with the Microsoft.VisualStudio.Workload.MSBuildTools workload, excluding workloads and components with known issues.
+    # Install MS Build Tools and MSVC
     && (start /w vs_buildtools.exe --quiet --wait --norestart --nocache `
         --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools" `
         --add Microsoft.VisualStudio.Component.VC.14.38.17.8.x86.x64 `
-        --add Microsoft.VisualStudio.Component.Windows10SDK `
+        --add Microsoft.VisualStudio.Component.Windows10SDK.19041 `
+        --add Microsoft.VisualStudio.Component.VC.CMake.Project `
         || IF "%ERRORLEVEL%"=="3010" EXIT 0) `
     `
     # Cleanup
