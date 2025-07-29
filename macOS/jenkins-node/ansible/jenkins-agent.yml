@@ -1,7 +1,24 @@
 - name: Deploy macOS Jenkins agent for Mantid.
   hosts: all
+  vars:
+    JAVA_VERSION: 17
 
   roles:
+    - role: make_sudo
+      tags: [always]
+    - role: homebrew
+      tags: [homebrew, dependencies]
+    - role: java
+      tags: [java, dependencies]
+    - role: sdk
+      tags: [sdk, dependencies]
+    - role: create_dmg
+      tags: [dmg, dependencies]
+    - role: other_dependencies
+      tags: [other_dependencies, dependencies]
+    - role: settings
+      tags: [settings]
     - role: agent
-      tags: "agent"
-
+      tags: [agent]
+    - role: unmake_sudo
+      tags: [always]

@@ -1,0 +1,43 @@
+---
+# Set up the create-dmg installation.
+
+- name: Install graphicsmagick.
+  community.general.homebrew:
+    name: graphicsmagick
+    state: present
+
+- name: Install imagemagick.
+  community.general.homebrew:
+    name: imagemagick
+    state: present
+
+- name: Install node for its package manager.
+  community.general.homebrew:
+    name: node
+    state: present
+
+- name: Ensure the wrong (homebrew-hosted) create-dmg is not installed.
+  community.general.homebrew:
+    name: "create-dmg"
+    state: absent
+
+- name: Check if create-dmg is installed.
+  ansible.builtin.stat:
+    path: /opt/homebrew/lib/node_modules/create-dmg/cli.js
+  register: create_dmg_stat
+
+- name: Install create-dmg.
+  ansible.builtin.pause:
+    prompt: |
+      Manually install create-dmg from npm by logging into {{ ansible_hostname }} and running
+      
+        npm install --global create-dmg
+
+      When complete, press Enter to continue. Press Ctrl+C then a to abort.
+  when: not create_dmg_stat.stat.exists
+
+- name: Check if create-dmg is now installed.
+  ansible.builtin.stat:
+    path: /opt/homebrew/lib/node_modules/create-dmg/cli.js
+  register: create_dmg_stat
+  failed_when: not create_dmg_stat.stat.exists

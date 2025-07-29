@@ -1,0 +1,7 @@
+---
+# Install Git.
+
+- name: Install git via homebrew.
+  community.general.homebrew:
+    name: git
+    state: latest
