@@ -1,7 +1,6 @@
 - name: Deploy macOS Jenkins agent for Mantid.
   hosts: all
   vars:
-    homebrew_upgrade_all_packages: true
     JAVA_VERSION: 17
 
   roles:
