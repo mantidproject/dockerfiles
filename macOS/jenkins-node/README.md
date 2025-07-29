@@ -38,13 +38,20 @@ There are few steps that need to be manually taken on a brand new machine before
 - Install XCode Command Line Tools:
 
     - Launch a terminal.
-    - Run `xcode-select --install`.
+    - Run:
+
+        ```sh
+        xcode-select --install
+        ```
+
     - Wait for the popup to appear and click `Install`.
 
 
 - Back on the machine you will be doing the deployment on, you will need to add your SSH key to the new mac:
 
-    - `ssh-copy-id mantidbuilder@<HOST>`
+    ```sh
+    ssh-copy-id mantidbuilder@<HOST>
+    ```
 
 ## Jenkins Controller Node Creation
 
@@ -67,13 +74,23 @@ The ansible scripts will set up the machine and connect it to the Jenkins contro
 2. Clone the [`mantidproject/ansible-linode`](https://github.com/mantidproject/ansible-linode) repo.
 3. Navigate to the base of the cloned repo and run:
 
-    - `mamba create --prefix ./condaenv ansible`
-    - `mamba activate ./condaenv`
-    - Note: You can activate the environment from anywhere by providing the full path to the `condaenv` directory.
+    ```sh
+    mamba create --prefix ./condaenv ansible
+    ```
+
+    ```sh
+    mamba activate ./condaenv
+    ```
+
+    Note: You can activate the environment from anywhere by providing the full path to the `condaenv` directory.
 
 4. Clone the [`dockerfiles`](https://github.com/mantidproject/dockerfiles) repo and navigate to `macOS/jenkins-node/ansible`.
 5. Install or Update the required collections from Ansible Galaxy by running:
-    - `ansible-galaxy install -r requirements.yml --force`
+
+    ```sh
+    ansible-galaxy install -r requirements.yml --force
+    ```
+
 6. Time to use that secret you made a note of. Create an `inventory.txt` file with the details of the machines to deploy to (one per line):
 
     ```ini
@@ -133,5 +150,5 @@ The ansible scripts will set up the machine and connect it to the Jenkins contro
 
 ## Troubleshooting
 
-- You may need to log in manually or by using VNC at least once to allow the ansible script to run. This can be due to FireVault blocking SSH connections until the machine is unlocked.
+- You may need to log in manually or by using VNC at least once to allow the ansible script to run. This can be due to FileVault blocking SSH connections until the machine is unlocked.
     - To make use of VNC from a mac: Open finder and press `Cmd+K`, then enter `vnc://<HOSTNAME>`. Use the `mantidbuilder` login for the machine.
