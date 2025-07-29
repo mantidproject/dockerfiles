@@ -99,7 +99,13 @@ The ansible scripts will set up the machine and connect it to the Jenkins contro
     <IP_ADDRESS_OR_HOSTNAME_2> agent_name=<NAME_OF_AGENT_ON_JENKINS_2> agent_secret=<SECRET_DISPLAYED_ON_CONNECTION_SCREEN_2>
     ```
 
-    If you've forgotten the secret, it can be found under `Environment Variables` in the `System Information` section of the agent.
+    If you've forgotten the secret, it can be found under `System Information` -> `System Properties` ->  `sun.java.command` on the agent page.
+
+    If it's not appearing there for some reason, run the following command in the [Jenkins Console](https://builds.mantidproject.org/script):
+
+    ```groovy
+    jenkins.model.Jenkins.getInstance().getComputer("<NAME_OF_AGENT_ON_JENKINS>").getJnlpMac()
+    ```
 
 ### Running the Script to Deploy the Agent
 
@@ -115,7 +121,7 @@ The ansible scripts will set up the machine and connect it to the Jenkins contro
     ansible-playbook -i inventory.txt jenkins-agent.yml -u mantidbuilder -K
     ```
 
-3. When prompted, enter the agent's password that you made earlier. If you weren't the one who made the password, it should be in the `ISIS Jenkins Nodes` file on Keeper.
+3. When prompted, enter the agent's password that you made earlier. If you weren't the one who made the password, check for it in the "Mac Nodes" folder in the Mantid DevOps vault on keeper.
 4. Wait for the play to complete and visit `builds.mantidproject.org/computer/NAME_OF_AGENT_ON_JENKINS`. The agent should be connected within five minutes.
 
     - Note: The agent is kept connected to the controller by a crontab entry that runs on every 5th minute. This means that on first setup the agent may not connect until a minute divisible by five has passed. 
