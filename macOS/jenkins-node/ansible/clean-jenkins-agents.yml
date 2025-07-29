@@ -1,0 +1,46 @@
+- name: Playbook to clean macOS jenkins agents by removing workspaces.
+  hosts: all
+
+  # Tags available: pr, nightly, package, docs, core
+  tasks:
+  - name: Collect workspace sizes
+    ansible.builtin.shell:
+      cmd: "du -sh * | column -t"
+      chdir: "$HOME/Jenkins/workspace"
+    register: du_result
+    tags: [always]
+
+  - name: Display workspace sizes
+    debug:
+      msg: "{{ du_result.stdout_lines }}"
+    tags: [always]
+
+  - name: Remove PR directories
+    ansible.builtin.shell:
+      cmd: "rm -rf pull_requests*"
+      chdir: "$HOME/Jenkins/workspace"
+    tags: [never, pr]
+
+  - name: Remove Nightly directories
+    ansible.builtin.shell:
+      cmd: "rm -rf *_nightly_deployment*"
+      chdir: "$HOME/Jenkins/workspace"
+    tags: [never, nightly]
+
+  - name: Remove Packages from Branch directories
+    ansible.builtin.shell:
+      cmd: "rm -rf build_packages_from_branch*"
+      chdir: "$HOME/Jenkins/workspace"
+    tags: [never, package]
+
+  - name: Remove Docs Build directories
+    ansible.builtin.shell:
+      cmd: "rm -rf build_and_publish_docs*"
+      chdir: "$HOME/Jenkins/workspace"
+    tags: [never, docs]
+
+  - name: Remove Core Pipeline directories
+    ansible.builtin.shell:
+      cmd: "rm -rf Core_Team_test_pipeline*"
+      chdir: "$HOME/Jenkins/workspace"
+    tags: [never, core]
