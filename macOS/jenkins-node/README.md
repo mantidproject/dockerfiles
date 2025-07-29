@@ -86,21 +86,50 @@ The ansible scripts will set up the machine and connect it to the Jenkins contro
 
 ### Running the Script to Deploy the Agent
 
-1. Add your SSH key to the host by running `ssh-copy-id mantidbuilder@<HOSTNAME>` in a terminal.
-1. Run the playbook to deploy to all the machines defined in your `inventory.txt` file:
+1. Add your SSH key to the host by running the following in a terminal:
+
+    ```sh
+    ssh-copy-id mantidbuilder@<HOSTNAME>
+    ```
+
+2. Run the playbook to deploy to all the machines defined in your `inventory.txt` file:
 
     ```sh
     ansible-playbook -i inventory.txt jenkins-agent.yml -u mantidbuilder -K
     ```
 
-2. When prompted, enter the agent's password that you made earlier. If you weren't the one who made the password, it should be in the `ISIS Jenkins Nodes` file on Keeper.
-3. Wait for the play to complete and visit `https://builds.mantidproject.org/computer/NAME_OF_AGENT_ON_JENKINS`. The agent should be connected within five minutes.
+3. When prompted, enter the agent's password that you made earlier. If you weren't the one who made the password, it should be in the `ISIS Jenkins Nodes` file on Keeper.
+4. Wait for the play to complete and visit `builds.mantidproject.org/computer/NAME_OF_AGENT_ON_JENKINS`. The agent should be connected within five minutes.
 
     - Note: The agent is kept connected to the controller by a crontab entry that runs on every 5th minute. This means that on first setup the agent may not connect until a minute divisible by five has passed. 
 
 ## Cleaning nodes
 
-See [here](/Linux/jenkins-node/ansible/readme.md#Cleaning-nodes) for instructions on using the `clean-jenkins-agents.yml` playbook to clean nodes.
+- Before cleaning any nodes mark them temporarily offline on Jenkins and ensure no jobs are running on them before cleaning.
+
+- Update the `inventory.txt` file [as above](#getting-the-right-environment), including only the nodes you intend to clean.
+
+- If you haven't done it already, add your SSH key to the host.
+
+    ```sh
+    ssh-copy-id mantidbuilder@<HOSTNAME>
+    ```
+
+- The tasks in the cleaning playbook make use of tags to determine what is cleaned:
+
+  - `pr`: Pull Requests.
+  - `nightly`: Nightly deployments for main and release next.
+  - `package`: Build Packages from Branch.
+  - `docs`: Docs build and publish.
+  - `core`: Core Team test pipeline builds.
+
+- Run the following with the desired tags (using a comma-separated list):
+
+    ```sh
+    ansible-playbook -i inventory.txt clean-jenkins-agents.yml -u mantidbuilder -K -t pr,nightly,package,docs,core
+    ```
+
+- Set the nodes you shut down back online.
 
 ## Troubleshooting
 
