@@ -26,6 +26,7 @@
     path: /opt/homebrew/lib/node_modules/create-dmg/cli.js
   register: create_dmg_stat
 
+# For confusing reasons (that may be pathing-related), this step has to be done manually.
 - name: Install create-dmg.
   ansible.builtin.pause:
     prompt: |
@@ -41,3 +42,30 @@
     path: /opt/homebrew/lib/node_modules/create-dmg/cli.js
   register: create_dmg_stat
   failed_when: not create_dmg_stat.stat.exists
+
+- name: Check that create-dmg is a runnable version.
+  ansible.builtin.command:
+    argv:
+    - /opt/homebrew/bin/node
+    - /opt/homebrew/bin/create-dmg
+    - --version
+  register: create_dmg_version
+  ignore_errors: yes
+
+- name: Update create-dmg.
+  ansible.builtin.command:
+    argv:
+    - /opt/homebrew/bin/node
+    - /opt/homebrew/bin/npm
+    - install
+    - --global
+    - create-dmg
+  when: create_dmg_version.rc != 0
+
+- name: Check that create-dmg is now a runnable version.
+  ansible.builtin.command:
+    argv:
+    - /opt/homebrew/bin/node
+    - /opt/homebrew/bin/create-dmg
+    - --version
+  when: create_dmg_version.rc != 0
