@@ -51,11 +51,12 @@ RUN `
     curl -SL --output vs_buildtools.exe https://aka.ms/vs/17/release/vs_buildtools.exe `
     `
     # Install MS Build Tools and MSVC
+    # MSVC 14.38.17.8 installed to avoid bug with 14.4*
     && (start /w vs_buildtools.exe --quiet --wait --norestart --nocache `
         --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools" `
+        --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 `
         --add Microsoft.VisualStudio.Component.VC.14.38.17.8.x86.x64 `
         --add Microsoft.VisualStudio.Component.Windows10SDK.19041 `
-        --add Microsoft.VisualStudio.Component.VC.CMake.Project `
         || IF "%ERRORLEVEL%"=="3010" EXIT 0) `
     `
     # Cleanup
