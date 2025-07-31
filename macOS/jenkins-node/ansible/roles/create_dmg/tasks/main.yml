@@ -51,6 +51,7 @@
     - --version
   register: create_dmg_version
   ignore_errors: yes
+  changed_when: create_dmg_version.rc != 0
 
 - name: Update create-dmg.
   ansible.builtin.pause:
