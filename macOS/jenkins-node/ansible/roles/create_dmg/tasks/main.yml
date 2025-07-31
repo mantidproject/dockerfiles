@@ -53,13 +53,13 @@
   ignore_errors: yes
 
 - name: Update create-dmg.
-  ansible.builtin.command:
-    argv:
-    - /opt/homebrew/bin/node
-    - /opt/homebrew/bin/npm
-    - install
-    - --global
-    - create-dmg
+  ansible.builtin.pause:
+    prompt: |
+      Manually update create-dmg from npm by logging into {{ ansible_hostname }} and running
+      
+        npm install --global create-dmg
+
+      When complete, press Enter to continue. Press Ctrl+C then a to abort.
   when: create_dmg_version.rc != 0
 
 - name: Check that create-dmg is now a runnable version.
