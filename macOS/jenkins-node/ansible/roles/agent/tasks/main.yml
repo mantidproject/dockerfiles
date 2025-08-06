@@ -7,6 +7,16 @@
 - name: Make the agent script executable.
   shell: chmod 777 $HOME/jenkins-agent.sh
 
+- name: Remove the old, poorly-named crontab job.
+  ansible.builtin.cron:
+    name: "Run slave script"
+    state: absent
+
+- name: Remove the old script
+  ansible.builtin.file:
+   path: ~/jenkins-slave.sh
+   state: absent
+
 - name: Check the Jenkins agent connection script.
   script: ./check-connection.sh {{ agent_name }} {{ agent_secret }}
 
