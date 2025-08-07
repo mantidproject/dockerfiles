@@ -12,7 +12,7 @@ RUN yum install -y \
   rm -rf /tmp/* /var/tmp/*
 
 # Setup Jenkins agent
-ARG JENKINS_AGENT_VERSION=4.14
+ARG JENKINS_AGENT_VERSION=3327.v868139a_d00e0
 RUN export DOCKER_BUILDKIT=1 && \
   mkdir -p /jenkins_workdir && \
   chmod o+rw /jenkins_workdir && \
