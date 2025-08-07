@@ -3,8 +3,7 @@
   vars:
     package_updates_reboot: true
     deploy_type: staging
-    jenkins_url: builds.a.staging-mantidproject.org # builds.b.staging-mantidproject.org
-    jenkins_identity: <jenkins_identity>
+    jenkins_url: https://builds.a.staging-mantidproject.stfc.ac.uk # https://builds.b.staging-mantidproject.stfc.ac.uk
     pip_install_packages:
       - name: docker
 
