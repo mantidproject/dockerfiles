@@ -11,7 +11,7 @@ This describes how to deploy a macOS build node. Such a node is able to perform 
 
 ## Manual Setup
 
-There are few steps that need to be manually taken on a brand new machine before ansible can take over.
+There are few steps that need to be manually taken on a brand new machine before ansible can take over. Note that some of the settings may move as the macOS version increases, so you may have to search for them.
 
 - Login to the provided administrator account.
 - Set up a `mantidbuilder` user on the new machine:
@@ -70,9 +70,9 @@ The ansible scripts will set up the machine and connect it to the Jenkins contro
 
 ### Getting the Right Environment
 
-1. If you already have the `ansible-linode` repo and associated conda environment, activate it and skip to step 4.
-2. Clone the [`mantidproject/ansible-linode`](https://github.com/mantidproject/ansible-linode) repo.
-3. Navigate to the base of the cloned repo and run:
+1. Clone the [`dockerfiles`](https://github.com/mantidproject/dockerfiles) repo and navigate to `macOS/jenkins-node/ansible`.
+
+1. Create and activate a new conda environment for installing ansible:
 
     ```sh
     mamba create --prefix ./condaenv ansible
@@ -84,14 +84,13 @@ The ansible scripts will set up the machine and connect it to the Jenkins contro
 
     Note: You can activate the environment from anywhere by providing the full path to the `condaenv` directory.
 
-4. Clone the [`dockerfiles`](https://github.com/mantidproject/dockerfiles) repo and navigate to `macOS/jenkins-node/ansible`.
-5. Install or Update the required collections from Ansible Galaxy by running:
+1. Install or Update the required collections from Ansible Galaxy by running:
 
     ```sh
     ansible-galaxy install -r requirements.yml --force
     ```
 
-6. Time to use that secret you made a note of. Create an `inventory.txt` file with the details of the machines to deploy to (one per line):
+1. Time to use that secret you made a note of. Create an `inventory.txt` file with the details of the machines to deploy to (one per line):
 
     ```ini
     [all]
