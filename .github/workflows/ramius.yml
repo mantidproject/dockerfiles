@@ -1,0 +1,35 @@
+
+
+name: ramius
+on: workflow_dispatch
+
+jobs:
+  job_debug:
+    runs-on: ubuntu-latest
+    steps:
+      - if: true
+        name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - if: true
+        name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - if: true
+        name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - if: true
+        name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: dump shell env vars
+        run: |
+          env -0 | while IFS='' read -d '' line ; do printf '%s\t: %s\n' "${line%%=*}" "${line#*=}" | expand -t 30 | sed ':a;N;$!ba;s/\n/ /g'; done | LC_COLLATE=C sort -b
+
+
+
