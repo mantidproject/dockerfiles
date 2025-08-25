@@ -31,17 +31,63 @@ jobs:
         run: |
           env -0 | while IFS='' read -d '' line ; do printf '%s\t: %s\n' "${line%%=*}" "${line#*=}" | expand -t 30 | sed ':a;N;$!ba;s/\n/ /g'; done | LC_COLLATE=C sort -b
 
+  job_setup:
+    runs-on: ubuntu-latest
+    steps:
+      - id: semver_tag
+        name: retrieve semantic version of latest tag
+        run: |
+          # Initial URL for the first page of the API
+          next_url="https://hub.docker.com/v2/repositories/library/almalinux/tags/?page=1&page_size=100"
+
+          # An empty array to hold all the results
+          all_items_array=()
+
+          # Loop as long as next_url exists
+          while [ -n "${next_url}" ]; do
+            # Fetch data and extract the new next_url and the items array
+            # The --silent (-s) flag prevents curl from printing progress bars
+            response=$(curl -s "${next_url}")
+
+            # Use jq to extract the next URL and append items to the results
+            # The 'jq -r' flag outputs raw strings
+            next_url=$(echo "${response}" | jq -r '.next')
+
+            # Append the items from the current page to the all_items_array
+            # jq -c flattens the JSON into a single line, making it easier to append
+            current_items=$(echo "${response}" | jq -c '.results')
+
+            # Append the current page's items to the main array
+            while IFS= read -r item; do
+              all_items_array+=("${item}")
+            done <<< "${current_items}"
+          done
+
+          #
+          # Output the combined array of all items as a single JSON object, then filter to
+          # find the semantic version (x.y) tag that shares the same digest as the latest tag
+          #
+          printf '%s\n' "${all_items_array[@]}" \
+            | jq -r '.
+              | flatten | map(del(.images)) | group_by(.digest) | .[]
+              | select(.[].name == "latest") | .[]
+              | select(.name | match("^\\d+.\\d+$"))
+            '
+
+
+
 
   job_docker:
-    if: false
     runs-on: ubuntu-latest
     steps:
       - name: setup buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: build and push
+      - name: build and push - mantid development image
         uses: docker/build-push-action@v6
         with:
           context: ./Linux/development/docker
-          push: false
-          tags: 
+          push: true
+          tags:
+            - ghcr.io/mantidproject/mantid-development-alma9:latest
+            - ghcr.io/mantidproject/mantid-development-alma9:${{ version.alma9 }}
