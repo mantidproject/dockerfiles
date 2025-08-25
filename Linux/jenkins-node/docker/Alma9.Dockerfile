@@ -3,7 +3,7 @@
 ARG DEVELOPMENT_IMAGE_VERSION=0.1
 FROM ghcr.io/mantidproject/mantid-development-alma9:${DEVELOPMENT_IMAGE_VERSION}
 
-#Add label for transparency
+# Add label for transparency
 LABEL org.opencontainers.image.source https://github.com/mantidproject/dockerfiles
 
 # Install dependencies

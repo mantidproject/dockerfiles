@@ -32,4 +32,16 @@ jobs:
           env -0 | while IFS='' read -d '' line ; do printf '%s\t: %s\n' "${line%%=*}" "${line#*=}" | expand -t 30 | sed ':a;N;$!ba;s/\n/ /g'; done | LC_COLLATE=C sort -b
 
 
+  job_docker:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - name: setup buildx
+        uses: docker/setup-buildx-action@v3
 
+      - name: build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./Linux/development/docker
+          push: false
+          tags: 

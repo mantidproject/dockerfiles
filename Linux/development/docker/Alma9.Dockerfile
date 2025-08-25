@@ -2,7 +2,7 @@
 
 FROM almalinux:9
 
-#Add label for transparency
+# Add label for transparency
 LABEL org.opencontainers.image.source https://github.com/mantidproject/dockerfiles
  
 # Add target user
