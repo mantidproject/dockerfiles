@@ -44,5 +44,5 @@ printf '%s\n' "${paginated_results[@]}" \
   | jq -r --arg tag "${tag}" '.
     | flatten | map(del(.images)) | group_by(.digest) | .[]
     | select(.[].name == $tag) | .[]
-    | select(.name | match(\"^\\d+.\\d+$\")) | .name
+    | select(.name | match("^\\d+.\\d+$")) | .name
   '
