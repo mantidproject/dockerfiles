@@ -40,8 +40,9 @@ done
 # Output the combined array of all items as a single JSON object, then flatten and filter
 # to find the semantic version (x.y) tag that shares the same digest as the latest tag
 #
-printf 'semver_tag=%s\n' "${paginated_results[@]}" | jq -r ".
-  | flatten | map(del(.images)) | group_by(.digest) | .[]
-  | select(.[].name == \"${tag}\") | .[]
-  | select(.name | match(\"^\\d+.\\d+$\"))
-"
+printf '%s\n' "${paginated_results[@]}" \
+  | jq -r --arg tag "${tag}" '.
+    | flatten | map(del(.images)) | group_by(.digest) | .[]
+    | select(.[].name == $tag) | .[]
+    | select(.name | match(\"^\\d+.\\d+$\")) | .name
+  '
