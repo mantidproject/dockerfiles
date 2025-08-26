@@ -40,45 +40,45 @@ jobs:
           # Initial URL for the first page of the API
           next_url="https://hub.docker.com/v2/repositories/library/almalinux/tags/?page=1&page_size=100"
 
-          # An empty array to hold all the results
-          all_items_array=()
+          paginated_results=()
 
-          # Loop as long as next_url exists
           while [ -n "${next_url}" ]; do
-            # Fetch data and extract the new next_url and the items array
-            # The --silent (-s) flag prevents curl from printing progress bars
+            # fetch data and extract next_url and paginated tags list
+            # --silent (-s) flag prevents curl from printing progress bars
             response=$(curl -s "${next_url}")
 
-            # Use jq to extract the next URL and append items to the results
-            # The 'jq -r' flag outputs raw strings
+            # use jq to extract the next URL and append tags list
+            # 'jq -r' flag outputs raw strings
             next_url=$(echo "${response}" | jq -r '.next')
 
-            # Append the items from the current page to the all_items_array
-            # jq -c flattens the JSON into a single line, making it easier to append
-            current_items=$(echo "${response}" | jq -c '.results')
+            # append items from current page to the paginated_results
+            # jq -c means flatten JSON output into a single line
+            items=$(echo "${response}" | jq -c '.results')
 
-            # Append the current page's items to the main array
+            # append the current page's items to paginated results array
             while IFS= read -r item; do
-              all_items_array+=("${item}")
-            done <<< "${current_items}"
+              paginated_results+=("${item}")
+            done <<< "${items}"
           done
 
           #
-          # Output the combined array of all items as a single JSON object, then filter to
-          # find the semantic version (x.y) tag that shares the same digest as the latest tag
+          # Output the combined array of all items as a single JSON object, then flatten and filter
+          # to find the semantic version (x.y) tag that shares the same digest as the latest tag
           #
-          printf '%s\n' "${all_items_array[@]}" \
+          printf 'semver_tag=%s\n' "${paginated_results[@]}" \
             | jq -r '.
               | flatten | map(del(.images)) | group_by(.digest) | .[]
               | select(.[].name == "latest") | .[]
               | select(.name | match("^\\d+.\\d+$"))
-            '
-
+            ' >> $GITHUB_OUTPUT
+    outputs:
+      semver_tag: ${{ steps.semver_tag.outputs.tag }}
 
 
 
   job_docker:
     runs-on: ubuntu-latest
+    needs: [ job_setup ]
     steps:
       - name: setup buildx
         uses: docker/setup-buildx-action@v3
@@ -88,6 +88,6 @@ jobs:
         with:
           context: ./Linux/development/docker
           push: true
-          tags:
-            - ghcr.io/mantidproject/mantid-development-alma9:latest
-            - ghcr.io/mantidproject/mantid-development-alma9:${{ version.alma9 }}
+          tags: ghcr.io/mantidproject/mantid-development-alma9:${{ needs.job_setup.outputs.semver_tag }}
+
+
