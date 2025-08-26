@@ -34,4 +34,4 @@ printf 'semver_tag=%s\n' "${paginated_results[@]}" | jq -r '.
   | flatten | map(del(.images)) | group_by(.digest) | .[]
   | select(.[].name == "latest") | .[]
   | select(.name | match("^\\d+.\\d+$"))
-
+'
