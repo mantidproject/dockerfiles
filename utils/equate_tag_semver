@@ -46,3 +46,8 @@ printf '%s\n' "${paginated_results[@]}" \
     | select(.[].name == $tag) | .[]
     | select(.name | match("^\\d+.\\d+$")) | .name
   '
+
+#
+#
+# https://stackoverflow.com/questions/28320134/how-can-i-list-all-tags-for-a-docker-image-on-a-remote-registry
+#
