@@ -13,7 +13,7 @@ This describes how to deploy a macOS build node. Such a node is able to perform 
 Names and Jenkins Secrets for existing nodes are stored in this repository, encrypted, by Ansible Vault. Set this up locally so that you can access and amend any relevant secrets.
 
 - Create a new file in this directory called `vault-password.txt`. Ensure it is not being tracked by git.
-- Copy the password, stored in Keeper, for the "MacOS Inventory Ansible Vault" into this password file.
+- Copy the password, stored in Keeper, for the "Mac Inventory Ansible Vault" into this password file.
 - The `inventory_template.txt` file contains the names and secrets for all macOS nodes currently setup at ISIS.
 - When performing operations on macOS nodes, use the following to view the template and use it to create a regular `inventory.txt` file for the nodes you want to deploy.
 
