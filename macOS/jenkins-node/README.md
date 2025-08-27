@@ -5,7 +5,7 @@ This describes how to deploy a macOS build node. Such a node is able to perform 
 ## Prerequisites
 
 - Access to the Keeper password manager and the `ISIS Jenkins Nodes` file.
-- Access to the [`mantidproject/ansible-linode`](https://github.com/mantidproject/ansible-linode) and [`dockerfiles`](https://github.com/mantidproject/dockerfiles) repositories.
+- Access to the [`mantidproject/dockerfiles`](https://github.com/mantidproject/dockerfiles) repository.
 - If the machine was already setup, you will need your SSH key adding to the list so you can connect remotely.
 
 
