@@ -69,7 +69,7 @@ jobs:
           context:  Linux/development/docker
           file:     Linux/development/docker/Alma9.Dockerfile
           push: true
-          tags: ghcr.io/mantidproject/mantid-development-alma:${{ needs.job_setup.outputs.semver_tag }}
+          tags: ghcr.io/${{ github.repository_owner }}/mantid-development-alma:${{ needs.job_setup.outputs.semver_tag }}
           build-args: |
             SEMVER_TAG=${{ needs.job_setup.outputs.semver_tag }}
 
