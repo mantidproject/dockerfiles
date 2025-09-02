@@ -55,7 +55,7 @@ jobs:
       - name: debug
         run: |
           pwd
-          ls -la ./*
+          ls -la
 
       - name: retrieve ${{ github.event.repository.name }} project
         uses: actions/checkout@v4
