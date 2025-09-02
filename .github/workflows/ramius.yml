@@ -34,6 +34,9 @@ jobs:
   job_setup:
     runs-on: ubuntu-latest
     steps:
+      - name: retrieve ${{ github.event.repository.name }} project
+        uses: actions/checkout@v4
+
       - id: semver_tag
         name: retrieve semantic version of latest tag
         run: |
