@@ -58,10 +58,11 @@ jobs:
       - name: build and push - mantid development image
         uses: docker/build-push-action@v6
         with:
-          context: ./Linux/development/docker
+          context: Linux/development/docker
+          file: Alma9.Dockerfile
           push: true
           tags: ghcr.io/mantidproject/mantid-development-alma:${{ needs.job_setup.outputs.semver_tag }}
           build-args: |
             SEMVER_TAG=${{ needs.job_setup.outputs.semver_tag }}
-          file: Alma9.Dockerfile
+
 
