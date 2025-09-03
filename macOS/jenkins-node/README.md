@@ -8,6 +8,29 @@ This describes how to deploy a macOS build node. Such a node is able to perform 
 - Access to the [`mantidproject/dockerfiles`](https://github.com/mantidproject/dockerfiles) repository.
 - If the machine was already setup, you will need your SSH key adding to the list so you can connect remotely.
 
+## Ansible Vault
+
+Names and Jenkins Secrets for existing nodes are stored in this repository, encrypted, by Ansible Vault. Set this up locally so that you can access and amend any relevant secrets.
+
+- Create a new file in this directory called `vault-password.txt`. Ensure it is not being tracked by git.
+- Copy the password, stored in Keeper, for the "Mac Inventory Ansible Vault" into this password file.
+- The `inventory_template.txt` file contains the names and secrets for all macOS nodes currently setup at ISIS.
+- When performing operations on macOS nodes, use the following to view the template and use it to create a regular `inventory.txt` file for the nodes you want to deploy.
+
+```sh
+ansible-vault view --vault-password-file vault-password.txt inventory_template.txt > inventory.txt
+```
+- If a new node has been created on Jenkins, or a new Mac has been set up, edit the file to add the new hostnames, Jenkins node names, and secrets to the template:
+
+```sh
+ansible-vault edit --vault-password-file vault-password.txt inventory_template.txt
+```
+
+- If the entire inventory template is copied, then `--limit <TAG>` can be used in any ansible commands to only run playbooks on specific nodes. For example:
+
+```sh
+ansible-playbook --limit ndw2559 clean-jenkins-agents.yml -i inventory.txt  -u mantidbuilder -t pr
+```
 
 ## Manual Setup
 
