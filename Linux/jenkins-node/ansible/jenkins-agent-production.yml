@@ -3,6 +3,7 @@
   vars:
     deploy_type: production
     jenkins_url: https://builds.mantidproject.org
+    data_server_hostname: 130.246.80.136
     pip_install_packages:
       - name: docker
 
@@ -16,7 +17,10 @@
       tags: "initial-setup"      
     - role: geerlingguy.docker
       become: yes
-      tags: "initial-setup"      
+      tags: "initial-setup"     
+    - role: mirror-data  # ONLY WORKS FOR ISIS NODES
+      become: yes
+      tags: ["mirror", never]
     - role: agent
       become: yes
       tags: "agent"
