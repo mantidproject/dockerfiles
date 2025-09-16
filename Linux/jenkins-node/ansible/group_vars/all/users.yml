@@ -5,6 +5,11 @@ interactive_users:
     sudoer: true
     ssh_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCpIKf0XM89rG29tBGUVaSUQq/F1OizHm0U/lONnjO8T4qVxsI4fXLgxk7r8hQ5AsNJo142syCjp+L03Y5X0GKLb0Io3OAgnOsk1QPBi8yXYYdscJ9ykczKdeSuDX4VpKUK+ehU9q8aFhMaBunD9lZtyrZy20zwXm7edk3cN2SyBwIrPCqMO3D2VAeNBkF3UkrUYA0Aw9tB5HpIwWqfNovq/Xr4IAu/lbHTUsxelBJLcqirTH/vheNMEfqGzuz2PVBCMrOeBFBou9dLET7avwQ3FDEFyEmLTfGZuRILPVWIOwsar04hvk7RzAIRRVcXTvjbOlcM6Top9CS2hSt7+DILxSCd2GiZABRjYDOgHTNLpCxkG9Xyo6B47gGbYN2UYj4sWQrGc5dsCN4kQIFHb0GdNG1Al5O6c0G/k/CcjOyQiTLauNwXe/waYmRj7DxMm1KTL0QsspajmBnWHtA5JgR/Z4H/LLHWWLIc9Bw5WJeiJLjPOOV5p30+Qmc6zr//Jf8= caila.finn@NDLT1581MAC"
 
+  # Caila Finn (ARM)
+  - username: mkq48465
+    sudoer: true
+    ssh_pubkey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEP1ddsgTMPaSHuV3bGJmL2cvNfFhV6ShkyJcMHmVF0E caila.finn@stfc.ac.uk"
+
   # Sarah Foxley
   - username: ekg26817
     sudoer: true
