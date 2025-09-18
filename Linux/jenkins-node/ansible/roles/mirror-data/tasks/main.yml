@@ -1,11 +1,11 @@
 - name: Create a directory to hold the mirror of the external data.
   ansible.builtin.file:
-    path: /external-data/MD5/
+    path: /mantid_data/MD5/
     state: directory
     mode: '0755'
 
 - name: Check if machine has SSH access to the ISIS data store.
-  ansible.builtin.command: ssh -o BatchMode=True ubuntu@{{ data_server_hostname }} 'echo success'
+  ansible.builtin.command: ssh -o BatchMode=True mkq48465@{{ data_server_hostname }} 'echo success'
   register: connected
   ignore_errors: True
 
@@ -14,7 +14,7 @@
   when: connected.stdout != "success"
 
 - name: Mirror the external data from the main server in a volume (this may take a while).
-  ansible.builtin.command: "rsync -az --perms -o -g {{ data_server_hostname }}:/external-data/MD5/ /external-data/MD5/"
+  ansible.builtin.command: "rsync -az --perms -o -g mkq48465@{{ data_server_hostname }}:/external-data/MD5/ /mantid_data/MD5 -v"
 
 - name: Copy the data update script onto the mirror machine.
   ansible.builtin.copy:

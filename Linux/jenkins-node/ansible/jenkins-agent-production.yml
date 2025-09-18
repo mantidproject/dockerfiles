@@ -3,7 +3,7 @@
   vars:
     deploy_type: production
     jenkins_url: https://builds.mantidproject.org
-    data_server_hostname: 130.246.80.136
+    data_server_hostname: 172.16.114.127
     pip_install_packages:
       - name: docker
 
