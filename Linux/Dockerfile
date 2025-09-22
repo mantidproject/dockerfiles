@@ -25,7 +25,9 @@ RUN dnf -y install \
 RUN dnf clean all
 
 # ----
-
+#
+# DISABLED >>
+#
 FROM os_pkgs AS latex_direct
 
 # Install latex direct from texlive
@@ -44,9 +46,13 @@ ENV INFOPATH=$INFOPATH:/usr/local/texlive/2025/texmf-dist/doc/info
 # Install anyfontsize using texlive pkg manager
 RUN tlmgr install anyfontsize
 
+#
+# <<
+#
+
 # ----
 
-FROM latex_direct AS fslayout
+FROM os_pkgs AS fslayout
 
 # Allow mounting source, build and data directories
 VOLUME ["/mantid_src", "/mantid_build", "/mantid_data"]
@@ -147,11 +153,20 @@ COPY --chmod=755 jenkins-node/docker/jenkins_agent /usr/share/jenkins/agent.sh
 
 CMD ["/usr/share/jenkins/agent.sh"]
 
-
-
 # ----
 
+FROM jenkins_node AS jenkins_node_ornl_repoman
 
+COPY --chmod=644 <<-__EOF__ /home/abc/.condarc
+
+	channels:
+	  - conda-forge
+	custom_channels:
+	    conda-forge: https://repoman.ornl.gov/
+	
+__EOF__
+
+# ----
 
 #FROM almalinux:latest
 #COPY --from=0 /etc/os-release /tmp/base-os-release
