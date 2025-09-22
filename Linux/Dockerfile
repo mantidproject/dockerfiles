@@ -128,13 +128,17 @@ ARG JENKINS_AGENT_SHA256=539da6810936b7df54e204ce7a0257ad2a1b88c620b8a19c74a980c
 ADD \
     --checksum=${JENKINS_AGENT_SHA256} \
     --chmod=644 \
-  https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${JENKINS_AGENT_VERSION}/remoting-${JENKINS_AGENT_VERSION}.jar
+  https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${JENKINS_AGENT_VERSION}/remoting-${JENKINS_AGENT_VERSION}.jar \
   /usr/share/jenkins/agent.jar
 
 RUN echo 'export DOCKER_BUILDKIT=1' >> ${HOME}/.profile
 
 # Define the working directory of the agent
 ENV AGENT_WORKDIR=/jenkins_workdir
+
+RUN \
+  mkdir -p /jenkins_workdir \
+  && chmod o+rw /jenkins_workdir
 
 # Allow mounting as a volume
 VOLUME ["/jenkins_workdir"]
