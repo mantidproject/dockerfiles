@@ -59,53 +59,53 @@ WORKDIR /mantid_build
 
 FROM fslayout AS entrypoint
 
-COPY <<-__EOF__ --chmod=+x /entrypoint.sh
-  #!/bin/bash
-
-  # Handles setting up the target user (abc) and redirecting the command to be
-  # executed by them.
-  # This is all in aid of ensuring that permissions of filesystem mapped volumes
-  # function correctly and that the root user is not used within the container.
-
-
-  000_change_user_ids() {
-
-    PUID=${PUID:-911}
-    PGID=${PGID:-911}
-
-    # Set target user's IDs to match that of the "external"/"host" user
-    groupmod --non-unique --gid ${PGID} ${TARGET_USERNAME}
-    usermod  --non-unique --uid ${PUID} ${TARGET_USERNAME}
-  }
-
-
-  010_abc_own_directories() {
-
-    # Take ownership of working directories
-    chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_src
-    chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_build
-    chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_data
-  }
-
-  020_locale() {
-
-    export LANG=C.UTF-8
-  }
-
-  TARGET_USERNAME="abc"
-
-  # Execute entrypoint rules
-  000_change_user_ids
-  010_abc_own_directories
-  020_locale
-
-  # Run the supplied command as the target user
-  CMD=${@:-"bash"}
-  # This form of runuser is used as it only sets the environment variables
-  # required to change the user, preserving all others that are set (see man
-  # runuser).
-  runuser -u ${TARGET_USERNAME} -- ${CMD}
-
+COPY --chmod=+x <<-__EOF__ /entrypoint.sh
+	#!/bin/bash
+	
+	# Handles setting up the target user (abc) and redirecting the command to be
+	# executed by them.
+	# This is all in aid of ensuring that permissions of filesystem mapped volumes
+	# function correctly and that the root user is not used within the container.
+	
+	
+	000_change_user_ids() {
+	
+	  PUID=${PUID:-911}
+	  PGID=${PGID:-911}
+	
+	  # Set target user's IDs to match that of the "external"/"host" user
+	  groupmod --non-unique --gid ${PGID} ${TARGET_USERNAME}
+	  usermod  --non-unique --uid ${PUID} ${TARGET_USERNAME}
+	}
+	
+	
+	010_abc_own_directories() {
+	
+	# Take ownership of working directories
+	  chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_src
+	  chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_build
+	  chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_data
+	}
+	
+	020_locale() {
+	
+	  export LANG=C.UTF-8
+	}
+	
+	TARGET_USERNAME="abc"
+	
+	# Execute entrypoint rules
+	000_change_user_ids
+	010_abc_own_directories
+	020_locale
+	
+	# Run the supplied command as the target user
+	CMD=${@:-"bash"}
+	# This form of runuser is used as it only sets the environment variables
+	# required to change the user, preserving all others that are set (see man
+	# runuser).
+	runuser -u ${TARGET_USERNAME} -- ${CMD}
+	
 __EOF__
 
 ENTRYPOINT ["/entrypoint.sh"]
