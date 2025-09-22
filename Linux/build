@@ -7,6 +7,6 @@ test -n ${semver_tag} || exit 1
 
 BUILT_KIT=1 docker build \
     --build-arg SEMVER_TAG=${semver_tag} \
-    --tag ghcr.io/idigs/mantid-development-alma:${semver_tag }
+    --tag ghcr.io/idigs/mantid-development-alma:${semver_tag}
   .
 
