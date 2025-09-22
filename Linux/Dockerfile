@@ -57,7 +57,7 @@ WORKDIR /mantid_build
 # ----
 
 
-FROM fslayout AS entrypoint
+FROM fslayout AS mantid_development
 
 COPY --chmod=755 <<-__EOF__ /entrypoint.sh
 	#!/bin/bash
@@ -112,6 +112,41 @@ COPY --chmod=755 <<-__EOF__ /entrypoint.sh
 __EOF__
 
 ENTRYPOINT ["/entrypoint.sh"]
+
+
+# ----
+
+FROM mantid_development AS jenkins_node
+
+# Install Java
+RUN dnf -y install java-17-openjdk-devel
+RUN dnf clean all
+
+# Add jenkins agent jar
+ARG JENKINS_AGENT_VERSION=3327.v868139a_d00e0
+ARG JENKINS_AGENT_SHA256=539da6810936b7df54e204ce7a0257ad2a1b88c620b8a19c74a980ceb1ac5c9d
+ADD \
+    --checksum=${JENKINS_AGENT_SHA256} \
+    --chmod=644 \
+  https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${JENKINS_AGENT_VERSION}/remoting-${JENKINS_AGENT_VERSION}.jar
+  /usr/share/jenkins/agent.jar
+
+RUN echo 'export DOCKER_BUILDKIT=1' >> ${HOME}/.profile
+
+# Define the working directory of the agent
+ENV AGENT_WORKDIR=/jenkins_workdir
+
+# Allow mounting as a volume
+VOLUME ["/jenkins_workdir"]
+
+COPY --chmod=755 jenkins-node/jenkins_agent /usr/share/jenkins/agent.sh
+
+CMD ["/usr/share/jenkins/agent.sh"]
+
+
+
+# ----
+
 
 
 #FROM almalinux:latest
