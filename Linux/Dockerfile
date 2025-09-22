@@ -143,7 +143,7 @@ RUN \
 # Allow mounting as a volume
 VOLUME ["/jenkins_workdir"]
 
-COPY --chmod=755 jenkins-node/jenkins_agent /usr/share/jenkins/agent.sh
+COPY --chmod=755 jenkins-node/docker/jenkins_agent /usr/share/jenkins/agent.sh
 
 CMD ["/usr/share/jenkins/agent.sh"]
 
