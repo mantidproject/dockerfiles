@@ -124,9 +124,9 @@ RUN dnf clean all
 
 # Add jenkins agent jar
 ARG JENKINS_AGENT_VERSION=3327.v868139a_d00e0
-ARG JENKINS_AGENT_SHA256=539da6810936b7df54e204ce7a0257ad2a1b88c620b8a19c74a980ceb1ac5c9d
+ARG JENKINS_AGENT_DIGEST=sha256:539da6810936b7df54e204ce7a0257ad2a1b88c620b8a19c74a980ceb1ac5c9d
 ADD \
-    --checksum=${JENKINS_AGENT_SHA256} \
+    --checksum=${JENKINS_AGENT_DIGEST} \
     --chmod=644 \
   https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${JENKINS_AGENT_VERSION}/remoting-${JENKINS_AGENT_VERSION}.jar \
   /usr/share/jenkins/agent.jar
