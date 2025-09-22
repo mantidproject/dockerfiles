@@ -70,21 +70,21 @@ COPY --chmod=+x <<-__EOF__ /entrypoint.sh
 	
 	000_change_user_ids() {
 	
-	  PUID=${PUID:-911}
-	  PGID=${PGID:-911}
+	  PUID=\${PUID:-911}
+	  PGID=\${PGID:-911}
 	
 	  # Set target user's IDs to match that of the "external"/"host" user
-	  groupmod --non-unique --gid ${PGID} ${TARGET_USERNAME}
-	  usermod  --non-unique --uid ${PUID} ${TARGET_USERNAME}
+	  groupmod --non-unique --gid \${PGID} \${TARGET_USERNAME}
+	  usermod  --non-unique --uid \${PUID} \${TARGET_USERNAME}
 	}
 	
 	
 	010_abc_own_directories() {
 	
 	# Take ownership of working directories
-	  chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_src
-	  chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_build
-	  chown ${TARGET_USERNAME}:${TARGET_USERNAME} /mantid_data
+	  chown \${TARGET_USERNAME}:\${TARGET_USERNAME} /mantid_src
+	  chown \${TARGET_USERNAME}:\${TARGET_USERNAME} /mantid_build
+	  chown \${TARGET_USERNAME}:\${TARGET_USERNAME} /mantid_data
 	}
 	
 	020_locale() {
@@ -100,11 +100,11 @@ COPY --chmod=+x <<-__EOF__ /entrypoint.sh
 	020_locale
 	
 	# Run the supplied command as the target user
-	CMD=${@:-"bash"}
+	CMD=\${@:-"bash"}
 	# This form of runuser is used as it only sets the environment variables
 	# required to change the user, preserving all others that are set (see man
 	# runuser).
-	runuser -u ${TARGET_USERNAME} -- ${CMD}
+	runuser -u \${TARGET_USERNAME} -- \${CMD}
 	
 __EOF__
 
