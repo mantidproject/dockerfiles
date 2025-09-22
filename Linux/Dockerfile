@@ -59,7 +59,7 @@ WORKDIR /mantid_build
 
 FROM fslayout AS entrypoint
 
-COPY --chmod=+x <<-__EOF__ /entrypoint.sh
+COPY --chmod=755 <<-__EOF__ /entrypoint.sh
 	#!/bin/bash
 	
 	# Handles setting up the target user (abc) and redirecting the command to be
