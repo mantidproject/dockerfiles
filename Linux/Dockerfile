@@ -92,6 +92,9 @@ COPY --chmod=755 <<-__EOF__ /entrypoint.sh
 	  export LANG=C.UTF-8
 	}
 	
+	# enable xtrace
+	set -x
+	
 	TARGET_USERNAME="abc"
 	
 	# Execute entrypoint rules
