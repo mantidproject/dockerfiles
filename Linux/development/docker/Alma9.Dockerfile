@@ -1,8 +1,10 @@
 # Base
 
-FROM almalinux:9
+ARG SEMVER_TAG
 
-#Add label for transparency
+FROM almalinux:${SEMVER_TAG}
+
+# Add label for transparency
 LABEL org.opencontainers.image.source https://github.com/mantidproject/dockerfiles
  
 # Add target user
