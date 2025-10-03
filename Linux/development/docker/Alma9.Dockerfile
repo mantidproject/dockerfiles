@@ -5,7 +5,7 @@ ARG SEMVER_TAG=9
 FROM almalinux:${SEMVER_TAG}
 
 # Add label for transparency
-LABEL org.opencontainers.image.source https://github.com/mantidproject/dockerfiles
+LABEL org.opencontainers.image.source=https://github.com/mantidproject/dockerfiles
  
 # Add target user
 RUN useradd --uid 911 --user-group --shell /bin/bash --create-home abc
