@@ -1,6 +1,6 @@
 # Base
 
-ARG SEMVER_TAG
+ARG SEMVER_TAG=9
 
 FROM almalinux:${SEMVER_TAG}
 
