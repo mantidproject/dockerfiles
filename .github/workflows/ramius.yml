@@ -22,7 +22,6 @@ jobs:
       semver_tag: ${{ steps.semver_tag.outputs.semver_tag }}
 
   job_docker:
-    if: true
     runs-on: ubuntu-latest
     needs: [ job_setup ]
     steps:
