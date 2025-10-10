@@ -1,9 +1,11 @@
 # Base
 
-FROM almalinux:9
+ARG SEMVER_TAG=9
 
-#Add label for transparency
-LABEL org.opencontainers.image.source https://github.com/mantidproject/dockerfiles
+FROM almalinux:${SEMVER_TAG}
+
+# Add label for transparency
+LABEL org.opencontainers.image.source=https://github.com/mantidproject/dockerfiles
  
 # Add target user
 RUN useradd --uid 911 --user-group --shell /bin/bash --create-home abc
@@ -30,13 +32,21 @@ COPY ./install_latex.sh /tmp/
 RUN bash /tmp/install_latex.sh && \
    rm -rf /latex
 
-# Set paths for latex here and not in install_latex.sh to allow installation of anyfontsize
 ENV PATH=/usr/local/texlive/2025/bin/x86_64-linux:$PATH
-ENV MANPATH=$MANPATH:/usr/local/texlive/2025/texmf-dist/doc/man
-ENV INFOPATH=$INFOPATH:/usr/local/texlive/2025/texmf-dist/doc/info
 
-# install anyfontsize package
-RUN tlmgr install anyfontsize
+# Set paths for latex here and not in install_latex.sh to allow installation of anyfontsize
+#
+# "${MANPATH}${MANPATH:+:}" is a form of bash parameter expansion to conditionally
+# append a colon only if the MANPATH variable was previously defined
+#
+RUN <<__EOT__
+
+  export MANPATH=${MANPATH}${MANPATH:+:}/usr/local/texlive/2025/texmf-dist/doc/man
+  export INFOPATH=${INFOPATH}${INFOPATH:+:}/usr/local/texlive/2025/texmf-dist/doc/info
+
+  tlmgr install anyfontsize
+
+__EOT__
 
 # Create source, build and external data directories.
 RUN mkdir -p /mantid_src && \
