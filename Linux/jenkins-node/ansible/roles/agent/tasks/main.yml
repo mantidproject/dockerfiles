@@ -9,9 +9,9 @@
     pull: yes
     shm_size: 512M
     volumes:
-      - "{{ agent_name }}:/jenkins_workdir"
-      - "{{ agent_name }}_ccache:/ccache"
-      - "{{ agent_name }}_external_data:/mantid_data"
+      - "/{{ agent_name }}/:/jenkins_workdir"
+      - "/{{ agent_name }}_ccache/:/ccache"
+      - "/{{ agent_name }}_external_data/:/mantid_data"
     env:
       JENKINS_AGENT_NAME: "{{ agent_name }}"
       JENKINS_SECRET: "{{ agent_secret }}"
@@ -29,9 +29,9 @@
     pull: yes
     shm_size: 512M
     volumes:
-      - "{{ agent_name }}:/jenkins_workdir"
-      - "{{ agent_name }}_ccache:/ccache"
-      - "{{ agent_name }}_external_data:/mantid_data"
+      - "/{{ agent_name }}/:/jenkins_workdir"
+      - "/{{ agent_name }}_ccache/:/ccache"
+      - "/{{ agent_name }}_external_data/:/mantid_data"
     env:
       JENKINS_AGENT_NAME: "{{ agent_name }}"
       JENKINS_SECRET: "{{ agent_secret }}"

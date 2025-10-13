@@ -11,7 +11,7 @@
 
 - name: Add public key to ISIS mirror's authorized keys
   ansible.posix.authorized_key:
-    user: mkq48465
+    user: "{{ ansible_user_id }}"
     key: "{{ lookup('file','/tmp/{{ ansible_hostname }}-id_rsa.pub')}}"
   remote_user: ubuntu
   delegate_to: "{{ data_server_hostname }}"

@@ -11,13 +11,13 @@
     - role: setup
       tags: "initial-setup"
     - role: interactive_users
-      tags: "initial-setup"      
+      tags: "initial-setup"
     - role: geerlingguy.pip
       become: yes
-      tags: "initial-setup"      
+      tags: "initial-setup"
     - role: geerlingguy.docker
       become: yes
-      tags: "initial-setup"     
+      tags: "initial-setup"
     - role: mirror-data  # ONLY WORKS FOR ISIS NODES
       become: yes
       tags: ["mirror", never]
