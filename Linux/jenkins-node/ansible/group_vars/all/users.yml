@@ -33,7 +33,7 @@ interactive_users:
   # Waruna Wickramasingha
   - username: kli94267
     sudoer: true
-    ssh_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDqQwOWTWEMUfvpzccUSUvNrdbRUClSXSuqR3r+U0kGM9ssbsJoOrpYNDhS54g5c5VgweXa5XhhKByTGzcTi1iGMIFLbDb4OdoxIOyhO+y2crYQIrVgn5vu1Eo9ylLt6XOFuBnPTr1hN0Bg+C5y/YpxuzhduFB09bJH6azl+1EWbvOOOVF7ydGpDQ5ohaVlg9bWsvSv+fnDjpNztJHj/q/v7tMYVZU5Tvbqxo3kL7Xy/eBriQsNLHmz/n+0cuFpSTc2EZgSKD8fdfJnD03f9S1//JDnJ4bEcq4Q41yyG7cnoDWMci6f18doZ1Q3oxlxZwyZUGowgs4/CpsAHgHlWXtI4Q8x3IqOgHKtFyylj3V8995I3xWVMjvaHfNgsfvEB+IhG9ZdrCxymSk979xYeKDlBm5jJcP15OOs4aKDYyFs76vnECwsFapLWuyPGEgrNR5bGP8HvoUQ9I6TbY8CS0Zcvc2A4Bqi4ZHxWKwN3x+a4gudohtN/rcHIYXRZrijmM0= waruna@waruna-VirtualBox"
+    ssh_pubkey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM2Q68y27bh//R+3pzJ3df4Ju3dp6IJjZa/VoMsk4SPj waruna.wickramasingha@stfc.ac.uk"
 
   # Mohammed Almakki
   - username: joy22959
