@@ -23,6 +23,8 @@ RUN yum install -y \
   sudo \
   wget \
   which \
+  jq \
+  file \
   xorg-x11-server-Xvfb && \
   # Clean up
   rm -rf /tmp/* /var/tmp/* 
