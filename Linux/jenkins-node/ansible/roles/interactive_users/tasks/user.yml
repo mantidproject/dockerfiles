@@ -10,7 +10,7 @@
     user: "{{ user.username }}"
     key: "{{ user.ssh_pubkey }}"
     state: present
-  when: user.ssh_pubkey | default(false)
+  when: user.ssh_pubkey is defined and user.ssh_pubkey != "" | default(false)
 
 - name: "Add user {{ user.username }} as sudoer"
   become: true
