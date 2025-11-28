@@ -20,5 +20,5 @@
   ansible.builtin.reboot:
     msg: Rebooting post package update (via Ansible)
   become: true
-  when: updates.changed and package_updates_reboot
+  when: updates.changed and package_updates_reboot.stat.exists
 
