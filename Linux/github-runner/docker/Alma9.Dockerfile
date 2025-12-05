@@ -16,6 +16,7 @@ RUN useradd -m docker
 # Do we need this?
 # RUN useradd --uid 911 --user-group --shell /bin/bash --create-home abc
 
+RUN dnf -y install jq
 
 # Create source, build and external data directories.
 RUN mkdir -p /mantid_src && \
@@ -24,7 +25,7 @@ RUN mkdir -p /mantid_src && \
 
 # Fixes "D-Bus library appears to be incorrectly set up;" error
 # Do we still need this?
-RUN dbus-uuidgen > /var/lib/dbus/machine-id 
+#RUN dbus-uuidgen > /var/lib/dbus/machine-id 
 
 # Download and extract the github actions runner package
 RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
@@ -37,7 +38,7 @@ RUN chown -R docker ~docker && /home/docker/actions-runner/bin/installdependenci
 # copy over the start.sh script
 COPY start.sh start.sh
 # make the script executable
-RUN chmod +x start.sh
+RUN chmod +rx start.sh
 
 USER docker
 
