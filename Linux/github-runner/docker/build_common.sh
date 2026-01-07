@@ -2,5 +2,5 @@
 
 # Use GitHub packages container registry
 REGISTRY="ghcr.io"
-ORG="thomashampson"
+ORG="mantidproject"
 VERSION="0.1"
