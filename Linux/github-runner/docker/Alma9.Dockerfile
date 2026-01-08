@@ -16,8 +16,6 @@ RUN useradd -m docker
 # Do we need this?
 # RUN useradd --uid 911 --user-group --shell /bin/bash --create-home abc
 
-RUN dnf -y install jq
-
 # Fixes "D-Bus library appears to be incorrectly set up;" error
 # Do we still need this?
 #RUN dbus-uuidgen > /var/lib/dbus/machine-id 
