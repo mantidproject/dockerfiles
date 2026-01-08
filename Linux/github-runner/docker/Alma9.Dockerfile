@@ -18,11 +18,6 @@ RUN useradd -m docker
 
 RUN dnf -y install jq
 
-# Create source, build and external data directories.
-RUN mkdir -p /mantid_src && \
-  mkdir -p /mantid_build && \
-  mkdir -p /mantid_data
-
 # Fixes "D-Bus library appears to be incorrectly set up;" error
 # Do we still need this?
 #RUN dbus-uuidgen > /var/lib/dbus/machine-id 
