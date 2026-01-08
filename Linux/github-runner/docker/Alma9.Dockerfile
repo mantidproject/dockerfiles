@@ -12,14 +12,6 @@ LABEL org.opencontainers.image.source=https://github.com/mantidproject/dockerfil
 # update the base packages and add a non-sudo user
 RUN useradd -m docker
 
-# Add target user
-# Do we need this?
-# RUN useradd --uid 911 --user-group --shell /bin/bash --create-home abc
-
-# Fixes "D-Bus library appears to be incorrectly set up;" error
-# Do we still need this?
-#RUN dbus-uuidgen > /var/lib/dbus/machine-id 
-
 # Download and extract the github actions runner package
 RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
     && curl -o actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
