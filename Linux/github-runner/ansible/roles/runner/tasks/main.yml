@@ -1,0 +1,18 @@
+- name: Deploy dockerized GitHub runner
+  community.docker.docker_container:
+    name: "{{ runner_name }}"
+    image: "ghcr.io/{{ organization }}/github-runner-alma9:latest"
+    detach: yes
+    init: yes
+    network_mode: host
+    recreate: yes
+    pull: yes
+    shm_size: 512M
+    volumes:
+      - "{{ runner_name }}_ccache:/ccache"
+      - "{{ runner_name }}_external_data:/mantid_data"
+    env:
+      RUNNER_NAME: "{{ runner_name }}"
+      ORGANIZATION: "{{ organization }}"
+      REPOSITORY: "{{ repository }}"
+      GITHUB_TOKEN: "{{ github_token }}"

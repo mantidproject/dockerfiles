@@ -1,0 +1,29 @@
+- name: Deploy Docker-based GitHub runner for Mantid builds
+  hosts: all
+  vars:
+    organization: mantidproject
+    repository: mantid
+    github_token: "{{ lookup('ansible.builtin.env', 'GITHUB_TOKEN') }}"
+    pip_install_packages:
+      - name: docker
+
+  pre_tasks:
+    - name: Fail if github token is missing
+      fail:
+        msg: "GITHUB_TOKEN is not set"
+      when: github_token == ""
+
+  roles:
+    - role: setup
+      tags: "initial-setup"
+    - role: interactive_users
+      tags: "initial-setup"      
+    - role: geerlingguy.pip
+      become: yes
+      tags: "initial-setup"      
+    - role: geerlingguy.docker
+      become: yes
+      tags: "initial-setup"      
+    - role: runner
+      become: yes
+      tags: "runner"

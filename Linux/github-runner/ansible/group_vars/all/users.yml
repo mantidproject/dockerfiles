@@ -1,0 +1,41 @@
+---
+interactive_users:
+  # Caila Finn
+  - username: mkq48465
+    sudoer: true
+    ssh_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCpIKf0XM89rG29tBGUVaSUQq/F1OizHm0U/lONnjO8T4qVxsI4fXLgxk7r8hQ5AsNJo142syCjp+L03Y5X0GKLb0Io3OAgnOsk1QPBi8yXYYdscJ9ykczKdeSuDX4VpKUK+ehU9q8aFhMaBunD9lZtyrZy20zwXm7edk3cN2SyBwIrPCqMO3D2VAeNBkF3UkrUYA0Aw9tB5HpIwWqfNovq/Xr4IAu/lbHTUsxelBJLcqirTH/vheNMEfqGzuz2PVBCMrOeBFBou9dLET7avwQ3FDEFyEmLTfGZuRILPVWIOwsar04hvk7RzAIRRVcXTvjbOlcM6Top9CS2hSt7+DILxSCd2GiZABRjYDOgHTNLpCxkG9Xyo6B47gGbYN2UYj4sWQrGc5dsCN4kQIFHb0GdNG1Al5O6c0G/k/CcjOyQiTLauNwXe/waYmRj7DxMm1KTL0QsspajmBnWHtA5JgR/Z4H/LLHWWLIc9Bw5WJeiJLjPOOV5p30+Qmc6zr//Jf8= caila.finn@NDLT1581MAC"
+
+  # Caila Finn (ARM)
+  - username: mkq48465
+    sudoer: true
+    ssh_pubkey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEP1ddsgTMPaSHuV3bGJmL2cvNfFhV6ShkyJcMHmVF0E caila.finn@stfc.ac.uk"
+
+  # Sarah Foxley
+  - username: ekg26817
+    sudoer: true
+    ssh_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC8YsKwSxAKLEd4RrjC0vTpOzC5vCnxGAAnqpIuwwedkIzG10ThhsiApaZu9y5jGUQ1Umjz1tUeClJqZM5WoBSlbbCbaiwdiQJWruGzmgioV+DgJxQScJPFYs3GHgoNFscu6rna6BqHw2wT/8jF1C+jB8OZoNytHtxpCf5221bNcZdH3W/w5XXzKv2h3RlJzuXyAT/3npZChvJa6IWg4wcjW/iP7mp/V5h6w8kNvLn68PcZoS/kA2nkl+WH6NfD4+EuDtOA2+QCyiX0JM2b9wIYCmaKDdUSjc5aiqjfoMek/rw/OKdR2GE5E8PH3aF6R+1GBClAK/Jvh2FNPKC3ghmNxp9fmPwb+E1qAMDaR2BDAWK7EE1fZCR8VELE5MMiCZgstzHQage45wx/ELG5UEyy+dmn7hsUJz9yQusogEaKzP4hi580tguwsaDppjAUf6CezBVQhNdMwkql6SLZEW+eNgV45G+vI3UGxLoyhgFp8yOmWsQcpOJzBUbQJMSrQDk= CLRC+ekg26817@NDLT1554"
+
+  # Tom Hampson
+  - username: dsc49661
+    sudoer: true
+    ssh_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCe3et6Rw6b3v8WzERRS0DE1cm33Te3WcUOgzU5xV8tZd0YgTMy1VENG4daZNjlY4ZJ+JMRIehqyOWXEbnJ5d0phdoM6qGj+Wp4WGzvqRHzDcfZC+vAZPsLEwGlcCwLUDihgwpiWePIYVUUuWD5uIEVEPA7mLYvVRwnE6sipGimWXkEpNlRlJZht17w7vCkqFkYx9ULrdXfo29AWkVHqkJcVgBqkg9kglxyerIwy0BXahnDW56WSfPK47ZgcktI7+qu2tu6ZoyyUZZ/rZze3BoQ9f6hJkp0jCN33MPAHZxTL9nkYgG6sWO2TzgM49z6zd2av3pN6NxYA6z5sH9yagMd5L6dSLmMjodfCBdrtyaAgXXhySgq71xtzYUgRVxLLJ/MnVb5vqiExUxAppxYa4JXkeXikTNGXjMPgcs6Bo55i/T7rvjjAQAobK7q6ppYUUBu0V7TM/72P/hC44NChci1FC+6rQcuEJ8I1824pcngdRE432gmb3iBQN7XefUI74s= CLRC+dsc49661@NDLT1577"
+
+  # Silke Schomann
+  - username: eoc57742
+    sudoer: true
+    ssh_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDbIUpR0gYUaCmAx+z0j7amPBy/TxOxott90icoMI+W3PNiyA5hjF1Tfo6yRawFXzGxBbrMc+JNUgOVHXV4P7pIcny+lX9YvSGFuFvROLmNeo9yf0Nyu198tutpHKmejy6nKIlm4IM/IeTzBz0jBcCu//1UNWv/b/hwel8ZYyMCesTcV2janOyg8HvQYMVCkGgQ0c74NAFG55MyL2BrbGlVxkGk7xwan2NmELShyc4pQsOknrMW8/tu10SDCDFB+zFBg8HfeW+qFZ4QMKHPhfp3DqmLMCmUs/W1D+8Os+zH4+MDVqIYiiNWLlnOMc0ulPMHLJQO8LVYcuQcgzdLddyLh1iYOX7ThfmqVqSfblOx7+W9K5yU5+96k4RMd6BEjUqOsg7a91n1boL6OdX8yp/LTMZHAuCr3pFeoilJ/d0IUFU1XcHZwELdqTvifdLnUnxL6JXw7sPFkLRRbxguEH6QzkLJ+CVONf3I9Hi4Zcyf7Pfxmq2qgH0oq418LxY0O5k= clrc\eoc57742@NDLT1439"
+
+  # Mial Lewis
+  - username: wym92549
+    sudoer: true
+    ssh_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCq/zB12oNrYAWFuvI/DUPwM42eoezf+pKCmvloTiTj36WjbPxfQBReFojoUCVm7EoBRy6BcvynWOkoxGrd951Y0UcC+zGQkmXNA59XPVKAF9aiuiIWCoKcXdyfzPwuynsk3GQYpLmOi1pKFJUmzePJ5WFtZSHdGEJQbCnyrwN0MEpSuq07CbV5+lUdlBoN1poT1pYC/ylfFAnNOcFAhX7jqs+dAkPD2ifIieT+Bzy6DjoXG+S5VMFcVMQPIfnv8OaXIEeKOTbZTbgZZv54Mv241kDSInhCQm3fatLhlaA8oxojFlkCZ+iLkwqUw5TzYTwLQcUnOwv8ShNtxxK36wN6llYfJURJ93T1JLCZ3W+ibTh40AhA/bJ+o3X0hKSx4PeoeSdGGeUsXk+08JenfiR0D1ojGkdhf18aTZ9i5L37+LJ1pFYEgavnwkwMNNt2opojGEFjNDVCJJDA7BB7eRPGQxZCrr8MvzNpHGvo0oY/ZGMyQrBg7g5JaXB2nfTwphc= CLRC+wym92549@NDLT1580"
+
+  # Waruna Wickramasingha
+  - username: kli94267
+    sudoer: true
+    ssh_pubkey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM2Q68y27bh//R+3pzJ3df4Ju3dp6IJjZa/VoMsk4SPj waruna.wickramasingha@stfc.ac.uk"
+
+  # Mohammed Almakki
+  - username: joy22959
+    sudoer: true
+    ssh_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDY0xJLABZUTqOuqtVyHkObKC5KZb9Bxvz0HykwIZIQgnJETLDHbnvjC3QWN5DBHHEJ1VH9BVxJDAE5tQSjPKYs931MsdFprTK0ymprzaZd2KQx/AfU2sT0DQ/z+n++CDVz9agMCl27KE7vcCNmbTWwBr7YG4lUbOVydA8TQcF6QUK6L9xijObn8c1Z+jPVclVx/9OsVurwFVscwKNzgjseLu2GA+yBmwEBv3RKJIjXcDKuxAb5E++WYU0ShFIuNPX4nlld68xkHLohdN2QuZUVAKaz1qE5w7a2g/iS1/tbTb1t2dSuTBrKqueNvnCN+xqJovwaWYauuoMAjDDcH+0C3E+Hbac/3RDnN3FnfSCLkPurXhMyfWaelq19aW1dwO91idNABH81t6FwBfVqyH5Hm8DasbBWQjzd3mUkDQO2T87O4/Cl5nlDwkkJ5/s3fprbP1xMhp+RSz5A5gWcQUjyvy7HmMkueIykDf1xjyRzahS4Zr2gJ3qkb3LKkaBpAEc= joy22959@NDLT1444"
