@@ -3,4 +3,4 @@
 . build_common.sh
 
 docker push \
-  ${REGISTRY}/${ORG}/jenkins-node-centos7-slim:${VERSION} \
+  ${REGISTRY}/${ORG}/github-runner-alma9:${VERSION} \
