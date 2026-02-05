@@ -3,3 +3,6 @@ condaenv/
 inventory.txt
 vault-password.txt
 .idea/
+# pixi environments
+.pixi/*
+!.pixi/config.toml
