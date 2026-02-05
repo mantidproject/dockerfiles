@@ -1,5 +1,5 @@
 # Base
-ARG DEVELOPMENT_IMAGE_VERSION=0.1
+ARG DEVELOPMENT_IMAGE_VERSION=0.2
 FROM ghcr.io/mantidproject/mantid-development-alma9:${DEVELOPMENT_IMAGE_VERSION}
 
 # set the github runner version
