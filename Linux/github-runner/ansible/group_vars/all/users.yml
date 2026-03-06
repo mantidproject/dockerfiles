@@ -33,7 +33,7 @@ interactive_users:
   # Waruna Wickramasingha
   - username: kli94267
     sudoer: true
-    ssh_pubkey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM2Q68y27bh//R+3pzJ3df4Ju3dp6IJjZa/VoMsk4SPj waruna.wickramasingha@stfc.ac.uk"
+    ssh_pubkey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP/BjYYl7a1y7idHY9p8JezVjYhgOpk5MOr2aEJHEeo4 waruna.wickramasingha@stfc.ac.uk"
 
   # Mohammed Almakki
   - username: joy22959
