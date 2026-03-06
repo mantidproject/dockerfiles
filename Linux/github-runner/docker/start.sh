@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Must provide the github organisation, repo and a repository level fine-grained token with the following perimssion set:
+# Must provide the github organisation, repo and a repository level fine-grained token with the following permission set:
 #  - "Administration" repository permissions (write)
 
 GITHUB_TOKEN=$GITHUB_TOKEN
