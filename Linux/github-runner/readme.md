@@ -7,7 +7,8 @@ The Docker image is based on the same Alma9 development image that is used in th
 You will need to create a fine-grained GitHub token with the following options:
 - resource owner: mantidproject
 - repository access: Only select repositories (select mantidproject/mantid)
-- permissions: = Administration (Read and write)
+- permissions: Administration (Read and write)
+
 See [here](https://docs.github.com/en/rest/actions/self-hosted-runners?apiVersion=2022-11-28#create-a-registration-token-for-a-repository--fine-grained-access-tokens) for reference.
 
 ### Manually deploying a docker container
@@ -22,12 +23,9 @@ docker run -d -e ORGANIZATION='mantidproject' -e GITHUB_TOKEN=<github_token> -e 
 ```
 
 ### Using Ansible to provision runners on the STFC Cloud
-Follow the steps below to provision a set of GitHub runners.
+Follow the steps below to provision a set of GitHub runners (this avoids having to manually deploy the docker images).
 - Create machines on OpenStack.
-- Create a fine-grained GitHub token with (see [here](https://docs.github.com/en/rest/actions/self-hosted-runners?apiVersion=2022-11-28#create-a-registration-token-for-a-repository--fine-grained-access-tokens) for reference):
-  - resource owner: mantidproject
-  - repository access: Only select repositories (select mantidproject/mantid)
-  - permissions: = Administration (Read and write)
+- Create a fine-grained GitHub token as above.
 - Navigate to the ansible directory.
 - Create inventory file containing the IP address and runner name for as many nodes as you require. Use the same names as on OpenStack for consistency.
 ```ini
