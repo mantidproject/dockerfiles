@@ -1,20 +1,10 @@
 #!/bin/bash
 
-# Must provide the github organisation, repo and a repository level fine-grained token with the following permission set:
-#  - "Administration" repository permissions (write)
-
-GITHUB_TOKEN=$GITHUB_TOKEN
+# Must provide the github organisation, repo, runner name, and a runner registration token
 ORGANIZATION=$ORGANIZATION
 REPOSITORY=$REPOSITORY
 RUNNER_NAME=$RUNNER_NAME
-
-REG_TOKEN=$(curl -L \
-  -X POST \
-  -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-  -H "X-GitHub-Api-Version: 2022-11-28" \
-  https://api.github.com/repos/${ORGANIZATION}/${REPOSITORY}/actions/runners/registration-token \
-  | jq .token --raw-output)
+REG_TOKEN=$REG_TOKEN
 
 cd /home/docker/actions-runner
 
@@ -37,13 +27,13 @@ cd /home/docker/actions-runner
 #  --ephemeral            Configure the runner to only take one job and then let the service un-configure the runner after the job finishes (default false)
 #
 
-
 ./config.sh \
   --unattended \
   --url https://github.com/${ORGANIZATION}/${REPOSITORY} \
   --token ${REG_TOKEN} \
   --name ${RUNNER_NAME} \
-  --replace
+  --replace \
+  --labels ${RUNNER_NAME}
 
 cleanup() {
     echo "Removing runner..."
@@ -52,5 +42,7 @@ cleanup() {
 
 trap 'cleanup; exit 130' INT
 trap 'cleanup; exit 143' TERM
+
+unset REG_TOKEN
 
 ./run.sh & wait $!

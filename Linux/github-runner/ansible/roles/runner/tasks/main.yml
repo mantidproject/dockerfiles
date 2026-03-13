@@ -1,7 +1,19 @@
+- name: Fetch GitHub Actions runner registration token
+  uri:
+    url: "https://api.github.com/repos/{{ organization }}/{{ repository }}/actions/runners/registration-token"
+    method: POST
+    headers:
+      Accept: "application/vnd.github+json"
+      Authorization: "Bearer {{ github_token }}"
+      X-GitHub-Api-Version: "2022-11-28"
+    return_content: yes
+    status_code: 201
+  register: runner_token
+
 - name: Deploy dockerized GitHub runner
   community.docker.docker_container:
     name: "{{ runner_name }}"
-    image: "ghcr.io/{{ organization }}/github-runner-alma9:0.2"
+    image: "ghcr.io/{{ organization }}/github-runner-alma9:0.5"
     detach: yes
     init: yes
     network_mode: host
@@ -11,8 +23,9 @@
     volumes:
       - "{{ runner_name }}_ccache:/ccache"
       - "{{ runner_name }}_external_data:/mantid_data"
+
     env:
       RUNNER_NAME: "{{ runner_name }}"
       ORGANIZATION: "{{ organization }}"
       REPOSITORY: "{{ repository }}"
-      GITHUB_TOKEN: "{{ github_token }}"
+      REG_TOKEN: "{{ runner_token.json.token }}"
