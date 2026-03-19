@@ -37,4 +37,4 @@ cd /home/docker/actions-runner
 
 unset REG_TOKEN
 
-./run.sh & wait $!
+./run.sh

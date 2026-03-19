@@ -13,7 +13,7 @@
 - name: Deploy dockerized GitHub runner
   community.docker.docker_container:
     name: "{{ runner_name }}"
-    image: "ghcr.io/{{ organization }}/github-runner-alma9:0.6"
+    image: "ghcr.io/{{ organization }}/github-runner-alma9:0.7"
     detach: yes
     init: yes
     network_mode: host
