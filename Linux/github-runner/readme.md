@@ -4,7 +4,7 @@ This is a Docker image that registers a machine as a GitHub self-hosted runner i
 The Docker image is based on the same Alma9 development image that is used in the jenkins-agent image.
 
 ### GitHub token for runner registration
-In order to generate runner registration tokens on the fly, you will need to create a fine-grained GitHub token with the following options:
+In order to generate runner registration tokens on the fly, you will need to create a [fine-grained GitHub token](https://github.com/settings/personal-access-tokens/new) with the following options:
 - resource owner: mantidproject
 - repository access: Only select repositories (select mantidproject/mantid)
 - permissions: Administration (Read and write)
@@ -24,7 +24,7 @@ docker run -d -e ORGANIZATION='mantidproject' -e REG_TOKEN=<github_token> -e REP
 
 ### Using Ansible to provision runners on the STFC Cloud
 Follow the steps below to provision a set of GitHub runners. The ansible playbook will handle the registration token generation and docker container deployment for you.
-- Create machines on OpenStack.
+- Create machines on OpenStack (we currently use the l6.c32 flavour with Ubuntu 22.04).
 - Create a fine-grained GitHub token as above.
 - Navigate to the ansible directory.
 - Create inventory file containing the IP address and runner name for as many nodes as you require. Use the same names as on OpenStack for consistency.
