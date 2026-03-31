@@ -1,0 +1,4 @@
+---
+collections:
+  - name: community.docker
+    source: https://galaxy.ansible.com
