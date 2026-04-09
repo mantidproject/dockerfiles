@@ -10,16 +10,16 @@
 #           ./cov-analysis-push.sh "cov-analysis-linux64-2024.12.1.tar.gz"
 #
 
-PATH="${1%/*}"               # isolate the path
-PATH="${PATH:-.}"            # if no path specified set as .
-FILE="${1##*/}"              # isolate the filename
-FILE="${FILE%%.tar.gz}"      # strip the .tar.gz extension
-IMAGE_NAME="${FILE%%.*}"     # isolate the image name
-TAG="${FILE#*.}"             # isolate the tag (version)
+PATH="${1%/*}"                     # isolate the path
+PATH="${PATH:-.}"                  # if no path specified set as .
+FILE="${1##*/}"                    # isolate the filename
+FILE_STRIP="${FILE%%.tar.gz}"      # strip the .tar.gz extension
+IMAGE_NAME="${FILE_STRIP%%.*}"     # isolate the image name
+TAG="${FILE_STRIP#*.}"             # isolate the tag (version)
 
 OWNER="mantidproject"
 
-cd ${PATH}         || exit 1
+cd ${PATH}          || exit 1
 test -f ./${FILE}  || exit 1
 
 docker build -t "ghcr.io/${OWNER}/${IMAGE_NAME}:${TAG}" --file - . <<-__EOF__
