@@ -22,7 +22,10 @@ owner="mantidproject"
 cd ${filepath}      || exit 1
 test -f ./${file}   || exit 1
 
-docker build -t "ghcr.io/${owner}/${image_name}:${tag}" --file - . <<-__EOF__
+docker build \
+  --tag "ghcr.io/${owner}/${image_name}:${tag}" \
+  --tag "ghcr.io/${owner}/${image_name}:latest" \
+  --file - . <<-__EOF__
 
 	FROM scratch
 	COPY ./${file} /
@@ -30,6 +33,8 @@ docker build -t "ghcr.io/${owner}/${image_name}:${tag}" --file - . <<-__EOF__
 __EOF__
 
 cd -
+
+docker tag 
 
 set -x
 docker push "ghcr.io/${owner}/${image_name}:${tag}"
