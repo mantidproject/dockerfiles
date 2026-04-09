@@ -25,7 +25,7 @@ test -f ./${file}   || exit 1
 docker build -t "ghcr.io/${owner}/${image_name}:${tag}" --file - . <<-__EOF__
 
 	FROM scratch
-	COPY ./${FILE} /
+	COPY ./${file} /
 
 __EOF__
 
