@@ -2,13 +2,13 @@
 
 ARG REPO=mantidproject/cov-analysis-linux64
 
-FROM alpine:latest as prelude
+FROM alpine:latest AS prelude
 RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN \
-  read -r EPHEMERAL_TOKEN <<< $(
+  read -r EPHEMERAL_TOKEN <<< $( \
     curl -s -u "x-access-token:${GITHUB_TOKEN}" "https://ghcr.io/token?service=ghcr.io&scope=repository:${REPO}:pull" \
-      | jq -r '.token'
-  )
-  echo ${EPHEMERAL_TOKEN} | cut -c 8-
+      | jq -r '.token' \
+  ) \
+  ; echo ${EPHEMERAL_TOKEN} | cut -c 8-
 
 # ----
 #FROM ghcr.io/mantidproject/cov-analysis-linux64:latest AS coverity
