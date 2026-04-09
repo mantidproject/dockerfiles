@@ -34,8 +34,5 @@ __EOF__
 
 cd -
 
-docker tag 
-
-set -x
 docker push "ghcr.io/${owner}/${image_name}:${tag}"
 docker push "ghcr.io/${owner}/${image_name}:latest"
