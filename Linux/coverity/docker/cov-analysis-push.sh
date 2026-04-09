@@ -33,4 +33,4 @@ cd -
 
 set -x
 docker push "ghcr.io/${OWNER}/${IMAGE_NAME}:${TAG}"
-
+docker push "ghcr.io/${OWNER}/${IMAGE_NAME}:latest"
