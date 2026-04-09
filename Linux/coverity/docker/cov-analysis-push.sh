@@ -10,19 +10,19 @@
 #           ./cov-analysis-push.sh "cov-analysis-linux64-2024.12.1.tar.gz"
 #
 
-PATH="${1%/*}"                     # isolate the path
-PATH="${PATH:-.}"                  # if no path specified set as .
-FILE="${1##*/}"                    # isolate the filename
-FILE_STRIP="${FILE%%.tar.gz}"      # strip the .tar.gz extension
-IMAGE_NAME="${FILE_STRIP%-*}"      # isolate the image name
-TAG="${FILE_STRIP##*-}"            # isolate the tag (version)
+filepath="${1%/*}"                 # isolate the path
+filepath="${filepath:-.}"          # if no path specified set as .
+file="${1##*/}"                    # isolate the filename
+file_strip="${file%%.tar.gz}"      # strip the .tar.gz extension
+image_name="${file_strip%-*}"      # isolate the image name
+tag="${file_strip##*-}"            # isolate the tag (version)
 
-OWNER="mantidproject"
+owner="mantidproject"
 
-cd ${PATH}          || exit 1
-test -f ./${FILE}   || exit 1
+cd ${filepath}      || exit 1
+test -f ./${file}   || exit 1
 
-docker build -t "ghcr.io/${OWNER}/${IMAGE_NAME}:${TAG}" --file - . <<-__EOF__
+docker build -t "ghcr.io/${owner}/${image_name}:${tag}" --file - . <<-__EOF__
 
 	FROM scratch
 	COPY ./${FILE} /
@@ -32,5 +32,5 @@ __EOF__
 cd -
 
 set -x
-docker push "ghcr.io/${OWNER}/${IMAGE_NAME}:${TAG}"
-docker push "ghcr.io/${OWNER}/${IMAGE_NAME}:latest"
+docker push "ghcr.io/${owner}/${image_name}:${tag}"
+docker push "ghcr.io/${owner}/${image_name}:latest"
