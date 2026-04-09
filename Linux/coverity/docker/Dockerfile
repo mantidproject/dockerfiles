@@ -3,6 +3,7 @@
 #ARG REPO=mantidproject/cov-analysis-linux64
 
 FROM alpine:latest AS prelude
+RUN apk add curl jq
 RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN \
   curl -s -u "x-access-token:${GITHUB_TOKEN}" "https://ghcr.io/token?service=ghcr.io&scope=repository:mantidproject/cov-analysis-linux64:pull" | jq -r '.token'
 
