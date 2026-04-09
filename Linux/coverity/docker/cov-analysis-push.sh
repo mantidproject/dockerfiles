@@ -20,7 +20,7 @@ TAG="${FILE_STRIP#*-}"             # isolate the tag (version)
 OWNER="mantidproject"
 
 cd ${PATH}          || exit 1
-test -f ./${FILE}  || exit 1
+test -f ./${FILE}   || exit 1
 
 docker build -t "ghcr.io/${OWNER}/${IMAGE_NAME}:${TAG}" --file - . <<-__EOF__
 
