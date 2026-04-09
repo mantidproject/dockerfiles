@@ -15,7 +15,7 @@ PATH="${PATH:-.}"                  # if no path specified set as .
 FILE="${1##*/}"                    # isolate the filename
 FILE_STRIP="${FILE%%.tar.gz}"      # strip the .tar.gz extension
 IMAGE_NAME="${FILE_STRIP%%.*}"     # isolate the image name
-TAG="${FILE_STRIP#**-}"            # isolate the tag (version)
+TAG="${FILE_STRIP##*-}"            # isolate the tag (version)
 
 OWNER="mantidproject"
 
