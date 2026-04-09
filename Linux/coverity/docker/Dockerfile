@@ -4,7 +4,7 @@
 
 FROM alpine:latest AS prelude
 RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN \
-  curl -s -u "x-access-token:${GITHUB_TOKEN}" "https://ghcr.io/token?service=ghcr.io&scope=repository:mantidproject/cov-analysis-linux6:pull" | jq -r '.token'
+  curl -s -u "x-access-token:${GITHUB_TOKEN}" "https://ghcr.io/token?service=ghcr.io&scope=repository:mantidproject/cov-analysis-linux64:pull" | jq -r '.token'
 
 # ----
 #FROM ghcr.io/mantidproject/cov-analysis-linux64:latest AS coverity
