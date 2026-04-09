@@ -11,5 +11,5 @@ FROM ghcr.io/mantidproject/cov-analysis-linux64:latest AS coverity
 
 FROM ghcr.io/mantidproject/mantid-development-alma:9.6 AS github_runner_coverity
 
-ADD --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
+COPY --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
 
