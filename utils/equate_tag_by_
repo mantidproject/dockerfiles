@@ -14,6 +14,9 @@
 
 _docker.io() {
 
+  local repository="${1%%*/}"
+  local image="${1##/*}"
+
   # initial URL for first page of API response
   next_url="https://ghcr.io/v2/${repository}/${image}/tags/?page=1&page_size=100"
 
@@ -62,3 +65,4 @@ repository="${repository%%:*}"
 tag="${1##*:}"
 
 "_${registry} ${repository} ${tag}"
+
