@@ -58,11 +58,52 @@ _docker.io() {
 }
 
 
+_ghcr.io() {
+
+  local repository="${1%%/*}"
+  local image="${1##*/}"
+
+  local access_token="${GITHUB_TOKEN}"
+  local bearer_token=""
+
+  if [[ -n "${access_token}" ]]; then
+    read -r bearer_token <<< $(
+      curl \
+          -u "x-access-token:${access_token}" \
+          -s \
+        "https://ghcr.io/token?service=ghcr.io&scope=repository:${repository}/${image}:pull" \
+      | jq -r '.token'
+    )
+  fi
+
+  for tag in $(
+        curl \
+            -H "Accept: application/vnd.docker.distribution.manifest.v2+json" \
+            -H "Authorization: Bearer ${bearer_token:-null}" \
+            -s \
+          "https://ghcr.io/v2/${repository}/${image}/tags/list" \
+        | jq -r '.tags[]'
+      )
+  do
+      curl \
+          -H "Accept: application/vnd.docker.distribution.manifest.v2+json" \
+          -H "Authorization: Bearer ${bearer_token:-null}" \
+          -s \
+        "https://ghcr.io/v2/${repository}/${image}/manifests/${tag}" \
+      | jq -r --arg tag "${tag}" '{tag: $tag, digest: .config.digest}'
+  done \
+  | jq -r -s '.
+    | group_by(.digest) | .[]
+    | select(.[].tag == "latest") | .[]
+    | select(.tag | match("^\\d+.\\d+$")) | .tag
+  '
+}
+
 
 registry="${1%%/*}"
 repository="${1#*/}"
 repository="${repository%%:*}"
 tag="${1##*:}"
 
-"_${registry} ${repository} ${tag}"
+"_${registry} ${repository}"
 
