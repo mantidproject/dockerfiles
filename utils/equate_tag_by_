@@ -12,7 +12,7 @@
 #
 
 
-_docker.io() {
+_docker_io() {
 
   local repository="${1%%*/}"
   local image="${1##/*}"
@@ -58,7 +58,7 @@ _docker.io() {
 }
 
 
-_ghcr.io() {
+_ghcr_io() {
 
   local repository="${1%%/*}"
   local image="${1##*/}"
@@ -105,5 +105,12 @@ repository="${1#*/}"
 repository="${repository%%:*}"
 tag="${1##*:}"
 
-"_${registry} ${repository}"
+"_${registry//./_}" "${repository}"
 
+#
+# invoke the corresponding function based on the registry hostname
+#
+# i.e.
+#   "ghcr.io/mantidproject/mantid-development-alma:9.6"  is passed to _ghcr_io()
+#   "docker.io/library/alpine"                           is passed to _docker_io()
+#
