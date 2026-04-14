@@ -6,7 +6,7 @@
 #
 # example:
 # 
-# ./utils/sibling_tags "docker.io/library/almalinux:latest"
+# ./utils/retrieve_sibling_tags "docker.io/library/almalinux:latest"
 #
 # where:
 #   "docker.io" is the registry host
