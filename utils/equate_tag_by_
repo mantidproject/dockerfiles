@@ -16,6 +16,7 @@ _docker_io() {
 
   local repository="${1%%*/}"
   local image="${1##/*}"
+  local tag_converse="${2}"
 
   # initial URL for first page of API response
   next_url="https://ghcr.io/v2/${repository}/${image}/tags/?page=1&page_size=100"
@@ -44,9 +45,9 @@ _docker_io() {
   # to find the semantic version (x.y) tag that shares the same digest as the latest tag
   #
   printf '%s\n' "${paginated_results[@]}" \
-    | jq -r --arg tag "${tag}" '.
+    | jq -r --arg tag_converse "${tag_converse}" '.
       | flatten | map(del(.images)) | group_by(.digest) | .[]
-      | select(.[].name == $tag) | .[]
+      | select(.[].name == $tag_converse) | .[]
       | select(.name | match("^\\d+.\\d+$")) | .name
     '
 
@@ -62,6 +63,7 @@ _ghcr_io() {
 
   local repository="${1%%/*}"
   local image="${1##*/}"
+  local tag_converse="${2}"
 
   local access_token="${GITHUB_TOKEN}"
   local bearer_token=""
@@ -101,12 +103,13 @@ _ghcr_io() {
     #
     # The curl command above returns an error
     #
-  done \
-  | jq -r -s '.
-    | group_by(.digest) | .[]
-    | select(.[].tag == "latest") | .[]
-    | select(.tag | match("^\\d+.\\d+$")) | .tag
-  '
+  done #\
+
+#  | jq -r -s '.
+#    | group_by(.digest) | .[]
+#    | select(.[].tag == "latest") | .[]
+#   | select(.tag | match("^\\d+.\\d+$")) | .tag
+#  '
 }
 
 
@@ -115,7 +118,7 @@ repository="${1#*/}"
 repository="${repository%%:*}"
 tag="${1##*:}"
 
-"_${registry//./_}" "${repository}"
+"_${registry//./_}" "${repository}" "${tag}"
 
 #
 # invoke the corresponding function based on the registry hostname
