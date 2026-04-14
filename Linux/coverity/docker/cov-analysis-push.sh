@@ -10,7 +10,8 @@
 #           ./cov-analysis-push.sh "cov-analysis-linux64-2024.12.1.tar.gz"
 #
 
-filepath="${1%/*}"                 # isolate the path
+filepath="$(pwd -P)/${1%/*}"       # isolate the path
+filepath="${filepath%/*}"
 filepath="${filepath:-.}"          # if no path specified set as .
 file="${1##*/}"                    # isolate the filename
 file_strip="${file%%.tar.gz}"      # strip the .tar.gz extension

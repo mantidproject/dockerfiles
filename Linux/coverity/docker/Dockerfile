@@ -3,21 +3,22 @@
 FROM alpine:latest AS prelude
 ENV REPO=mantidproject/cov-analysis-linux64
 RUN apk add curl jq bash
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN <<__EOT__ bash
   read -r bearer_token <<< \$(
     curl -s -u "x-access-token:\${GITHUB_TOKEN}" "https://ghcr.io/token?service=ghcr.io&scope=repository:mantidproject/cov-analysis-linux64:pull" | jq -r '.token'
   )
-  #read -r version_tag <<< \$(
+  read -r version_tag <<< \$(
     curl \
         -H "Accept: application/vnd.docker.distribution.manifest.v2+json" \
         -H "Authorization: Bearer \${bearer_token:-null}" \
         -s \
       "https://ghcr.io/v2/$REPO/tags/list" \
     | jq -r '.tags[]'
-  #)
-  #echo \${version_tag}
+  )
+  echo \${version_tag}
+
 __EOT__
+
 # ----
 #FROM ghcr.io/mantidproject/cov-analysis-linux64:latest AS coverity
 #FROM ghcr.io/mantidproject/mantid-development-alma:9.6 AS mantid_dev
