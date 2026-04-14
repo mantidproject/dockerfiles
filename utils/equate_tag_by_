@@ -85,12 +85,22 @@ _ghcr_io() {
         | jq -r '.tags[]'
       )
   do
+    #
+    # TODO: retrieve manifest digest
+    # https://gist.github.com/eggplants/a046346571de66656f4d4d34de69fdd0?permalink_comment_id=5319436#gistcomment-5319436
+    #
+    # GHCR only seems to respond to the digest of each artifact, 
+    # but DockerHub can give me the manifest digest of the repo without a token.
+    #
       curl \
           -H "Accept: application/vnd.docker.distribution.manifest.v2+json" \
           -H "Authorization: Bearer ${bearer_token:-null}" \
           -s \
         "https://ghcr.io/v2/${repository}/${image}/manifests/${tag}" \
       | jq -r --arg tag "${tag}" '{tag: $tag, digest: .config.digest}'
+    #
+    # The curl command above returns an error
+    #
   done \
   | jq -r -s '.
     | group_by(.digest) | .[]
