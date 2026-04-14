@@ -1,16 +1,18 @@
 #!/bin/bash
 
 #
-# retrieve and equate semantic version with given tag
-#
+# Retrieve all equivalent tags for the specified image and tag
+# i.e. Find all sibling tags
 #
 # example:
 # 
-# ./utils/equate_tag_semver "library/almalinux:latest"
+# ./utils/sibling_tags "docker.io/library/almalinux:latest"
 #
-# where "library/almalinux" is the image and "latest" is the tag
+# where:
+#   "docker.io" is the registry host
+#   "library/almalinux" is the image
+#   "latest" is the tag
 #
-
 
 _docker_io() {
 
@@ -49,15 +51,6 @@ _docker_io() {
       | flatten | map(del(.images)) | group_by(.digest) | .[]
       | select(.[].name == $tag_converse) | .[]
       | select(.name != $tag_converse) | .name
-    '
-
-  return
-
-  printf '%s\n' "${paginated_results[@]}" \
-    | jq -r --arg tag_converse "${tag_converse}" '.
-      | flatten | map(del(.images)) | group_by(.digest) | .[]
-      | select(.[].name == $tag_converse) | .[]
-      | select(.name | match("^\\d+.\\d+$")) | .name
     '
   #
   #
@@ -108,7 +101,7 @@ _ghcr_io() {
         "https://ghcr.io/v2/${repository}/${image}/manifests/${tag}" \
       | jq -r --arg tag "${tag}" '{tag: $tag, digest: .config.digest}'
     #
-    # The curl command above returns an error
+    # The curl command above actually returns an error
     #
   done \
     | jq -r --arg tag_converse "${tag_converse}" -s '.
@@ -116,14 +109,7 @@ _ghcr_io() {
       | select(.[].tag == $tag_converse) | .[]
       | select(.tag != $tag_converse) | .tag
     '
-
-#  | jq -r -s '.
-#    | group_by(.digest) | .[]
-#    | select(.[].tag == "latest") | .[]
-#   | select(.tag | match("^\\d+.\\d+$")) | .tag
-#  '
 }
-
 
 registry="${1%%/*}"
 repository="${1#*/}"
