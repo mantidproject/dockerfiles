@@ -28,8 +28,8 @@ RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN <<__EOT__ bash
   done \
     | jq -r -s '.
       | group_by(.digest) | .[]
-      | select(.[].tag == latest) | .[]
-      | select(.tag != latest) | .tag
+      | select(.[].tag == "latest") | .[]
+      | select(.tag != "latest") | .tag
     '
 __EOT__
 
