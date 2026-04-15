@@ -29,6 +29,7 @@ docker build \
   --file - . <<-__EOF__
 
 	FROM scratch
+	LABEL org.opencontainers.image.description="Coverity Scan Build Tool v${tag}"
 	COPY ./${file} /
 
 __EOF__
