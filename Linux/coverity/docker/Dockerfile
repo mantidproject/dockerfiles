@@ -26,10 +26,10 @@ RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN <<__EOT__ bash
         "https://ghcr.io/v2/\${repository}/manifests/\${tag}" \
       | jq -r --arg tag "\${tag}" '{tag: \$tag, digest: .config.digest}'
   done \
-    | jq -r --arg tag_converse "\${tag_converse}" -s '.
+    | jq -r -s '.
       | group_by(.digest) | .[]
-      | select(.[].tag == \$tag_converse) | .[]
-      | select(.tag != \$tag_converse) | .tag
+      | select(.[].tag == latest) | .[]
+      | select(.tag != latest) | .tag
     '
 __EOT__
 
