@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Retrieve all equivalent tags for the specified image and tag
+# Retrieve all equivalent tags sharing a common image digest
 # i.e. Find all sibling tags
 #
 # example:
