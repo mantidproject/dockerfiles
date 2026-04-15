@@ -23,8 +23,8 @@ owner="mantidproject"
 cd ${filepath}      || exit 1
 test -f ./${file}   || exit 1
 
-docker build 
-  --annotation "org.opencontainers.image.description=Coverity Scan Build Tool version ${tag}"\
+docker build \
+  --annotation "org.opencontainers.image.description=Coverity Scan Build Tool version ${tag}" \
   --tag "ghcr.io/${owner}/${image_name}:${tag}" \
   --tag "ghcr.io/${owner}/${image_name}:latest" \
   --file - . <<-__EOF__
