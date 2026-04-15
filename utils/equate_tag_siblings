@@ -100,9 +100,6 @@ _ghcr_io() {
           -s \
         "https://ghcr.io/v2/${repository}/${image}/manifests/${tag}" \
       | jq -r --arg tag "${tag}" '{tag: $tag, digest: .config.digest}'
-    #
-    # The curl command above actually returns an error
-    #
   done \
     | jq -r --arg tag_converse "${tag_converse}" -s '.
       | group_by(.digest) | .[]
