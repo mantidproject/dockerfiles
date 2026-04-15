@@ -30,11 +30,15 @@ RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN <<__EOT__ bash
       | group_by(.digest) | .[]
       | select(.[].tag == "latest") | .[]
       | select(.tag != "latest") | .tag
-    '
+    ' \
+  > /coverity-version-latest.txt
 __EOT__
 
 # ----
-#FROM ghcr.io/mantidproject/cov-analysis-linux64:latest AS coverity
+FROM ghcr.io/mantidproject/cov-analysis-linux64:latest AS coverity
+LABEL org.opencontainers.image.description=""
+
+
 #FROM ghcr.io/mantidproject/mantid-development-alma:9.6 AS mantid_dev
 
 # ----
