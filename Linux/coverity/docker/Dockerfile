@@ -10,16 +10,27 @@ RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN <<__EOT__ bash
   read -r bearer_token <<< \$(
     curl -s -u "x-access-token:\${GITHUB_TOKEN}" "https://ghcr.io/token?service=ghcr.io&scope=repository:\${repository}:pull" | jq -r '.token'
   )
-  #read -r version_tag <<< \$(
-    curl \
-        -H "Accept: application/vnd.docker.distribution.manifest.v2+json" \
-        -H "Authorization: Bearer \${bearer_token:-null}" \
-        -s \
-      "https://ghcr.io/v2/\${repository}/tags/list" \
-    | jq -r '.tags[]'
-  #)
-  #echo \${version_tag}
-
+  for tag in \$(
+        curl \
+            -H "Accept: application/vnd.docker.distribution.manifest.v2+json" \
+            -H "Authorization: Bearer \${bearer_token:-null}" \
+            -s \
+          "https://ghcr.io/v2/\${repository}/tags/list" \
+        | jq -r '.tags[]'
+      )
+  do
+      curl \
+          -H "Accept: application/vnd.oci.image.manifest.v1+json" \
+          -H "Authorization: Bearer \${bearer_token:-null}" \
+          -s \
+        "https://ghcr.io/v2/\${repository}/manifests/\${tag}" \
+      | jq -r --arg tag "\${tag}" '{tag: \$tag, digest: .config.digest}'
+  done \
+    | jq -r --arg tag_converse "\${tag_converse}" -s '.
+      | group_by(.digest) | .[]
+      | select(.[].tag == \$tag_converse) | .[]
+      | select(.tag != \$tag_converse) | .tag
+    '
 __EOT__
 
 # ----
