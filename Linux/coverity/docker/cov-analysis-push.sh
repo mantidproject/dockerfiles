@@ -29,6 +29,7 @@ docker build \
   --file - . <<-__EOF__
 
 	FROM scratch
+	LABEL org.opencontainers.image.source https://github.com/orgs/mantidproject/packages/container/package/cov-analysis-linux64
 	LABEL org.opencontainers.image.description Coverity Scan Build Tool version ${tag}
 	COPY ./${file} /
 
