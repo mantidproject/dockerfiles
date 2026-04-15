@@ -36,7 +36,7 @@ __EOT__
 
 # ----
 FROM ghcr.io/mantidproject/cov-analysis-linux64:latest AS coverity
-LABEL org.opencontainers.image.description=""
+#LABEL org.opencontainers.image.description=""
 
 
 #FROM ghcr.io/mantidproject/mantid-development-alma:9.6 AS mantid_dev
