@@ -23,13 +23,13 @@ owner="mantidproject"
 cd ${filepath}      || exit 1
 test -f ./${file}   || exit 1
 
-docker build \
+docker build 
+  --annotation "org.opencontainers.image.description=Coverity Scan Build Tool version ${tag}"\
   --tag "ghcr.io/${owner}/${image_name}:${tag}" \
   --tag "ghcr.io/${owner}/${image_name}:latest" \
   --file - . <<-__EOF__
 
 	FROM scratch
-	LABEL org.opencontainers.image.source https://github.com/orgs/mantidproject/packages/container/package/cov-analysis-linux64
 	LABEL org.opencontainers.image.description Coverity Scan Build Tool version ${tag}
 	COPY ./${file} /
 
