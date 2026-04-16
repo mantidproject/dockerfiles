@@ -7,5 +7,6 @@ _coverity_version_latest() {
 
 __main() {
 
+  _coverity_version_latest
   
 }

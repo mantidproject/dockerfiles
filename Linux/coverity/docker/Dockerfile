@@ -1,5 +1,8 @@
 # syntax=docker/dockerfile:1
 
+ARG COVERITY_VERSION=latest
+ARG ALMALINUX_VERSION=latest
+
 FROM alpine:latest AS prelude
 ENV REPO=mantidproject/cov-analysis-linux64
 RUN apk add curl jq bash
@@ -35,16 +38,17 @@ RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN <<__EOT__ bash
 __EOT__
 
 # ----
-FROM ghcr.io/mantidproject/cov-analysis-linux64:latest AS coverity
-#LABEL org.opencontainers.image.description=""
+FROM ghcr.io/mantidproject/cov-analysis-linux64:${COVERITY_VERSION} AS coverity
 
+FROM ghcr.io/mantidproject/mantid-development-alma:9.6 AS mantid_dev
 
-#FROM ghcr.io/mantidproject/mantid-development-alma:9.6 AS mantid_dev
+COPY --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
 
 # ----
+
 #FROM almalinux:9 AS sns_runner
 
 #LABEL org.opencontainers.image.description
 
-#COPY --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
+
 
