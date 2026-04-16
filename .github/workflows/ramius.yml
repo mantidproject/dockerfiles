@@ -48,6 +48,6 @@ jobs:
           context: Linux/coverity/docker
           tags: ghcr.io/${{ github.repository_owner }}/github-runner-coverity:${{ needs.job_setup.outputs.coverity_version }}
           build-args: |
-            SEMVER_TAG=${{ needs.job_setup.outputs.semver_tag }}
+            COVERITY_VERSION=${{ needs.job_setup.outputs.coverity_version }}
           secrets: |
             "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
