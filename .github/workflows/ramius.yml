@@ -25,6 +25,7 @@ jobs:
       coverity_version: ${{ steps.upstream_bom.outputs.coverity_version }}
 
   job_docker:
+    needs: job_setup
     runs-on: ubuntu-latest
     steps:
       - name: retrieve ${{ github.event.repository.name }} project
