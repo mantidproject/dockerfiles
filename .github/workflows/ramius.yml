@@ -49,6 +49,7 @@ jobs:
           context: Linux/coverity/docker
           tags: ghcr.io/${{ github.repository_owner }}/github-runner-coverity:${{ needs.job_setup.outputs.coverity_version }}
           build-args: |
-            COVERITY_VERSION=${{ needs.job_setup.outputs.coverity_version }}
+            "COVERITY_VERSION=${{ needs.job_setup.outputs.coverity_version }}"
           secrets: |
             "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
+          outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Github Runner w/ Coverity v${{ needs.job_setup.outputs.coverity_version }}

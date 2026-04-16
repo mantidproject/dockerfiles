@@ -39,6 +39,7 @@ __EOT__
 
 # ----
 FROM ghcr.io/mantidproject/cov-analysis-linux64:${COVERITY_VERSION} AS coverity
+LABEL org.opencontainers.image.description Coverity Scan Build Tool version ${tag}
 
 FROM ghcr.io/mantidproject/mantid-development-alma:9.6 AS mantid_dev
 
