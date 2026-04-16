@@ -14,8 +14,9 @@ jobs:
 
       - id: upstream_bom
         name: retrieve and interpolate versions and tags for upstream dependencies
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-
           # retrieve equivalent version of coverity image latest tag
           read -r coverity_version <<< $(./utils/equate_tag_siblings "ghcr.io/mantidproject/cov-analysis-linux64:latest")
           test -n ${coverity_version} || exit 1
