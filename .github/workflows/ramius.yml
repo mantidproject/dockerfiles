@@ -78,4 +78,4 @@ jobs:
           secrets: |
             "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
           outputs: |
-            type=image,name=target,annotation-index.org.opencontainers.image.description=Github Runner w/ Coverity v${{ needs.job_setup.outputs.sbom.coverity.version }}
+            type=image,name=target,annotation-index.org.opencontainers.image.description=Github Runner w/ Coverity v${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
