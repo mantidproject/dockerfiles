@@ -44,7 +44,7 @@ jobs:
             echo -n "${coverity}"
             echo -n "${gha_runner}"
           ) \
-            | jq -r -s --compact_output '. | add' >> $GITHUB_OUTPUT
+            | jq -r -s --compact-output '. | add' >> $GITHUB_OUTPUT
 
     outputs:
       sbom: ${{ steps.sbom.outputs }}
