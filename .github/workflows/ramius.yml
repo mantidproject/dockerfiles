@@ -40,6 +40,7 @@ jobs:
                 }'
           )
 
+          echo -n "JSON="
           (
             echo -n "${coverity}"
             echo -n "${gha_runner}"
@@ -47,7 +48,7 @@ jobs:
             | jq -r -s --compact-output '. | add' >> $GITHUB_OUTPUT
 
     outputs:
-      sbom: ${{ steps.sbom.outputs }}
+      sbom: ${{ steps.sbom.outputs.JSON }}
 
   job_docker:
     needs: job_setup
