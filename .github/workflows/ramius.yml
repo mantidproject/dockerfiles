@@ -74,7 +74,7 @@ jobs:
           context: Linux/coverity/docker
           tags: ghcr.io/${{ github.repository_owner }}/github-runner-coverity:${{ needs.job_setup.outputs.sbom.coverity.version }}
           build-args: |
-            "COVERITY_VERSION=${{ needs.job_setup.outputs.sbom.coverity.version }}"
+            "COVERITY_VERSION=${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}"
           secrets: |
             "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
           outputs: |
