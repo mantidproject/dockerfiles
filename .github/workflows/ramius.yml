@@ -77,4 +77,5 @@ jobs:
             "COVERITY_VERSION=${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}"
           secrets: |
             "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
-          outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Github Runner w/ Coverity v${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
+          outputs: |
+            type=image,name=target,annotation-index.org.opencontainers.image.description=Github Runner w/ Coverity v${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
