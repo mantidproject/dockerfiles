@@ -3,6 +3,21 @@
 This is a Docker image that registers a Windows machine as a GitHub self-hosted runner in the mantidproject/mantid repository.
 The Docker image is based on the same Windows Server Core base and build tools used in the jenkins-node image.
 
+### Building the image
+
+From the `Windows/github-runner/` directory, run:
+```powershell
+docker build -f Win.Dockerfile -t ghcr.io/mantidproject/github-runner-win:0.1 .
+```
+
+### Pushing the image to the registry
+
+Log in to the GitHub Container Registry first, then push:
+```powershell
+docker login ghcr.io -u <github_username> -p <github_token>
+docker push ghcr.io/mantidproject/github-runner-win:0.1
+```
+
 ### GitHub token for runner registration
 In order to generate runner registration tokens on the fly, you will need to create a [fine-grained GitHub token](https://github.com/settings/personal-access-tokens/new) with the following options:
 - resource owner: mantidproject
@@ -20,5 +35,10 @@ The `start.ps1` script inside the docker image requires the following variables 
 
 They can be passed at the time of creating the docker container by running the following from PowerShell on the Windows host:
 ```powershell
-docker run -d -e ORGANIZATION='mantidproject' -e REG_TOKEN=<github_token> -e REPOSITORY='mantid' -e RUNNER_NAME='my_runner_name' ghcr.io/mantidproject/github-runner-win:0.1
+docker run -d `
+  -e ORGANIZATION='mantidproject' `
+  -e REPOSITORY='mantid' `
+  -e RUNNER_NAME='my_runner_name' `
+  -e REG_TOKEN=<github_token> `
+  ghcr.io/mantidproject/github-runner-win:0.1
 ```
