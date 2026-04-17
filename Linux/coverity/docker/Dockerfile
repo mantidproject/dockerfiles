@@ -53,10 +53,9 @@ ARG GHA_RUNNER_VERSION
 
 ADD ${GHA_RUNNER_DOWNLOAD} /home/docker/actions-runner/
 
-# Download and extract the github actions runner package
-#RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
-#    && curl -o actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
-#    && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
+RUN \
+     cd /home/docker/actions-runner \
+  && tar xzf ./actions-runner-linux-x64-*.tar.gz
 
 
 # ----
