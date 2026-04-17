@@ -46,20 +46,25 @@ LABEL org.opencontainers.image.description Coverity Scan Build Tool version ${ta
 # ----
 FROM ghcr.io/mantidproject/mantid-development-alma:9.6 AS mantid_dev
 
-COPY --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
-ADD --chmod=755 mantid_testdata_preload.sh /usr/local/bin
+# ----
+FROM almalinux:9 AS gha_runner
+ARG GHA_RUNNER_DOWNLOAD
+ARG GHA_RUNNER_VERSION
 
-RUN \
-  curl -s https://api.github.com/repos/actions/runner/releases/latest \
-  | jq -r '.assets[] | select(.name | test("linux-x64")) | .browser_download_url'
+ADD ${GHA_RUNNER_DOWNLOAD} /home/docker/actions-runner/
+
+# Download and extract the github actions runner package
+#RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
+#    && curl -o actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
+#    && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
 
 
 # ----
 
+FROM gha_runner AS sns_runner
 
-
-FROM almalinux:9 AS sns_runner
-
+COPY --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
+ADD --chmod=755 mantid_testdata_preload.sh /usr/local/bin
 
 #LABEL org.opencontainers.image.description
 
