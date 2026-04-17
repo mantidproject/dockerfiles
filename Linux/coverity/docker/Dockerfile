@@ -41,14 +41,24 @@ __EOT__
 FROM ghcr.io/mantidproject/cov-analysis-linux64:${COVERITY_VERSION} AS coverity
 LABEL org.opencontainers.image.description Coverity Scan Build Tool version ${tag}
 
+
+
+# ----
 FROM ghcr.io/mantidproject/mantid-development-alma:9.6 AS mantid_dev
 
 COPY --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
 ADD --chmod=755 mantid_testdata_preload.sh /usr/local/bin
 
+RUN \
+  curl -s https://api.github.com/repos/actions/runner/releases/latest \
+  | jq -r '.assets[] | select(.name | test("linux-x64")) | .browser_download_url'
+
+
 # ----
 
-#FROM almalinux:9 AS sns_runner
+
+
+FROM almalinux:9 AS sns_runner
 
 
 #LABEL org.opencontainers.image.description

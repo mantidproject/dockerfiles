@@ -12,18 +12,42 @@ jobs:
       - name: retrieve ${{ github.event.repository.name }} project
         uses: actions/checkout@v5
 
-      - id: upstream_bom
+      - id: sbom
         name: retrieve and interpolate versions and tags for upstream dependencies
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+
           # retrieve equivalent version of coverity image latest tag
-          read -r coverity_version <<< $(./utils/equate_tag_siblings "ghcr.io/mantidproject/cov-analysis-linux64:latest")
-          test -n ${coverity_version} || exit 1
-          echo "coverity_version=${coverity_version}" >> $GITHUB_OUTPUT
+          read -r coverity <<< $(
+            echo '{}' \
+              | jq -r \
+                  --compact-output \
+                  --arg version_latest "$(./utils/equate_tag_siblings "ghcr.io/mantidproject/cov-analysis-linux64:latest")" \
+                '{coverity: {version: $version_latest }}'
+          )
+
+          # retrieve version and download_url for github actions runner
+          read -r gha_runner <<< $(
+            curl -s https://api.github.com/repos/actions/runner/releases/latest \
+              | jq -r \
+                  --compact-output \
+                '{
+                  gha_runner: {
+                    download_url: (.assets[] | select(.name | test("linux-x64")) | .browser_download_url),
+                    version: (.name)
+                  }
+                }'
+          )
+
+          (
+            echo -n "${coverity}"
+            echo -n "${gha_runner}"
+          ) \
+            | jq -r -s --compact_output '. | add' >> $GITHUB_OUTPUT
 
     outputs:
-      coverity_version: ${{ steps.upstream_bom.outputs.coverity_version }}
+      sbom: ${{ steps.sbom.outputs }}
 
   job_docker:
     needs: job_setup
@@ -47,10 +71,10 @@ jobs:
         with:
           push: true
           context: Linux/coverity/docker
-          tags: ghcr.io/${{ github.repository_owner }}/github-runner-coverity:${{ needs.job_setup.outputs.coverity_version }}
+          tags: ghcr.io/${{ github.repository_owner }}/github-runner-coverity:${{ needs.job_setup.outputs.sbom.coverity.version }}
           build-args: |
-            "COVERITY_VERSION=${{ needs.job_setup.outputs.coverity_version }}"
+            "COVERITY_VERSION=${{ needs.job_setup.outputs.sbom.coverity.version }}"
           secrets: |
             "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
           outputs: |
-            type=image,name=target,annotation-index.org.opencontainers.image.description=Github Runner w/ Coverity v${{ needs.job_setup.outputs.coverity_version }}
+            type=image,name=target,annotation-index.org.opencontainers.image.description=Github Runner w/ Coverity v${{ needs.job_setup.outputs.sbom.coverity.version }}
