@@ -44,10 +44,12 @@ LABEL org.opencontainers.image.description Coverity Scan Build Tool version ${ta
 FROM ghcr.io/mantidproject/mantid-development-alma:9.6 AS mantid_dev
 
 COPY --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
+ADD --chmod=755 mantid_testdata_preload.sh /usr/local/bin
 
 # ----
 
 #FROM almalinux:9 AS sns_runner
+
 
 #LABEL org.opencontainers.image.description
 
