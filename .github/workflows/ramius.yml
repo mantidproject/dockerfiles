@@ -40,7 +40,7 @@ jobs:
                 }'
           )
 
-          echo -n "JSON="
+          echo -n "JSON=" >> $GITHUB_OUTPUT
           (
             echo -n "${coverity}"
             echo -n "${gha_runner}"
