@@ -23,7 +23,7 @@ jobs:
             echo '{}' \
               | jq -r \
                   --compact-output \
-                  --arg version_latest "$(./utils/equate_tag_siblings docker.io/library/almalinux:latest | jq -R -r -s 'split("\n") | map(select(. != "")) | .[] | select( . | match("^\\d+.\\d+$"))')" \
+                  --arg version_latest "$(./utils/equate_tag_siblings docker.io/library/almalinux:9 | jq -R -r -s 'split("\n") | map(select(. != "")) | .[] | select( . | match("^\\d+.\\d+$"))')" \
                 '{almalinux: {version: $version_latest }}'
           )
 

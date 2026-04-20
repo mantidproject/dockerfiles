@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Globally scoped ARGs
-ARG ALMALINUX_VERSION=latest
+ARG ALMALINUX_VERSION=9
 ARG COVERITY_VERSION
 
 # ----
