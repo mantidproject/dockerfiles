@@ -64,7 +64,8 @@ ARG GHA_RUNNER_VERSION
 RUN useradd -m docker --create-home
 USER docker
 
-ADD ${GHA_RUNNER_DOWNLOAD} /home/docker/actions-runner/
+ADD --chown=docker:docker \
+    ${GHA_RUNNER_DOWNLOAD} /home/docker/actions-runner/
 RUN \
      cd /home/docker/actions-runner \
   && tar xzf ./actions-runner-linux-x64-*.tar.gz
