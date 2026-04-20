@@ -77,9 +77,10 @@ FROM gha_runner AS sns_runner
 # Bring a global ARG into this stage's scope
 ARG COVERITY_VERSION
 
+RUN mkdir -p /mantid_data
 COPY --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
 RUN \
-     cd /mantid_data/ \
+     cd /mantid_data \
   && tar xzf ./cov-analysis-linux64-*.tar.gz
 
 ADD --chmod=755 mantid_testdata_preload.sh /usr/local/bin
