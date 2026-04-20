@@ -23,7 +23,7 @@ jobs:
             echo '{}' \
               | jq -r \
                   --compact-output \
-                  --arg version_latest "$(./utils/equate_tag_siblings "docker.io/library/almalinux:latest")" \
+                  --arg version_latest "$(./utils/equate_tag_siblings docker.io/library/almalinux:latest | jq -R -s 'split(\"\n\") | map(select(. != \"\")) | .[] | select( . | match(\"^\\d+.\\d+$\"))')" \
                 '{almalinux: {version: $version_latest }}'
           )
 
@@ -60,7 +60,15 @@ jobs:
     outputs:
       sbom: ${{ steps.sbom.outputs.JSON }}
 
+  job_debug:
+    needs: job_setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: debug
+        run: echo "${{ toJSON(needs.job_setup.outputs.sbom) }}"
+
   job_docker:
+    if: false
     needs: job_setup
     runs-on: ubuntu-latest
     steps:
