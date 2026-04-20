@@ -39,12 +39,12 @@ __EOT__
 
 # ----
 FROM ghcr.io/mantidproject/cov-analysis-linux64:${COVERITY_VERSION} AS coverity
-LABEL org.opencontainers.image.description Coverity Scan Build Tool version ${tag}
+#LABEL org.opencontainers.image.description Coverity Scan Build Tool version ${tag}
 
 
 
 # ----
-FROM ghcr.io/mantidproject/mantid-development-alma:9.6 AS mantid_dev
+#FROM ghcr.io/mantidproject/mantid-development-alma:9.6 AS mantid_dev
 
 # ----
 FROM almalinux:9 AS gha_runner
@@ -62,9 +62,10 @@ RUN \
 
 FROM gha_runner AS sns_runner
 
-COPY --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
+ADD --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
 ADD --chmod=755 mantid_testdata_preload.sh /usr/local/bin
 
+ENV COVERITY_DIR=/mantid_data/cov-analysis-linux64-${COVERITY_VERSION}/bin
 #LABEL org.opencontainers.image.description
 
 
