@@ -61,7 +61,7 @@ FROM mantid_dev AS gha_runner
 ARG GHA_RUNNER_DOWNLOAD
 ARG GHA_RUNNER_VERSION
 
-RUN useradd -m docker
+RUN useradd -m docker --create-home
 USER docker
 
 ADD ${GHA_RUNNER_DOWNLOAD} /home/docker/actions-runner/
