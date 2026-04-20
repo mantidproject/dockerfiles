@@ -62,7 +62,11 @@ RUN \
 
 FROM gha_runner AS sns_runner
 
-ADD --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
+COPY --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
+RUN \
+     cd /mantid_data/ \
+  && tar xzf ./cov-analysis-linux64-*.tar.gz
+
 ADD --chmod=755 mantid_testdata_preload.sh /usr/local/bin
 
 ENV COVERITY_DIR=/mantid_data/cov-analysis-linux64-${COVERITY_VERSION}/bin
