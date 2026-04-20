@@ -84,6 +84,7 @@ jobs:
           context: Linux/coverity/docker
           tags: ghcr.io/${{ github.repository_owner }}/github-runner-coverity:${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
           build-args: |
+            "ALMALINUX_VERSION=${{    fromJSON(needs.job_setup.outputs.sbom).almalinux.version        }}"
             "COVERITY_VERSION=${{     fromJSON(needs.job_setup.outputs.sbom).coverity.version         }}"
             "GHA_RUNNER_VERSION=${{   fromJSON(needs.job_setup.outputs.sbom).gha_runner.version       }}"
             "GHA_RUNNER_DOWNLOAD=${{  fromJSON(needs.job_setup.outputs.sbom).gha_runner.download_url  }}"
