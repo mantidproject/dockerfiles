@@ -1,12 +1,14 @@
 # syntax=docker/dockerfile:1
 
-
+# Globally scoped ARGs
 ARG ALMALINUX_VERSION=latest
 ARG COVERITY_VERSION
+
+# ----
+
 FROM alpine:latest AS prelude
 ENV REPO=mantidproject/cov-analysis-linux64
 RUN apk add curl jq bash
-
 RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN <<__EOT__ bash
   repository=$REPO
   repository=\${repository##*:}
@@ -38,21 +40,28 @@ RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN <<__EOT__ bash
 __EOT__
 
 # ----
+
 FROM ghcr.io/mantidproject/cov-analysis-linux64:${COVERITY_VERSION} AS coverity
 #LABEL org.opencontainers.image.description Coverity Scan Build Tool version ${tag}
 
 
+# ----
+
+FROM almalinux:${ALMALINUX_VERSION} AS mantid_dev
+RUN dnf -y install \
+      file gcc git make jq sudo wget which \
+      libXScrnSaver xorg-x11-server-Xvfb \
+      graphviz pciutils-libs
+
 
 # ----
-#FROM ghcr.io/mantidproject/mantid-development-alma:9.6 AS mantid_dev
 
-# ----
-FROM almalinux:9 AS gha_runner
+FROM mantid_dev AS gha_runner
+# Bring a global ARGs into this stage's scope
 ARG GHA_RUNNER_DOWNLOAD
 ARG GHA_RUNNER_VERSION
 
 ADD ${GHA_RUNNER_DOWNLOAD} /home/docker/actions-runner/
-
 RUN \
      cd /home/docker/actions-runner \
   && tar xzf ./actions-runner-linux-x64-*.tar.gz
@@ -61,6 +70,7 @@ RUN \
 # ----
 
 FROM gha_runner AS sns_runner
+# Bring a global ARG into this stage's scope
 ARG COVERITY_VERSION
 
 COPY --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.

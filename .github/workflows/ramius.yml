@@ -18,6 +18,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
 
+          # retrieve equivalent version of almalinux image latest tag
+          read -r almalinux <<< $(
+            echo '{}' \
+              | jq -r \
+                  --compact-output \
+                  --arg version_latest "$(./utils/equate_tag_siblings "docker.io/library/almalinux:latest")" \
+                '{almalinux: {version: $version_latest }}'
+          )
+
           # retrieve equivalent version of coverity image latest tag
           read -r coverity <<< $(
             echo '{}' \
@@ -42,6 +51,7 @@ jobs:
 
           echo -n "JSON=" >> $GITHUB_OUTPUT
           (
+            echo -n "${almalinux}"
             echo -n "${coverity}"
             echo -n "${gha_runner}"
           ) \
