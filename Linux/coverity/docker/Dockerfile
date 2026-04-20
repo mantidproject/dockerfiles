@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG COVERITY_VERSION=latest
+
 ARG ALMALINUX_VERSION=latest
 
 FROM alpine:latest AS prelude
@@ -61,6 +61,7 @@ RUN \
 # ----
 
 FROM gha_runner AS sns_runner
+ARG COVERITY_VERSION
 
 COPY --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
 RUN \
