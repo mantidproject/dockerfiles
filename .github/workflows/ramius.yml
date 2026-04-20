@@ -68,7 +68,6 @@ jobs:
         run: echo "${{ toJSON(needs.job_setup.outputs.sbom) }}"
 
   job_docker:
-    if: false
     needs: job_setup
     runs-on: ubuntu-latest
     steps:
