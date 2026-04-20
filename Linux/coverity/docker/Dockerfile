@@ -71,7 +71,8 @@ ADD --chown=docker:docker \
     ${GHA_RUNNER_DOWNLOAD} /home/docker/actions-runner/
 RUN \
      cd /home/docker/actions-runner \
-  && tar xzf ./actions-runner-linux-x64-*.tar.gz
+  && tar xzf ./actions-runner-linux-x64-*.tar.gz \
+  && rm -f   ./actions-runner-linux-x64-*.tar.gz
 
 
 # ----
@@ -83,7 +84,8 @@ ARG COVERITY_VERSION
 COPY --from=coverity /cov-analysis-linux64-*.tar.gz /mantid_data/.
 RUN \
      cd /mantid_data \
-  && tar xzf ./cov-analysis-linux64-*.tar.gz
+  && tar xzf ./cov-analysis-linux64-*.tar.gz \
+  && rm -f   ./cov-analysis-linux64-*.tar.gz
 
 ADD --chmod=755 mantid_testdata_preload.sh /usr/local/bin
 
