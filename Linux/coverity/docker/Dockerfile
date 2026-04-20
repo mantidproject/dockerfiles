@@ -2,7 +2,7 @@
 
 
 ARG ALMALINUX_VERSION=latest
-
+ARG COVERITY_VERSION
 FROM alpine:latest AS prelude
 ENV REPO=mantidproject/cov-analysis-linux64
 RUN apk add curl jq bash
