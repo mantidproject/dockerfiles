@@ -65,8 +65,11 @@ RUN useradd -m docker --create-home
 RUN mkdir /mantid_data
 RUN chown docker:docker /mantid_data
 RUN chmod 755 /mantid_data
+
+# Switch to docker user
 USER docker
 
+# Unpack github actions runner
 ADD --chown=docker:docker \
     ${GHA_RUNNER_DOWNLOAD} /home/docker/actions-runner/
 RUN \
@@ -74,6 +77,20 @@ RUN \
   && tar xzf ./actions-runner-linux-x64-*.tar.gz \
   && rm -f   ./actions-runner-linux-x64-*.tar.gz
 
+# Switch to root user
+USER root
+
+# Install required dependencies for github actions self-hosted runner
+RUN /home/docker/actions-runner/bin/installdependencies.sh
+#
+# The script bin/installdependencies.sh is a utility provided with the
+# GitHub Actions self-hosted runner to automate the installation of
+# required system-level dependencies on Linux-based systems. 
+#
+#
+
+# Switch back to docker user
+USER docker
 
 # ----
 
