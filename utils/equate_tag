@@ -1,12 +1,15 @@
 #!/bin/bash
 
 #
-# Retrieve all equivalent tags sharing a common image digest
+# Query the container registry and retrieve equivalent tags sharing a common image digest
 # i.e. Find all sibling tags
+#
+# Returns a json formatted list of tags
+#
 #
 # example:
 # 
-# ./utils/equate_tag_siblings "docker.io/library/almalinux:latest"
+# ./utils/equate_tag siblings "docker.io/library/almalinux:latest"
 #
 # where:
 #   "docker.io" is the registry host
@@ -122,3 +125,5 @@ tag="${1##*:}"
 #   "ghcr.io/mantidproject/mantid-development-alma:9.6"  is passed to _ghcr_io()
 #   "docker.io/library/alpine"                           is passed to _docker_io()
 #
+
+
