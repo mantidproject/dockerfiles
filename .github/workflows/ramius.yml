@@ -23,7 +23,7 @@ jobs:
             echo '{}' \
               | jq -r \
                   --compact-output \
-                  --arg version_latest "$(./utils/equate_tag docker.io/library/almalinux:9 | jq -R -r -s 'split("\n") | map(select(. != "")) | .[] | select( . | match("^\\d+.\\d+$"))')" \
+                  --arg version_latest "$(./utils/equate_tag_semver "docker.io/library/almalinux:9")" \
                 '{almalinux: {version: $version_latest }}'
           )
 
@@ -32,7 +32,7 @@ jobs:
             echo '{}' \
               | jq -r \
                   --compact-output \
-                  --arg version_latest "$(./utils/equate_tag "ghcr.io/mantidproject/cov-analysis-linux64:latest")" \
+                  --arg version_latest "$(./utils/equate_tag "ghcr.io/mantidproject/cov-analysis-linux64:latest" | jq -r '.[]')" \
                 '{coverity: {version: $version_latest }}'
           )
 
@@ -87,7 +87,7 @@ jobs:
       - name: build and push - github runner w/ coverity
         uses: docker/build-push-action@v6
         with:
-          push: true
+          push: false
           context: Linux/coverity/docker
           tags: ghcr.io/${{ github.repository_owner }}/github-runner-coverity:${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
           build-args: |
