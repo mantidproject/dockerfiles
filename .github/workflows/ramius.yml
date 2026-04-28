@@ -64,8 +64,16 @@ jobs:
     needs: job_setup
     runs-on: ubuntu-latest
     steps:
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: almalinux:9.7
+
       - name: debug
-        run: echo "${{ toJSON(needs.job_setup.outputs.sbom) }}"
+        run: |
+          echo "${{ toJSON(needs.job_setup.outputs.sbom) }} | jq -r '.'"
+          echo "${{ toJSON(steps.meta.outputs) }} | jq -r '.'"
 
   job_docker:
     needs: job_setup
@@ -87,7 +95,7 @@ jobs:
       - name: build and push - github runner w/ coverity
         uses: docker/build-push-action@v6
         with:
-          push: true
+          push: false
           context: Linux/coverity/docker
           tags: ghcr.io/${{ github.repository_owner }}/github-runner-coverity:${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
           build-args: |
