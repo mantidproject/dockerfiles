@@ -116,7 +116,8 @@ repository="${1#*/}"
 repository="${repository%%:*}"
 tag="${1##*:}"
 
-"_${registry//./_}" "${repository}" "${tag}"
+"_${registry//./_}" "${repository}" "${tag}" \
+  | jq -R -r -s 'split("\n") | map(select(length > 0))'
 
 #
 # invoke the corresponding function based on the registry hostname
