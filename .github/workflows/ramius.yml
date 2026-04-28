@@ -95,7 +95,7 @@ jobs:
       - name: build and push - github runner w/ coverity
         uses: docker/build-push-action@v6
         with:
-          push: false
+          push: true
           context: Linux/coverity/docker
           tags: ghcr.io/${{ github.repository_owner }}/github-runner-coverity:${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
           build-args: |
