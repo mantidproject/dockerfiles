@@ -107,8 +107,8 @@ jobs:
             "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
           outputs: |
             type=image,name=target,
-            annotation-index.org.opencontainers.image.description=Github Runner w/ Coverity v${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }},
-            annotation-index.org.opencontainers.image.version=abc123,
-            annotation-index.com.yourorg.almalinux.version=${{ fromJSON(needs.job_setup.outputs.sbom).almalinux.version }},
-            annotation-index.com.yourorg.coverity.version=${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }},
+            annotation-index.org.opencontainers.image.description=Github Runner w/ Coverity v${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
+            annotation-index.org.opencontainers.image.version=abc123
+            annotation-index.com.yourorg.almalinux.version=${{ fromJSON(needs.job_setup.outputs.sbom).almalinux.version }}
+            annotation-index.com.yourorg.coverity.version=${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
             annotation-index.com.yourorg.gha_runner.version=${{ fromJSON(needs.job_setup.outputs.sbom).gha_runner.version }}
