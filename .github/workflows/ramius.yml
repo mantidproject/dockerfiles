@@ -96,7 +96,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           annotations: |
-            index:org.opencontainers.image.description=Github Runner w/ Coverity v${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
+            index:org.opencontainers.image.description=Gxthub Runner w/ Coverity v${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
             index:org.opencontainers.image.version=${{ fromJSON(needs.job_setup.outputs.sbom).almalinux.version }}-${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
 
           push: true
