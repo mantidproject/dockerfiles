@@ -20,5 +20,6 @@ cd ${script_dir}
 #
 # Invoke equate_tag and then filter for semantic version tag
 #
-./equate_tag "$@"
+./equate_tag "$@" \
+  | jq -R -r -s 'split("\n") | map(select(. != "")) | .[] | select( . | match("^\\d+.\\d+$"))')"
 
