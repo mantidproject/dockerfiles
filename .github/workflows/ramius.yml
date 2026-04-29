@@ -107,8 +107,6 @@ jobs:
       - name: build and push - github runner w/ coverity
         uses: docker/build-push-action@v6
         with:
-          annotations: |
-            org.opencontainers.image.description=Github Runner w/ Coverity v${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }} on AlmaLinux ${{ fromJSON(needs.job_setup.outputs.sbom).almalinux.version }}
           labels: |
             org.opencontainers.image.title=GitHub Runner with Coverity
             org.opencontainers.image.description=Github Runner w/ Coverity on AlmaLinux ${{ fromJSON(needs.job_setup.outputs.sbom).almalinux.version }}
