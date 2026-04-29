@@ -109,7 +109,9 @@ jobs:
         with:
           annotations: |
             org.opencontainers.image.description=Github Runner w/ Coverity v${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }} on AlmaLinux ${{ fromJSON(needs.job_setup.outputs.sbom).almalinux.version }}
-
+          labels: |
+            org.opencontainers.image.title=GitHub Runner with Coverity
+            org.opencontainers.image.description=Github Runner w/ Coverity on AlmaLinux ${{ fromJSON(needs.job_setup.outputs.sbom).almalinux.version }}
           push: true
           context: Linux/coverity/docker
           tags: ghcr.io/${{ github.repository_owner }}/github-runner-coverity:${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
