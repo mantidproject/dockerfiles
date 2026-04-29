@@ -107,11 +107,9 @@ jobs:
       - name: build and push - github runner w/ coverity
         uses: docker/build-push-action@v6
         with:
-           annotations: |
-             org.opencontainers.image.description=Github Runner w/ Coverity v${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }} on AlmaLinux ${{ fromJSON(needs.job_setup.outputs.sbom).almalinux.version }}
+          annotations: |
+            org.opencontainers.image.description=Github Runner w/ Coverity v${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }} on AlmaLinux ${{ fromJSON(needs.job_setup.outputs.sbom).almalinux.version }}
 
-#          annotations: |
-#            index:org.opencontainers.image.description=Github Runner w/ Coverity v${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }} on AlmaLinux ${{ fromJSON(needs.job_setup.outputs.sbom).almalinux.version }}
           push: true
           context: Linux/coverity/docker
           tags: ghcr.io/${{ github.repository_owner }}/github-runner-coverity:${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
@@ -126,3 +124,5 @@ jobs:
 
 #          outputs: |
 #            "type=image,name=target,annotation-index.org.opencontainers.image.description=Github Runner w/ Coverity v${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }}
+#          annotations: |
+#            index:org.opencontainers.image.description=Github Runner w/ Coverity v${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }} on AlmaLinux ${{ fromJSON(needs.job_setup.outputs.sbom).almalinux.version }}
