@@ -37,17 +37,20 @@ jobs:
           )
 
           # retrieve version and download_url for github actions runner
-          read -r gha_runner <<< $(
-            curl -s https://api.github.com/repos/actions/runner/releases/latest \
-              | jq -r \
-                  --compact-output \
-                '{
-                  gha_runner: {
-                    download_url: (.assets[] | select(.name | test("linux-x64")) | .browser_download_url),
-                    version: (.name)
-                  }
-                }'
+          gha_runner=$(
+            curl -s https://api.github.com/repos/actions/runner/releases/latest
           )
+          if ! parsed=$(jq -e --compact-output '{
+              gha_runner: {
+                download_url: (.assets[] | select(.name | test("linux-x64")) | .browser_download_url),
+                version: (.name)
+              }
+            }' <<< "${gha_runner}" 2>/dev/null); then
+            echo "Error parsing GitHub API response:" >&2
+            echo "${gha_runner}" >&2
+            exit 1
+          fi
+          read -r gha_runner <<< "${parsed}"
 
           echo -n "JSON=" >> $GITHUB_OUTPUT
           (
