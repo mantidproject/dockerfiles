@@ -68,6 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Extract metadata
+        if: false
         id: meta
         uses: docker/metadata-action@v6
         with:
@@ -75,8 +76,8 @@ jobs:
 
       - name: debug
         run: |
-          echo ${{ toJSON(needs.job_setup.outputs.sbom) }} | jq -r '.'
-          echo ${{ toJSON(steps.meta.outputs) }} | jq -r '.'
+          echo "${{ toJSON(needs.job_setup.outputs.sbom) }}" | jq -r '.'
+          echo "${{ toJSON(steps.meta.outputs) }}" | jq -r '.'
 
   job_docker:
     needs: job_setup
@@ -96,6 +97,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata
+        if: false
         id: meta
         uses: docker/metadata-action@v5
         with:
