@@ -1,42 +1,57 @@
 #!/bin/bash
-
 #
 # Create and push a bare bones container image with nothing but the coverity distribution tarball
 #
+# usage: ./cov-analysis-push.sh <filename>
 #
-#   usage:  ./cov-analysis-push.sh <filename>
-#
-#   example:
-#           ./cov-analysis-push.sh "cov-analysis-linux64-2024.12.1.tar.gz"
+# example:
+#   ./cov-analysis-push.sh "cov-analysis-linux64-2024.12.1.tar.gz"
 #
 
-filepath="$(pwd -P)/${1%/*}"       # isolate the path
-filepath="${filepath%/*}"
-filepath="${filepath:-.}"          # if no path specified set as .
-file="${1##*/}"                    # isolate the filename
-file_strip="${file%%.tar.gz}"      # strip the .tar.gz extension
-image_name="${file_strip%-*}"      # isolate the image name
-tag="${file_strip##*-}"            # isolate the tag (version)
+set -euo pipefail
 
+filepath="$(pwd -P)/${1%/*}"
+filepath="${filepath:-.}"
+file="${1##*/}"
+file_strip="${file%%.tar.gz}"
+image_name="${file_strip%-*}"
+tag="${file_strip##*-}"
 owner="mantidproject"
 
-cd ${filepath}      || exit 1
-test -f ./${file}   || exit 1
+cd "${filepath}"
+test -f "./${file}"
 
-docker build \
+podman build \
+  --squash-all \
+  --format oci \
+  --annotation "org.opencontainers.image.title=Coverity Scan Build Tool" \
   --annotation "org.opencontainers.image.description=Coverity Scan Build Tool version ${tag}" \
   --tag "ghcr.io/${owner}/${image_name}:${tag}" \
   --tag "ghcr.io/${owner}/${image_name}:latest" \
   --file - . <<-__EOF__
-
+	# syntax=docker/dockerfile:1
 	FROM scratch
-	LABEL org.opencontainers.image.description Coverity Scan Build Tool version ${tag}
 	COPY ./${file} /
-
 __EOF__
 
 cd -
 
 set -x
-docker push "ghcr.io/${owner}/${image_name}:${tag}"
-docker push "ghcr.io/${owner}/${image_name}:latest"
+
+#
+# Print the oci registry mantifest JSON
+#
+skopeo inspect --raw containers-storage:ghcr.io/mantidproject/cov-analysis-linux64:2024.12.1 | jq -r '.'
+#
+# containers-storage: transport reads from podman's local image store instead of remote
+#
+#
+
+podman push "ghcr.io/${owner}/${image_name}:${tag}"
+podman push "ghcr.io/${owner}/${image_name}:latest"
+
+#
+# Print the oci registry mantifest JSON as rendered on remote
+#
+skopeo inspect --raw docker://ghcr.io/mantidproject/cov-analysis-linux64:2024.12.1 | jq -r '.'
+
