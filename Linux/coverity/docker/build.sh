@@ -3,26 +3,35 @@
 _almalinux_version_latest() {
 
   # retrieve equivalent semantic version (x.y) of almalinux image latest tag
-  echo '{}' \
-    | jq -r \
-        --compact-output \
-        --arg version_latest "$(./utils/equate_tag_semver "docker.io/library/almalinux:9")" \
-      '{almalinux: {version: $version_latest }}'
 
-  [[ $? -eq 0 ]] || exit 1
+  if version_latest=$(../../../utils/equate_tag_semver "docker.io/library/almalinux:9")
+  then
+    echo '{}' \
+      | jq -r \
+        --compact-output \
+        --arg version_latest "${version_latest}" \
+      '{almalinux: {version: $version_latest }}'
+  else
+    exit 1
+  fi
 }
+
 
 _coverity_version_latest() {
 
   # retrieve equivalent version of coverity image latest tag
-  echo '{}' \
-    | jq -r \
+  if version_latest=$(../../../utils/equate_tag "ghcr.io/mantidproject/cov-analysis-linux64:latest" | jq -r '.[]')
+  then
+    echo '{}' \
+      | jq -r \
         --compact-output \
         --arg version_latest "$(../../../utils/equate_tag "ghcr.io/mantidproject/cov-analysis-linux64:latest" | jq -r '.[]')" \
       '{coverity: {version: $version_latest }}'
-
-  [[ $? -eq 0 ]] || exit 1
+  else
+    exit 1
+  fi
 }
+
 
 _gha_runner_version_latest() {
 
@@ -39,7 +48,7 @@ _gha_runner_version_latest() {
   fi
 }
 
-__main() {
+__build_manifest() {
 
   (
     _almalinux_version_latest
@@ -49,4 +58,24 @@ __main() {
     | jq -r -s --compact-output '. | add'
 }
 
-__main
+__build_all() {
+
+  __build_manifest
+  podman build \
+    --squash-all \
+    --format oci \
+    --annotation "org.opencontainers.image.title=SNS Github Runner" \
+    --annotation "org.opencontainers.image.description=SNSGithubRunner" \
+    --
+}
+
+
+if test -z "$1"; then
+  "__build_all"
+else
+  "__build_$1"
+fi
+
+
+
+
