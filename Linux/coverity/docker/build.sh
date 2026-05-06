@@ -72,6 +72,11 @@ _target_image_version_next() {
   fi
 }
 
+__preflight() {
+
+  script_dir="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd -P )"  ; readonly "${_%%=*}"
+  cd ${script_dir}
+}
 
 __build_manifest() {
 
@@ -97,8 +102,10 @@ __build_all() {
 }
 
 if test -z "$1"; then
+  "__preflight"
   "__build_all"
 else
+  "__preflight"
   "__build_$1"
 fi
 
