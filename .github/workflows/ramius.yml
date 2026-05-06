@@ -64,7 +64,7 @@ jobs:
           push: true
           context: Linux/coverity/docker
           tags: |
-            ghcr.io/${{ github.repository_owner }}/github-runner-coverity:${{ fromJSON(needs.job_setup.outputs.sbom).target_image.version_next }}
+            ghcr.io/${{ github.repository_owner }}/github-runner-coverity:${{ fromJSON(needs.job_setup.outputs.sbom).target_image.version_next || 'v001' }}
             ghcr.io/${{ github.repository_owner }}/github-runner-coverity:latest
           provenance: false
           build-args: |
