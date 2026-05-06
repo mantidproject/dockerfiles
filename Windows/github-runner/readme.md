@@ -36,6 +36,7 @@ The `start.ps1` script inside the docker image requires the following variables 
 They can be passed at the time of creating the docker container by running the following from PowerShell on the Windows host:
 ```powershell
 docker run -d `
+  --name <my_runner_name>
   -e ORGANIZATION='mantidproject' `
   -e REPOSITORY='mantid' `
   -e RUNNER_NAME='my_runner_name' `
