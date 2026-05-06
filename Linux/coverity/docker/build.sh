@@ -49,7 +49,7 @@ _gha_runner_version_latest() {
 }
 
 
-_sns_runner_next_version() {
+_target_image_version_next() {
 
   # retrieve and equate the latest tag with existing integer version
   version_latest=$(../../../utils/equate_tag "ghcr.io/mantidproject/github-runner-coverity:latest" | jq -r '.[] | select(match("^v\\d+$"))')
@@ -57,11 +57,13 @@ _sns_runner_next_version() {
     echo '{}' \
       | jq -r --compact-output \
         --arg v "${version_latest}" \
-        '($v | capture("^(?<p>[^0-9]*)(?<n>[0-9]+)$")) as $parts
-         | ($parts.n | length) as $width
-         | ($parts.n | tonumber + 1 | tostring) as $next
-         | {sns_runner: {version_next:
-	 ($parts.p + ("0" * ($width - ($next | length)) + $next))}}'
+        '
+          ($v | capture("^(?<p>[^0-9]*)(?<n>[0-9]+)$")) as $parts
+          | ($parts.n | length) as $width
+          | ($parts.n | tonumber + 1 | tostring) as $next
+          | {target_image: {version_next:
+            ($parts.p + ("0" * ($width - ($next | length)) + $next))}}
+        '
       #
       # preserve zero-padded version and increment the integer version by 1
       #
@@ -77,6 +79,7 @@ __build_manifest() {
     _almalinux_version_latest
     _coverity_version_latest
     _gha_runner_version_latest
+    _target_image_version_next
   ) \
     | jq -r -s --compact-output '. | add'
 }
@@ -92,11 +95,6 @@ __build_all() {
     --tag "ghcr.io/mantidproject/github-runner-coverity:${tag}" \
     --tag "ghcr.io/mantidproject/github-runner-coverity:latest"
 }
-
-
-_sns_runner_next_version
-
-exit
 
 if test -z "$1"; then
   "__build_all"
