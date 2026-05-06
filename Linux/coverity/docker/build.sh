@@ -99,6 +99,9 @@ __build_all() {
   read -r GHA_RUNNER_DOWNLOAD  <<< $(echo ${manifest} | jq -r '.gha_runner.download_url')
   read -r VERSION_NEXT         <<< $(echo ${manifest} | jq -r '.target_image.version_next')
 
+  # If VERSION_NEXT is empty, set a default value
+  VERSION_NEXT="${VERSION_NEXT:-v001}"
+
   podman build \
       --squash-all \
       --format oci \
