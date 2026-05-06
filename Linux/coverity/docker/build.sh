@@ -103,7 +103,7 @@ __build_all() {
       --squash-all \
       --format oci \
       --annotation "org.opencontainers.image.title=Github Runner with Coverity" \
-      --annotation "org.opencontainers.image.description=Github Runner w/ Coverity ${COVERITY_VERSION} on AlmaLinux ${ALMALINUX_VERSION}" \
+      --annotation "org.opencontainers.image.description=${VERSION_NEXT}: Github Runner w/ Coverity ${COVERITY_VERSION} on AlmaLinux ${ALMALINUX_VERSION}" \
       --tag "ghcr.io/mantidproject/github-runner-coverity:${VERSION_NEXT}" \
       --tag "ghcr.io/mantidproject/github-runner-coverity:latest" \
       --build-arg "ALMALINUX_VERSION=${ALMALINUX_VERSION}" \
