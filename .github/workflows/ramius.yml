@@ -17,48 +17,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-
-          # retrieve equivalent semantic version (x.y) of almalinux image latest tag
-          read -r almalinux <<< $(
-            echo '{}' \
-              | jq -r \
-                  --compact-output \
-                  --arg version_latest "$(./utils/equate_tag_semver "docker.io/library/almalinux:9")" \
-                '{almalinux: {version: $version_latest }}'
-          )
-
-          # retrieve equivalent version of coverity image latest tag
-          read -r coverity <<< $(
-            echo '{}' \
-              | jq -r \
-                  --compact-output \
-                  --arg version_latest "$(./utils/equate_tag "ghcr.io/mantidproject/cov-analysis-linux64:latest" | jq -r '.[]')" \
-                '{coverity: {version: $version_latest }}'
-          )
-
-          # retrieve version and download_url for github actions runner
-          gha_runner=$(
-            curl -s https://api.github.com/repos/actions/runner/releases/latest
-          )
-          if ! parsed=$(jq -e --compact-output '{
-              gha_runner: {
-                download_url: (.assets[] | select(.name | test("linux-x64")) | .browser_download_url),
-                version: (.name)
-              }
-            }' <<< "${gha_runner}" 2>/dev/null); then
-            echo "Error parsing GitHub API response:" >&2
-            echo "${gha_runner}" >&2
-            exit 1
-          fi
-          read -r gha_runner <<< "${parsed}"
-
           echo -n "JSON=" >> $GITHUB_OUTPUT
-          (
-            echo -n "${almalinux}"
-            echo -n "${coverity}"
-            echo -n "${gha_runner}"
-          ) \
-            | jq -r -s --compact-output '. | add' >> $GITHUB_OUTPUT
+          ./Linux/coverity/docker/build.sh "manifest" >> $GITHUB_OUTPUT
 
     outputs:
       sbom: ${{ steps.sbom.outputs.JSON }}
@@ -80,6 +40,7 @@ jobs:
           echo ${{ toJSON(steps.meta.outputs) }} | jq -r '.'
 
   job_docker:
+    if: false
     needs: job_setup
     runs-on: ubuntu-latest
     steps:
