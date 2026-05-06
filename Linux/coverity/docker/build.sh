@@ -74,7 +74,7 @@ _target_image_version_next() {
 
 __preflight() {
 
-  script_dir="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd -P )"  ; readonly "${_%%=*}"
+  script_dir="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd -P )"
   cd ${script_dir}
 }
 
