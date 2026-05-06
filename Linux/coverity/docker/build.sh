@@ -91,14 +91,26 @@ __build_manifest() {
 
 __build_all() {
 
-  __build_manifest
+  read -r manifest <<< $(__build_manifest)
+
+  read -r ALMALINUX_VERSION    <<< $(echo ${manifest} | jq -r '.almalinux.version')
+  read -r COVERITY_VERSION     <<< $(echo ${manifest} | jq -r '.coverity.version')
+  read -r GHA_RUNNER_VERSION   <<< $(echo ${manifest} | jq -r '.gha_runner.version')
+  read -r GHA_RUNNER_DOWNLOAD  <<< $(echo ${manifest} | jq -r '.gha_runner.download_url')
+  read -r VERSION_NEXT         <<< $(echo ${manifest} | jq -r '.target_image.version_next')
+
   podman build \
-    --squash-all \
-    --format oci \
-    --annotation "org.opencontainers.image.title=SNS Github Runner" \
-    --annotation "org.opencontainers.image.description=SNSGithubRunner" \
-    --tag "ghcr.io/mantidproject/github-runner-coverity:${tag}" \
-    --tag "ghcr.io/mantidproject/github-runner-coverity:latest"
+      --squash-all \
+      --format oci \
+      --annotation "org.opencontainers.image.title=Github Runner with Coverity" \
+      --annotation "org.opencontainers.image.description=Github Runner w/ Coverity ${COVERITY_VERSION} on AlmaLinux ${ALMALINUX_VERSION}" \
+      --tag "ghcr.io/mantidproject/github-runner-coverity:${VERSION_NEXT}" \
+      --tag "ghcr.io/mantidproject/github-runner-coverity:latest" \
+      --build-arg "ALMALINUX_VERSION=${ALMALINUX_VERSION}" \
+      --build-arg "COVERITY_VERSION=${COVERITY_VERSION}" \
+      --build-arg "GHA_RUNNER_VERSION=${GHA_RUNNER_VERSION}" \
+      --build-arg "GHA_RUNNER_DOWNLOAD=${GHA_RUNNER_DOWNLOAD}" \
+    .
 }
 
 if test -z "$1"; then
