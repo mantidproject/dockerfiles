@@ -40,7 +40,6 @@ jobs:
           echo ${{ toJSON(steps.meta.outputs) }} | jq -r '.'
 
   job_docker:
-    if: false
     needs: job_setup
     runs-on: ubuntu-latest
     steps:
