@@ -48,6 +48,29 @@ _gha_runner_version_latest() {
   fi
 }
 
+
+_sns_runner_next_version() {
+
+  # retrieve and equate the latest tag with existing integer version
+  version_latest=$(../../../utils/equate_tag "ghcr.io/mantidproject/github-runner-coverity:latest" | jq -r '.[] | select(match("^v\\d+$"))')
+  if [[ -n ${version_latest} ]]; then
+    echo '{}' \
+      | jq -r --compact-output \
+        --arg v "${version_latest}" \
+        '($v | capture("^(?<p>[^0-9]*)(?<n>[0-9]+)$")) as $parts
+         | ($parts.n | length) as $width
+         | ($parts.n | tonumber + 1 | tostring) as $next
+         | {sns_runner: {version_next:
+	 ($parts.p + ("0" * ($width - ($next | length)) + $next))}}'
+      #
+      # preserve zero-padded version and increment the integer version by 1
+      #
+  else
+    exit 1
+  fi
+}
+
+
 __build_manifest() {
 
   (
@@ -66,9 +89,14 @@ __build_all() {
     --format oci \
     --annotation "org.opencontainers.image.title=SNS Github Runner" \
     --annotation "org.opencontainers.image.description=SNSGithubRunner" \
-    --
+    --tag "ghcr.io/mantidproject/github-runner-coverity:${tag}" \
+    --tag "ghcr.io/mantidproject/github-runner-coverity:latest"
 }
 
+
+_sns_runner_next_version
+
+exit
 
 if test -z "$1"; then
   "__build_all"
