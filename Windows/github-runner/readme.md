@@ -7,7 +7,7 @@ The Docker image is based on the same Windows Server Core base and build tools u
 
 From the `Windows/github-runner/` directory, run:
 ```powershell
-docker build -f Win.Dockerfile -t ghcr.io/mantidproject/github-runner-win:0.1 .
+docker build -f Win.Dockerfile -t ghcr.io/mantidproject/github-runner-win:<image_version> .
 ```
 
 ### Pushing the image to the registry
@@ -15,7 +15,7 @@ docker build -f Win.Dockerfile -t ghcr.io/mantidproject/github-runner-win:0.1 .
 Log in to the GitHub Container Registry first, then push:
 ```powershell
 docker login ghcr.io -u <github_username> -p <github_token>
-docker push ghcr.io/mantidproject/github-runner-win:0.1
+docker push ghcr.io/mantidproject/github-runner-win:<image_version>
 ```
 
 ### GitHub token for runner registration
@@ -41,5 +41,5 @@ docker run -d `
   -e REPOSITORY='mantid' `
   -e RUNNER_NAME='my_runner_name' `
   -e REG_TOKEN=<github_token> `
-  ghcr.io/mantidproject/github-runner-win:0.1
+  ghcr.io/mantidproject/github-runner-win:<image_version>
 ```
