@@ -9,6 +9,10 @@ ARG COVERITY_VERSION
 FROM ghcr.io/mantidproject/cov-analysis-linux64:${COVERITY_VERSION} AS coverity
 #LABEL org.opencontainers.image.description Coverity Scan Build Tool version ${tag}
 
+#
+# cov-analysis-linux64 is a scratch container image with just the coverity tarball
+#
+
 # ----
 
 FROM almalinux:${ALMALINUX_VERSION} AS mantid_dev
