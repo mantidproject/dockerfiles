@@ -1,0 +1,77 @@
+---
+
+name: coverity
+on:
+  workflow_dispatch:
+
+jobs:
+
+  job_setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: retrieve ${{ github.event.repository.name }} project
+        uses: actions/checkout@v5
+
+      - id: sbom
+        name: retrieve and interpolate versions and tags for upstream dependencies
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo -n "JSON=" >> $GITHUB_OUTPUT
+          ./Linux/coverity/docker/build.sh "manifest" >> $GITHUB_OUTPUT
+
+    outputs:
+      sbom: ${{ steps.sbom.outputs.JSON }}
+
+  job_debug:
+    needs: job_setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract metadata
+        if: false
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: almalinux:9.7
+
+      - name: debug
+        run: |
+          echo ${{ toJSON(needs.job_setup.outputs.sbom) }} | jq -r '.'
+
+  job_docker:
+    needs: job_setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: retrieve ${{ github.event.repository.name }} project
+        uses: actions/checkout@v5
+
+      - name: setup buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log into registry ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: build and push - github runner w/ coverity
+        uses: docker/build-push-action@v6
+        with:
+          labels: |
+            org.opencontainers.image.title=GitHub Runner with Coverity
+            org.opencontainers.image.description=${{ fromJSON(needs.job_setup.outputs.sbom).target_image.version_next || 'v001' }} --- Github Runner w/ Coverity ${{ fromJSON(needs.job_setup.outputs.sbom).coverity.version }} on AlmaLinux ${{ fromJSON(needs.job_setup.outputs.sbom).almalinux.version }}
+          push: true
+          context: Linux/coverity/docker
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/github-runner-coverity:${{ fromJSON(needs.job_setup.outputs.sbom).target_image.version_next || 'v001' }}
+            ghcr.io/${{ github.repository_owner }}/github-runner-coverity:latest
+          provenance: false
+          build-args: |
+            "ALMALINUX_VERSION=${{    fromJSON(needs.job_setup.outputs.sbom).almalinux.version        }}"
+            "COVERITY_VERSION=${{     fromJSON(needs.job_setup.outputs.sbom).coverity.version         }}"
+            "GHA_RUNNER_VERSION=${{   fromJSON(needs.job_setup.outputs.sbom).gha_runner.version       }}"
+            "GHA_RUNNER_DOWNLOAD=${{  fromJSON(needs.job_setup.outputs.sbom).gha_runner.download_url  }}"
+          secrets: |
+            "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
+
