@@ -1,7 +1,7 @@
 - name: Playbook to clean jenkins agents by removing workspaces.
   hosts: all
 
-  # Tags available: pr, nightly, package, docs
+  # Tags available: pr, nightly, package, docs, doctest
   tasks:
   - name: Collect workspace sizes
     community.docker.docker_container_exec:
@@ -48,6 +48,14 @@
       chdir: "/jenkins_workdir/workspace"
     become: yes
     tags: [never, docs]
+  
+  - name: Remove Doc test directories
+    community.docker.docker_container_exec:
+      container: "{{ agent_name }}"
+      command: bash -l -c "rm -rf pull_requests-doc-tests*"
+      chdir: "/jenkins_workdir/workspace"
+    become: yes
+    tags: [never, doctest]
 
   - name: Remove Core Pipeline directories
     community.docker.docker_container_exec:

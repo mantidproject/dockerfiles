@@ -69,11 +69,12 @@ ansible-playbook -i inventory.txt jenkins-agent-staging.yml -u FedID -K -t agent
   - `package`: Build Packages from Branch.
   - `docs`: Docs build and publish.
   - `core`: Core Team test pipeline builds.
+  - `doctest`: Doc test builds.
 
 - Run the following with the desired tags (which use a comma-separated list):
 
   ```sh
-  ansible-playbook -i inventory.txt clean-jenkins-agents.yml -u FedID -K -t pr,nightly,package,docs,core
+  ansible-playbook -i inventory.txt clean-jenkins-agents.yml -u FedID -K -t pr,nightly,package,docs,core,doctest
   ```
 
 - Set the nodes you shut down back online.
