@@ -19,7 +19,7 @@ The ``start.sh`` script inside the docker image requires the following variables
 - ``RUNNER_NAME``: the name used in GitHub to identify the runner
 They can be passed at the time of creating the docker container by running the following:
 ```sh
-docker run -d -e ORGANIZATION='mantidproject' -e REG_TOKEN=<github_token> -e REPOSITORY='mantid' -e RUNNER_NAME='my_runner_name' ghcr.io/mantidproject/github-runner-alma9:0.5
+docker run -d -e ORGANIZATION='mantidproject' -e REG_TOKEN=<github_token> -e REPOSITORY='mantid' -e RUNNER_NAME='my_runner_name' ghcr.io/mantidproject/github-runner-alma9:0.7
 ```
 
 ### Using Ansible to provision runners on the STFC Cloud
