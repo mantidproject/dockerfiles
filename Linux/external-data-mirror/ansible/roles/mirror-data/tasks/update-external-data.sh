@@ -5,7 +5,7 @@ FTP_SRV_DIR=${2}
 
 RSYNC_PROCESS_IDS=$(pidof rsync)
 
-printf "%(%H:%M:%S)T "
+printf "[%(%Y-%m-%d %H:%M:%S)T] "
 
 if [ -z "${RSYNC_PROCESS_IDS}" ]; then
         echo "running rsync..."
