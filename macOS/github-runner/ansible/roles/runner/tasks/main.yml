@@ -24,16 +24,34 @@
     mode: "0755"
   when: not runner_configured.stat.exists
 
+# runner_version may be a pinned version (e.g. "2.319.1") or "latest". The download
+# URL always needs a real version number, so resolve "latest" via the GitHub API first.
+- name: Look up the latest GitHub Actions runner release
+  ansible.builtin.uri:
+    url: "https://api.github.com/repos/actions/runner/releases/latest"
+    headers:
+      Accept: "application/vnd.github+json"
+    return_content: yes
+  register: latest_runner_release
+  when: not runner_configured.stat.exists and runner_version == "latest"
+
+- name: Resolve the runner version to download
+  ansible.builtin.set_fact:
+    resolved_runner_version: >-
+      {{ (latest_runner_release.json.tag_name | regex_replace('^v', ''))
+         if runner_version == "latest" else runner_version }}
+  when: not runner_configured.stat.exists
+
 - name: Download the GitHub Actions runner package
   ansible.builtin.get_url:
-    url: "https://github.com/actions/runner/releases/download/v{{ runner_version }}/actions-runner-{{ runner_arch }}-{{ runner_version }}.tar.gz"
-    dest: "{{ ansible_env.HOME }}/actions-runner/actions-runner-{{ runner_arch }}-{{ runner_version }}.tar.gz"
+    url: "https://github.com/actions/runner/releases/download/v{{ resolved_runner_version }}/actions-runner-{{ runner_arch }}-{{ resolved_runner_version }}.tar.gz"
+    dest: "{{ ansible_env.HOME }}/actions-runner/actions-runner-{{ runner_arch }}-{{ resolved_runner_version }}.tar.gz"
     mode: "0644"
   when: not runner_configured.stat.exists
 
 - name: Extract the GitHub Actions runner package
   ansible.builtin.unarchive:
-    src: "{{ ansible_env.HOME }}/actions-runner/actions-runner-{{ runner_arch }}-{{ runner_version }}.tar.gz"
+    src: "{{ ansible_env.HOME }}/actions-runner/actions-runner-{{ runner_arch }}-{{ resolved_runner_version }}.tar.gz"
     dest: "{{ ansible_env.HOME }}/actions-runner"
     remote_src: yes
   when: not runner_configured.stat.exists

@@ -78,7 +78,7 @@ The `ansible/` directory automates the same steps: it generates a registration t
 
 7. Confirm the runner(s) appear at `https://github.com/mantidproject/mantid/settings/actions/runners` within a minute or two.
 
-   Check `runner_version` in `github-runner.yml` occasionally against the [latest runner release](https://github.com/actions/runner/releases) and bump it when it's out of date — GitHub Actions runners auto-update themselves once registered, but a very stale starting version can fail to register.
+   `runner_version` in `github-runner.yml` defaults to `latest`, which is resolved to the current release via the GitHub API at deploy time. Pin it to a specific version (e.g. `2.319.1`) if you need reproducible deploys.
 
 ## Removing a runner
 
