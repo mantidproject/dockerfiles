@@ -6,3 +6,4 @@ vault-password.txt
 # pixi environments
 .pixi/*
 !.pixi/config.toml
+*.DS_Store
