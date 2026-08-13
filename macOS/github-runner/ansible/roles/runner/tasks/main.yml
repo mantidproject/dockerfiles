@@ -1,4 +1,12 @@
 ---
+- name: Fail if agent_name is not set for this host
+  ansible.builtin.assert:
+    that: agent_name is defined
+    fail_msg: >-
+      agent_name is not set for {{ inventory_hostname }}. Add 'agent_name=<name>' to this
+      host's line in inventory.txt, e.g.:
+      {{ inventory_hostname }} agent_name=<NAME_OF_RUNNER>
+
 - name: Check whether the runner is already configured
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/actions-runner/.runner"
@@ -70,9 +78,9 @@
       - --token
       - "{{ runner_token.json.token }}"
       - --name
-      - "{{ runner_name }}"
+      - "{{ agent_name }}"
       - --labels
-      - "{{ runner_name }}"
+      - "{{ agent_name }}"
       - --replace
     chdir: "{{ ansible_env.HOME }}/actions-runner"
   when: not runner_configured.stat.exists
