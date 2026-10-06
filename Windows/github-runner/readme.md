@@ -52,12 +52,5 @@ They can be passed at the time of creating the docker container by running the f
 Ex: `isiscloudwin1` -> `isis-github-runner-win-1`.
 
 ```powershell
-docker run -d `
-  --name <my_runner_name> `
-  --restart unless-stoppped `
-  -e ORGANIZATION='mantidproject' `
-  -e REPOSITORY='mantid' `
-  -e RUNNER_NAME='<my_runner_name>' `
-  -e REG_TOKEN=<registration_token> `
-  ghcr.io/mantidproject/github-runner-win:<image_version>
+docker run -d --name <my_runner_name> --restart unless-stoppped -e ORGANIZATION='mantidproject' -e REPOSITORY='mantid' -e RUNNER_NAME='<my_runner_name>' -e REG_TOKEN=<registration_token> ghcr.io/mantidproject/github-runner-win:<image_version>
 ```
