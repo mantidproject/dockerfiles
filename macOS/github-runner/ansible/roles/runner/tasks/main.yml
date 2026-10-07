@@ -1,0 +1,103 @@
+---
+- name: Fail if agent_name is not set for this host
+  ansible.builtin.assert:
+    that: agent_name is defined
+    fail_msg: >-
+      agent_name is not set for {{ inventory_hostname }}. Add 'agent_name=<name>' to this
+      host's line in inventory.txt, e.g.:
+      {{ inventory_hostname }} agent_name=<NAME_OF_RUNNER>
+
+- name: Check whether the runner is already configured
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/actions-runner/.runner"
+  register: runner_configured
+
+- name: Fetch GitHub Actions runner registration token
+  ansible.builtin.uri:
+    url: "https://api.github.com/repos/{{ organization }}/{{ repository }}/actions/runners/registration-token"
+    method: POST
+    headers:
+      Accept: "application/vnd.github+json"
+      Authorization: "Bearer {{ github_token }}"
+      X-GitHub-Api-Version: "2022-11-28"
+    return_content: yes
+    status_code: 201
+  register: runner_token
+  when: not runner_configured.stat.exists
+
+- name: Create the actions-runner directory
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/actions-runner"
+    state: directory
+    mode: "0755"
+  when: not runner_configured.stat.exists
+
+# runner_version may be a pinned version (e.g. "2.319.1") or "latest". The download
+# URL always needs a real version number, so resolve "latest" via the GitHub API first.
+- name: Look up the latest GitHub Actions runner release
+  ansible.builtin.uri:
+    url: "https://api.github.com/repos/actions/runner/releases/latest"
+    headers:
+      Accept: "application/vnd.github+json"
+    return_content: yes
+  register: latest_runner_release
+  when: not runner_configured.stat.exists and runner_version == "latest"
+
+- name: Resolve the runner version to download
+  ansible.builtin.set_fact:
+    resolved_runner_version: >-
+      {{ (latest_runner_release.json.tag_name | regex_replace('^v', ''))
+         if runner_version == "latest" else runner_version }}
+  when: not runner_configured.stat.exists
+
+- name: Download the GitHub Actions runner package
+  ansible.builtin.get_url:
+    url: "https://github.com/actions/runner/releases/download/v{{ resolved_runner_version }}/actions-runner-{{ runner_arch }}-{{ resolved_runner_version }}.tar.gz"
+    dest: "{{ ansible_env.HOME }}/actions-runner/actions-runner-{{ runner_arch }}-{{ resolved_runner_version }}.tar.gz"
+    mode: "0644"
+  when: not runner_configured.stat.exists
+
+- name: Extract the GitHub Actions runner package
+  ansible.builtin.unarchive:
+    src: "{{ ansible_env.HOME }}/actions-runner/actions-runner-{{ runner_arch }}-{{ resolved_runner_version }}.tar.gz"
+    dest: "{{ ansible_env.HOME }}/actions-runner"
+    remote_src: yes
+  when: not runner_configured.stat.exists
+
+- name: Clear the quarantine attribute so macOS Gatekeeper doesn't block the binaries
+  ansible.builtin.shell: xattr -dr com.apple.quarantine "{{ ansible_env.HOME }}/actions-runner"
+  when: not runner_configured.stat.exists
+
+- name: Configure the runner
+  ansible.builtin.command:
+    argv:
+      - ./config.sh
+      - --unattended
+      - --url
+      - "https://github.com/{{ organization }}/{{ repository }}"
+      - --token
+      - "{{ runner_token.json.token }}"
+      - --name
+      - "{{ agent_name }}"
+      - --labels
+      - "{{ agent_name }}"
+      - --replace
+    chdir: "{{ ansible_env.HOME }}/actions-runner"
+  when: not runner_configured.stat.exists
+
+- name: Check whether the runner service is already installed
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/actions-runner/.service"
+  register: runner_service_installed
+
+# Note: unlike Linux, installing/starting the launchd service does not need sudo.
+- name: Install the runner as a launchd service
+  ansible.builtin.command:
+    cmd: ./svc.sh install
+    chdir: "{{ ansible_env.HOME }}/actions-runner"
+  when: not runner_service_installed.stat.exists
+
+- name: Start the runner service
+  ansible.builtin.command:
+    cmd: ./svc.sh start
+    chdir: "{{ ansible_env.HOME }}/actions-runner"
