@@ -113,7 +113,7 @@ Server: Mirantis Container Runtime
 
 3. Confirm that the container has been created and is listed as running using `docker container ps -a`.
 4. To SSH into the container to access the command line, `docker exec -it <cloud node name> cmd` can be used.
-5. Finally return to Manage Jenkins/Nodes page and for the node it should show as `Agent is connected`. Mark this node as being back online. It should now be ready to use.
+5. Finally, return to the `Manage Jenkins > Nodes page`. The status for the node should now show as `Agent is connected`. Mark this node as back online; it should now be ready for use.
 
 
 # Cloud Windows Jenkins Node Troubleshooting
