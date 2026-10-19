@@ -1,0 +1,18 @@
+- name: Deploy native GitHub runner for Mantid builds (macOS)
+  hosts: all
+  vars:
+    organization: mantidproject
+    repository: mantid
+    github_token: "{{ lookup('ansible.builtin.env', 'GITHUB_TOKEN') }}"
+    runner_version: "latest"
+    runner_arch: "osx-arm64"
+
+  pre_tasks:
+    - name: Fail if github token is missing
+      fail:
+        msg: "GITHUB_TOKEN is not set"
+      when: github_token == ""
+
+  roles:
+    - role: runner
+      tags: "runner"
