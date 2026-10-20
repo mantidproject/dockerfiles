@@ -14,7 +14,7 @@
   when: connected.stdout != "success"
 
 - name: Mirror the external data from the main server in a volume (this may take a while).
-  ansible.builtin.command: "rsync -az --perms -o -g {{ main_server_hostname }}:/srv/{{ main_data_srv_dir }}/ftp/external-data/MD5/ /external-data/MD5/"
+  ansible.builtin.command: "rsync -azvW --perms -o -g {{ main_server_hostname }}:/srv/{{ main_data_srv_dir }}/ftp/external-data/MD5/ /external-data/MD5/"
 
 - name: Copy the data update script onto the mirror machine.
   ansible.builtin.copy:
