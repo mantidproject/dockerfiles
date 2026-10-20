@@ -38,5 +38,6 @@ ip_address_or_hostname runner_name=NAME_OF_GITHUB_RUNNER_2
 export GITHUB_TOKEN=<github token goes here>
 ansible-playbook -i inventory.txt github-runner.yml -u <FedID> -K --key-file <path to your STFC cloud key>
 ```
-- If prompted for password, enter your key password (not FedID password)
+- If prompted for the "BECOME password", enter your FedID password.
+- Further password prompts are for your SSH key password.
 - Once the playbook has completed, runners should appear [here](https://github.com/mantidproject/mantid/actions/runners?tab=self-hosted)
