@@ -3,7 +3,7 @@ ARG DEVELOPMENT_IMAGE_VERSION=0.2
 FROM ghcr.io/mantidproject/mantid-development-alma9:${DEVELOPMENT_IMAGE_VERSION}
 
 # set the github runner version
-ARG RUNNER_VERSION="2.321.0"
+ARG RUNNER_VERSION="2.337.0"
 
 # Add label for transparency.
 # "org.opencontainers.image.source" is a standard key for pointing to the source used to build this docker image.
