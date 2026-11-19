@@ -32,6 +32,8 @@ RUN Get-ChildItem -Path 'C:\Java', 'C:\Program Files\Microsoft' -Recurse -Filter
 ENV JAVA_HOME="C:\Java\jdk-17"
 ENV PATH="C:\Java\jdk-17\bin;${PATH}"
 
+RUN C:\Java\jdk-17\bin\java.exe -version
+
 # Verify Java installation
 RUN & "$env:JAVA_HOME\bin\java.exe" -version; `
     if ($LASTEXITCODE -ne 0) { throw "Java verification failed" }
