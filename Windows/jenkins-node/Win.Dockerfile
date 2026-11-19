@@ -26,6 +26,8 @@ RUN Invoke-WebRequest -Uri 'https://aka.ms/download-jdk/microsoft-jdk-17.0.21.1-
     if ($installer.ExitCode -ne 0) { throw "JDK installation failed with exit code $($installer.ExitCode)" }; `
     Remove-Item C:\TEMP\microsoft-jdk.msi
 
+RUN Get-ChildItem -Path 'C:\Java', 'C:\Program Files\Microsoft' -Recurse -Filter java.exe -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName
+
 # Ensure the patched JDK is used by the Jenkins agent
 ENV JAVA_HOME="C:\Java\jdk-17"
 ENV PATH="C:\Java\jdk-17\bin;${PATH}"
