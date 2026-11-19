@@ -24,13 +24,18 @@ docker build -f Win.Dockerfile -t ghcr.io/mantidproject/github-runner-win:<image
 
 ## Pushing the image to the registry
 
-1. Log in to the GitHub Container Registry first
+1. Log in to the GitHub Container Registry (GHCR):
 ```powershell
 docker login ghcr.io -u <github_username> -p <github_token>
 ```
-2. Then push the image
+2. Push the image using its version tag:
 ```powershell
 docker push ghcr.io/mantidproject/github-runner-win:<image_version>
+```
+3. Optionally, update the `latest` tag to point to the same image and push it to GHCR. This is recommended if you want `latest` to refer to the most recently published version:
+```powershell
+docker tag ghcr.io/mantidproject/github-runner-win:<image_version> ghcr.io/mantidproject/github-runner-win:latest
+docker push ghcr.io/mantidproject/github-runner-win:latest
 ```
 
 ## GitHub token for runner registration
