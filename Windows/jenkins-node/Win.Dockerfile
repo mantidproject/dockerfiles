@@ -45,7 +45,7 @@ RUN powershell New-ItemProperty `
 # Install chocolatey
 ENV ChocolateyUseWindowsCompression false
 ENV chocolateyVersion 1.4.0
-RUN powershell Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+RUN powershell Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 RUN powershell Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
 
 # Install git
