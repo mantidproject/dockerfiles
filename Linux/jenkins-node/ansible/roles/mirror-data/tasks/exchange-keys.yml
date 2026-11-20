@@ -1,0 +1,45 @@
+- name: Generate key pair if it does not exist
+  community.crypto.openssh_keypair:
+    force: no # Don't regenerate existing keys.
+    path: ~/.ssh/id_rsa
+
+- name: Read public key into tmp to copy over.
+  fetch:
+    src: ~/.ssh/id_rsa.pub
+    dest: /tmp/{{ ansible_hostname }}-id_rsa.pub
+    flat: yes
+
+- name: Add public key to ISIS mirror's authorized keys
+  ansible.posix.authorized_key:
+    user: "{{ ansible_user_id }}"
+    key: "{{ lookup('file','/tmp/{{ ansible_hostname }}-id_rsa.pub')}}"
+  remote_user: ubuntu
+  delegate_to: "{{ data_server_hostname }}"
+  delegate_facts: true
+
+- name: Touch the known_hosts file if it's missing
+  file:
+    path: ~/.ssh/known_hosts
+    state: touch
+    mode: 0644
+
+- name: Check if known_hosts contains existing server fingerprint
+  command: ssh-keygen -F {{ data_server_hostname }}
+  register: key_exists
+  failed_when: key_exists.stderr != ''
+  changed_when: False
+
+- name: Scan for existing remote ssh fingerprint
+  command: ssh-keyscan -T5 {{ data_server_hostname }}
+  register: keyscan
+  failed_when: keyscan.rc != 0 or keyscan.stdout == ''
+  changed_when: False
+  when: key_exists.rc == 1
+
+- name: Copy ssh-key to local known_hosts
+  lineinfile:
+    name: ~/.ssh/known_hosts
+    create: yes
+    line: "{{ item }}"
+  when: key_exists.rc == 1
+  with_items: "{{ keyscan.stdout_lines|default([]) }}"
