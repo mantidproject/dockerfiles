@@ -103,12 +103,12 @@ Server: Mirantis Container Runtime
 3.
     * _Production:_ Create a container from the image using following command.
       ```sh
-      docker run -d --name <cloud node name> --storage-opt "size=250GB" --restart on-failure:3 -v <cloud node name>-workdir:C:\jenkins_workdir ghcr.io/mantidproject/isiscloudwin:latest -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
+      docker run -d --name <cloud node name> --storage-opt "size=250GB" --restart on-failure:3 -v <cloud node name>-workdir:C:\jenkins_workdir -e JAVA_TOOL_OPTIONS="-XX:+UnlockDiagnosticVMOptions -XX:-UseBASE64Intrinsics" ghcr.io/mantidproject/isiscloudwin:latest -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
       ```
 
     * _Staging:_ Create a container from the image using following command. Note that you will additionally have to the specify the <staging_server_address>  and <jenkins_instance_identity> placeholders.
       ```sh
-      docker run -d --name <cloud node name> --storage-opt "size=250GB" --restart on-failure:3 -v <cloud node name>-workdir:C:\jenkins_workdir -e JENKINS_DIRECT_CONNECTION=<staging_server_address>:37899 -e JENKINS_INSTANCE_IDENTITY=<jenkins_instance_identity>  ghcr.io/mantidproject/isiscloudwin:latest -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
+      docker run -d --name <cloud node name> --storage-opt "size=250GB" --restart on-failure:3 -v <cloud node name>-workdir:C:\jenkins_workdir -e JENKINS_DIRECT_CONNECTION=<staging_server_address>:37899 -e JENKINS_INSTANCE_IDENTITY=<jenkins_instance_identity> -e JAVA_TOOL_OPTIONS="-XX:+UnlockDiagnosticVMOptions -XX:-UseBASE64Intrinsics" ghcr.io/mantidproject/isiscloudwin:latest -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
       ```
 
 3. Confirm that the container has been created and is listed as running using `docker container ps -a`.
@@ -138,7 +138,7 @@ If a cloud windows Jenkins node has run into issues, the first port of call shou
 6. Recreate the volume: `docker volume create <cloud node name>-workdir`
 7. Run the container: 
    ```sh
-   docker run -d --name <cloud node name> --storage-opt "size=250GB" --restart on-failure:3 -v <cloud node name>-workdir:C:\jenkins_workdir <docker image name> -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
+   docker run -d --name <cloud node name> --storage-opt "size=250GB" --restart on-failure:3 -v <cloud node name>-workdir:C:\jenkins_workdir -e JAVA_TOOL_OPTIONS="-XX:+UnlockDiagnosticVMOptions -XX:-UseBASE64Intrinsics" <docker image name> -Url https://builds.mantidproject.org -Secret <jenkins secret> -WorkDir C:/jenkins_workdir -Name <cloud node name>
    ```
 
 8. Confirm that the container has been created and is listed as running using `docker container ps -a`.
