@@ -38,4 +38,6 @@
       JENKINS_AGENT_NAME: "{{ agent_name }}"
       JENKINS_SECRET: "{{ agent_secret }}"
       JENKINS_URL: "{{ jenkins_url }}"
+      MPIR_CVAR_CH4_NETMOD: "ofi"
+      FI_PROVIDER: "tcp"
   when: deploy_type == 'staging'

@@ -29,3 +29,5 @@
       ORGANIZATION: "{{ organization }}"
       REPOSITORY: "{{ repository }}"
       REG_TOKEN: "{{ runner_token.json.token }}"
+      MPIR_CVAR_CH4_NETMOD: "ofi"
+      FI_PROVIDER: "tcp"
